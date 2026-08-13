@@ -51,15 +51,7 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
         });
       });
 
-      gsap.to("[data-motion-ribbon]", {
-        xPercent: -8, ease: "none",
-        scrollTrigger: { trigger: "[data-motion-ribbon]", start: "top bottom", end: "bottom top", scrub: 0.8 },
-      });
-
-      gsap.fromTo("[data-motion-night-glow]", { scale: 0.72, xPercent: 16 }, {
-        scale: 1.08, xPercent: 0, ease: "none",
-        scrollTrigger: { trigger: "[data-motion-night]", start: "top bottom", end: "bottom top", scrub: 0.75 },
-      });
+      gsap.to("[data-motion-ribbon]", { xPercent: -50, duration: 24, repeat: -1, ease: "none" });
     });
 
     mm.add("(max-width: 767px)", () => {
@@ -69,6 +61,7 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
           scrollTrigger: { trigger: element, start: "top 90%", once: true },
         });
       });
+      gsap.to("[data-motion-ribbon]", { xPercent: -50, duration: 18, repeat: -1, ease: "none" });
     });
 
     return () => mm.revert();

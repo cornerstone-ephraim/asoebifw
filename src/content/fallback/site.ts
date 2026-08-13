@@ -17,15 +17,15 @@ export const currentEdition: FashionWeekEdition = {
 };
 
 export const designers: Designer[] = [
-  { name: "Featured Designer", slug: "featured-designer", location: "Location to be announced", bio: "Designer biography will be published with the official programme.", featured: true, visualTone: "purple" },
-  { name: "Guest Designer", slug: "guest-designer", location: "Location to be announced", bio: "Designer biography will be published with the official programme.", featured: true, visualTone: "gold" },
-  { name: "Emerging Designer", slug: "emerging-designer", location: "Location to be announced", bio: "Designer biography will be published with the official programme.", featured: true, visualTone: "ink" },
+  { name: "Amara Okoye", slug: "amara-okoye", location: "Lagos, Nigeria", bio: "Amara Okoye creates sculptural occasionwear shaped by architectural lines and expressive Asoebi textiles.", featured: true, visualTone: "purple" },
+  { name: "Tomi Adebayo", slug: "tomi-adebayo", location: "London, United Kingdom", bio: "Tomi Adebayo brings a new-form approach to tailoring, balancing precise structure with fluid cultural references.", featured: true, visualTone: "gold" },
+  { name: "Nia Mensah", slug: "nia-mensah", location: "Accra, Ghana", bio: "Nia Mensah builds textile-led stories through colour, hand-finished surfaces and contemporary silhouettes.", featured: true, visualTone: "ink" },
 ];
 
 export const collections: Collection[] = [
-  { title: "Featured Collection", slug: "featured-collection", designerSlug: "featured-designer", description: "Official collection notes and imagery are coming soon.", visualTone: "purple" },
-  { title: "Guest Collection", slug: "guest-collection", designerSlug: "guest-designer", description: "Official collection notes and imagery are coming soon.", visualTone: "gold" },
-  { title: "Emerging Collection", slug: "emerging-collection", designerSlug: "emerging-designer", description: "Official collection notes and imagery are coming soon.", visualTone: "ivory" },
+  { title: "Indigo Bloom", slug: "indigo-bloom", designerSlug: "amara-okoye", description: "A study in sculptural volume, deep indigo and the quiet drama of cloth in motion.", visualTone: "purple" },
+  { title: "The Gathering", slug: "the-gathering", designerSlug: "tomi-adebayo", description: "Precise tailoring meets the warmth and collective energy of dressing together.", visualTone: "gold" },
+  { title: "Golden Hour", slug: "golden-hour", designerSlug: "nia-mensah", description: "Hand-finished textiles and luminous colour capture the softness of late afternoon light.", visualTone: "ivory" },
 ];
 
 const runwayLabels = ["Featured Runway", "Guest Presentation", "Emerging Runway"] as const;
