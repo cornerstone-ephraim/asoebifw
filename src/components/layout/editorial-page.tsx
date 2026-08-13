@@ -1,0 +1,7 @@
+import { ArrowLink } from "@/components/ui/arrow-link";
+
+export function EditorialPage({ eyebrow, title, intro, children, cta }: { eyebrow: string; title: string; intro: string; children?: React.ReactNode; cta?: { href: string; label: string } }) {
+  return <main className="min-h-screen bg-asoebi-paper pt-18"><header className="editorial-grid bg-asoebi-ink px-5 pb-20 pt-24 text-white lg:px-10 lg:pb-28"><div className="mx-auto max-w-[1600px]"><p className="text-xs font-bold uppercase tracking-[.2em] text-asoebi-purple-300">{eyebrow}</p><h1 className="font-display mt-7 max-w-[12ch] text-[clamp(4rem,10vw,10rem)] leading-[.8] tracking-[-.07em]">{title}</h1><div className="mt-12 grid gap-8 border-t border-white/20 pt-6 lg:grid-cols-2 lg:pl-[42%]"><p className="max-w-xl text-lg leading-8 text-white/70">{intro}</p>{cta && <div><ArrowLink href={cta.href} inverse>{cta.label}</ArrowLink></div>}</div></div></header>{children && <div className="px-5 py-24 lg:px-10 lg:py-32"><div className="mx-auto max-w-[1600px]">{children}</div></div>}</main>;
+}
+
+export function EmptyNotice({ title = "Official details coming soon", body = "This page is ready for approved programme content from the Asoebi team." }: { title?: string; body?: string }) { return <div className="grid gap-7 border-y border-asoebi-ink py-12 md:grid-cols-2"><h2 className="font-display text-4xl tracking-[-.04em]">{title}</h2><p className="max-w-lg text-asoebi-graphite">{body}</p></div>; }

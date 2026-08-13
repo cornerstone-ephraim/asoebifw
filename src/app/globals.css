@@ -49,8 +49,10 @@
   --color-surface-light: #f7f2ea;
 
   /* Typography */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-schibsted-grotesk);
+  --font-mono: var(--font-schibsted-grotesk);
+  /* Replace the fallback with --font-being after licensed webfont files arrive. */
+  --font-display: Georgia, "Times New Roman", serif;
 
   /* Shared easing utilities. Library-specific code consumes these tokens. */
   --ease-asoebi-arrive: cubic-bezier(0.22, 1, 0.36, 1);
@@ -64,6 +66,10 @@
   --motion-duration-interface: 400ms;
   --motion-duration-editorial: 900ms;
   --motion-duration-hero: 1500ms;
+  --motion-duration-component: 680ms;
+  --motion-duration-section: 900ms;
+  --ease-arrive: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-travel: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 * {
@@ -75,10 +81,27 @@ html {
   color: var(--foreground);
 }
 
+html { scroll-behavior: smooth; }
+
+.font-display { font-family: var(--font-display); }
+
+.editorial-grid {
+  background-image: linear-gradient(to right, color-mix(in srgb, currentColor 9%, transparent) 1px, transparent 1px);
+  background-size: 25% 100%;
+}
+
+.text-stroke { color: transparent; -webkit-text-stroke: 1px currentColor; }
+
 body {
   min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
+}
+
+a, button { -webkit-tap-highlight-color: transparent; }
+
+a:active, button:active {
+  transform: translateY(1px);
 }
 
 :focus-visible {

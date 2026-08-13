@@ -1,0 +1,78 @@
+"use client";
+
+import gsap from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import { useRef } from "react";
+
+gsap.registerPlugin(ScrollTrigger, useGSAP);
+
+export function HomeMotion({ children }: { children: React.ReactNode }) {
+  const scope = useRef<HTMLElement>(null);
+
+  useGSAP(() => {
+    const reduced = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    const animated = "[data-motion-reveal], [data-motion-media], [data-motion-row], [data-motion-list] > *";
+    if (reduced) {
+      gsap.set(animated, { clearProps: "all" });
+      return;
+    }
+
+    const mm = gsap.matchMedia();
+
+    mm.add("(min-width: 768px)", () => {
+      gsap.utils.toArray<HTMLElement>("[data-motion-reveal]").forEach((element) => {
+        gsap.fromTo(element, { y: 28, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 0.72, ease: "power3.out",
+          scrollTrigger: { trigger: element, start: "top 88%", once: true },
+        });
+      });
+
+      gsap.utils.toArray<HTMLElement>("[data-motion-media]").forEach((element, index) => {
+        const fromLeft = index % 2 === 0;
+        const media = element.querySelector<HTMLElement>("[role='img']") ?? element;
+        gsap.fromTo(media, { clipPath: fromLeft ? "inset(0 100% 0 0)" : "inset(0 0 0 100%)", scale: 1.045 }, {
+          clipPath: "inset(0 0% 0 0%)", scale: 1, duration: 1.05, ease: "power3.out",
+          scrollTrigger: { trigger: media, start: "top 84%", once: true },
+        });
+      });
+
+      gsap.utils.toArray<HTMLElement>("[data-motion-row]").forEach((element) => {
+        gsap.fromTo(element, { x: -18, opacity: 0 }, {
+          x: 0, opacity: 1, duration: 0.78, ease: "power3.out",
+          scrollTrigger: { trigger: element, start: "top 90%", once: true },
+        });
+      });
+
+      gsap.utils.toArray<HTMLElement>("[data-motion-list]").forEach((list) => {
+        gsap.fromTo(Array.from(list.children), { x: 34, opacity: 0 }, {
+          x: 0, opacity: 1, duration: 0.62, stagger: 0.08, ease: "power3.out",
+          scrollTrigger: { trigger: list, start: "top 82%", once: true },
+        });
+      });
+
+      gsap.to("[data-motion-ribbon]", {
+        xPercent: -8, ease: "none",
+        scrollTrigger: { trigger: "[data-motion-ribbon]", start: "top bottom", end: "bottom top", scrub: 0.8 },
+      });
+
+      gsap.fromTo("[data-motion-night-glow]", { scale: 0.72, xPercent: 16 }, {
+        scale: 1.08, xPercent: 0, ease: "none",
+        scrollTrigger: { trigger: "[data-motion-night]", start: "top bottom", end: "bottom top", scrub: 0.75 },
+      });
+    });
+
+    mm.add("(max-width: 767px)", () => {
+      gsap.utils.toArray<HTMLElement>("[data-motion-reveal], [data-motion-media], [data-motion-row]").forEach((element) => {
+        gsap.fromTo(element, { y: 24, opacity: 0 }, {
+          y: 0, opacity: 1, duration: 0.62, ease: "power3.out",
+          scrollTrigger: { trigger: element, start: "top 90%", once: true },
+        });
+      });
+    });
+
+    return () => mm.revert();
+  }, { scope });
+
+  return <main ref={scope}>{children}</main>;
+}
