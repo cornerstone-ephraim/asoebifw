@@ -1,0 +1,5 @@
+import { EditorialPage } from "@/components/layout/editorial-page";
+import { ArrowLink } from "@/components/ui/arrow-link";
+import { createMetadata } from "@/lib/seo";
+export const metadata = createMetadata({ title: "Fashion Week", description: "Explore the Asoebi Fashion Week programme, runway shows, designer presentations, industry accreditation and cultural experiences.", path: "/fashion-week", keywords: ["fashion week Lagos", "African runway shows", "fashion accreditation"] });
+export default function Page() { return <EditorialPage eyebrow="Flagship cultural showcase" title="Fashion Week" intro="African fashion, textiles, craftsmanship and creativity,presented on a global stage."><div className="grid gap-px bg-asoebi-stone md:grid-cols-3">{[["Programme","/fashion-week/schedule"],["Runways","/runway"],["Accreditation","/accreditation"]].map(([label,href]) => <div key={href} className="bg-asoebi-ivory p-8"><p className="font-display text-4xl">{label}</p><div className="mt-16"><ArrowLink href={href}>Explore</ArrowLink></div></div>)}</div></EditorialPage>; }

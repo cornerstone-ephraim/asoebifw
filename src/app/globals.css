@@ -1,0 +1,148 @@
+@import "tailwindcss";
+
+@plugin "@tailwindcss/typography";
+
+@theme {
+  /* Asoebi purple */
+  --color-asoebi-purple-50: #f7f3ff;
+  --color-asoebi-purple-100: #ede5ff;
+  --color-asoebi-purple-200: #dccbff;
+  --color-asoebi-purple-300: #c4a5ff;
+  --color-asoebi-purple-400: #a779f5;
+  --color-asoebi-purple-500: #8650e6;
+  --color-asoebi-purple-600: #6b32c7;
+  --color-asoebi-purple-700: #52239f;
+  --color-asoebi-purple-800: #3b1977;
+  --color-asoebi-purple-900: #2a1157;
+  --color-asoebi-purple-950: #18072f;
+
+  /* Asoebi gold */
+  --color-asoebi-gold-50: #fff9ea;
+  --color-asoebi-gold-100: #fff0c5;
+  --color-asoebi-gold-200: #ffe08a;
+  --color-asoebi-gold-300: #fbcd4f;
+  --color-asoebi-gold-400: #edb425;
+  --color-asoebi-gold-500: #d69a12;
+  --color-asoebi-gold-600: #b9780c;
+  --color-asoebi-gold-700: #92590c;
+  --color-asoebi-gold-800: #784611;
+  --color-asoebi-gold-900: #653a13;
+  --color-asoebi-gold-950: #3b1e07;
+
+  /* Editorial neutrals */
+  --color-asoebi-ink: #24133f;
+  --color-asoebi-charcoal: #18131e;
+  --color-asoebi-graphite: #302936;
+  --color-asoebi-muted: #82798b;
+  --color-asoebi-stone: #b8afbf;
+  --color-asoebi-mist: #eee8f8;
+  --color-asoebi-ivory: #fff8ee;
+  --color-asoebi-paper: #fffdf8;
+
+  /* Semantic color utilities */
+  --color-brand: #52239f;
+  --color-brand-deep: #2a1157;
+  --color-accent: #d69a12;
+  --color-canvas-dark: #0b0810;
+  --color-surface-dark: #18131e;
+  --color-canvas-light: #fffdf8;
+  --color-surface-light: #f7f2ea;
+
+  /* Typography */
+  --font-sans: var(--font-schibsted-grotesk);
+  --font-mono: var(--font-schibsted-grotesk);
+  /* Replace the fallback with --font-being after licensed webfont files arrive. */
+  --font-display: var(--font-bricolage-grotesque), var(--font-schibsted-grotesk);
+
+  /* Shared easing utilities. Library-specific code consumes these tokens. */
+  --ease-asoebi-arrive: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-asoebi-travel: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+:root {
+  --background: var(--color-canvas-light);
+  --foreground: var(--color-asoebi-ink);
+  --motion-duration-micro: 220ms;
+  --motion-duration-interface: 400ms;
+  --motion-duration-editorial: 900ms;
+  --motion-duration-hero: 1500ms;
+  --motion-duration-component: 680ms;
+  --motion-duration-section: 900ms;
+  --ease-arrive: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-travel: cubic-bezier(0.77, 0, 0.175, 1);
+}
+
+* {
+  border-color: currentColor;
+}
+
+html {
+  background: var(--background);
+  color: var(--foreground);
+}
+
+html { scroll-behavior: smooth; }
+
+html { scrollbar-width: thin; scrollbar-color: var(--color-asoebi-purple-500) var(--color-asoebi-mist); }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-asoebi-mist); }
+::-webkit-scrollbar-thumb { background: var(--color-asoebi-purple-500); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-asoebi-purple-700); }
+
+.font-display { font-family: var(--font-display); }
+
+.editorial-grid {
+  background-image: linear-gradient(to right, color-mix(in srgb, currentColor 9%, transparent) 1px, transparent 1px);
+  background-size: 25% 100%;
+}
+
+.text-stroke { color: transparent; -webkit-text-stroke: 1px currentColor; }
+
+body {
+  min-height: 100vh;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+a, button { -webkit-tap-highlight-color: transparent; }
+
+.transition-linear { transition-timing-function: linear; }
+
+a:active, button:active {
+  transform: translateY(1px);
+}
+
+:focus-visible {
+  outline: 2px solid var(--color-asoebi-purple-600);
+  outline-offset: 3px;
+  box-shadow: 0 0 0 5px var(--color-asoebi-paper);
+}
+
+:is(input, textarea, select):focus,
+:is(input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
+::selection {
+  background: var(--color-asoebi-purple-200);
+  color: var(--color-asoebi-purple-950);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (forced-colors: active) {
+  :focus-visible {
+    outline-color: Highlight;
+    box-shadow: none;
+  }
+}
