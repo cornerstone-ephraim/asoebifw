@@ -30,13 +30,13 @@
   --color-asoebi-gold-950: #3b1e07;
 
   /* Editorial neutrals */
-  --color-asoebi-ink: #0b0810;
+  --color-asoebi-ink: #24133f;
   --color-asoebi-charcoal: #18131e;
   --color-asoebi-graphite: #302936;
   --color-asoebi-muted: #82798b;
   --color-asoebi-stone: #b8afbf;
-  --color-asoebi-mist: #ede7f3;
-  --color-asoebi-ivory: #f7f2ea;
+  --color-asoebi-mist: #eee8f8;
+  --color-asoebi-ivory: #fff8ee;
   --color-asoebi-paper: #fffdf8;
 
   /* Semantic color utilities */
@@ -49,8 +49,10 @@
   --color-surface-light: #f7f2ea;
 
   /* Typography */
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --font-sans: var(--font-schibsted-grotesk);
+  --font-mono: var(--font-schibsted-grotesk);
+  /* Replace the fallback with --font-being after licensed webfont files arrive. */
+  --font-display: var(--font-bricolage-grotesque), var(--font-schibsted-grotesk);
 
   /* Shared easing utilities. Library-specific code consumes these tokens. */
   --ease-asoebi-arrive: cubic-bezier(0.22, 1, 0.36, 1);
@@ -64,6 +66,10 @@
   --motion-duration-interface: 400ms;
   --motion-duration-editorial: 900ms;
   --motion-duration-hero: 1500ms;
+  --motion-duration-component: 680ms;
+  --motion-duration-section: 900ms;
+  --ease-arrive: cubic-bezier(0.22, 1, 0.36, 1);
+  --ease-travel: cubic-bezier(0.77, 0, 0.175, 1);
 }
 
 * {
@@ -75,16 +81,47 @@ html {
   color: var(--foreground);
 }
 
+html { scroll-behavior: smooth; }
+
+html { scrollbar-width: thin; scrollbar-color: var(--color-asoebi-purple-500) var(--color-asoebi-mist); }
+::-webkit-scrollbar { width: 6px; height: 6px; }
+::-webkit-scrollbar-track { background: var(--color-asoebi-mist); }
+::-webkit-scrollbar-thumb { background: var(--color-asoebi-purple-500); border-radius: 999px; }
+::-webkit-scrollbar-thumb:hover { background: var(--color-asoebi-purple-700); }
+
+.font-display { font-family: var(--font-display); }
+
+.editorial-grid {
+  background-image: linear-gradient(to right, color-mix(in srgb, currentColor 9%, transparent) 1px, transparent 1px);
+  background-size: 25% 100%;
+}
+
+.text-stroke { color: transparent; -webkit-text-stroke: 1px currentColor; }
+
 body {
   min-height: 100vh;
   background: var(--background);
   color: var(--foreground);
 }
 
+a, button { -webkit-tap-highlight-color: transparent; }
+
+.transition-linear { transition-timing-function: linear; }
+
+a:active, button:active {
+  transform: translateY(1px);
+}
+
 :focus-visible {
   outline: 2px solid var(--color-asoebi-purple-600);
   outline-offset: 3px;
   box-shadow: 0 0 0 5px var(--color-asoebi-paper);
+}
+
+:is(input, textarea, select):focus,
+:is(input, textarea, select):focus-visible {
+  outline: none;
+  box-shadow: none;
 }
 
 ::selection {

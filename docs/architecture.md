@@ -14,6 +14,8 @@ shared infrastructure → features → app composition
 - `src/animation` owns shared motion primitives and lifecycle utilities.
 - `src/content/fallback` owns typed development fixtures.
 
+The route layer composes feature modules and never queries services directly. `src/features/content/data.ts` is the replaceable editorial source boundary: typed fixtures render today, while Sanity can be connected later without changing presentational components. Shared modules do not import features, and client-only behavior stays in navigation, forms, motion, and media islands.
+
 Routes and layouts are Server Components by default. Browser APIs, interactive state, Motion, GSAP, and Convex React hooks are isolated in small Client Component islands.
 
 ## Data ownership
