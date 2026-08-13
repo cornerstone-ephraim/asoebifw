@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import type { ReactNode } from "react";
 import localFont from "next/font/local";
 
 import "./globals.css";
@@ -43,7 +44,7 @@ export const metadata: Metadata = {
   robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
 };
 
-export default function RootLayout({ children }: LayoutProps<"/">) {
+export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
   return (
     <html lang="en" className={`${schibstedGrotesk.variable} ${bricolageGrotesque.variable}`}>
       <body className="flex min-h-screen flex-col bg-canvas-light font-sans text-asoebi-ink antialiased">
