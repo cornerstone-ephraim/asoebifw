@@ -1,7 +1,9 @@
 import { EditorialPage } from "@/components/layout/editorial-page";
 import { getSchedule } from "@/features/content/data";
 import { createMetadata } from "@/lib/seo";
-export const metadata = createMetadata({
+import { Metadata } from "next";
+
+export const metadata: Metadata = createMetadata({
   title: "Fashion Week Schedule",
   description:
     "View the Asoebi Fashion Week schedule of runway shows, designer presentations, conversations and cultural events.",
@@ -12,6 +14,7 @@ export const metadata = createMetadata({
     "Lagos fashion events",
   ],
 });
+
 export default async function Page() {
   const schedule = await getSchedule();
   return (

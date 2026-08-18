@@ -5,13 +5,15 @@ import { EditorialPage } from "@/components/layout/editorial-page";
 import { getDesigner, getDesigners } from "@/features/content/data";
 import { getDesignerMedia } from "@/features/designers/designer-media";
 import { createMetadata } from "@/lib/seo";
+import { Metadata } from "next";
 
 export async function generateStaticParams() {
   return (await getDesigners()).map(({ slug }) => ({ slug }));
 }
+
 export async function generateMetadata({
   params,
-}: PageProps<"/designers/[slug]">) {
+}: PageProps<"/designers/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const item = await getDesigner(slug);
   return item

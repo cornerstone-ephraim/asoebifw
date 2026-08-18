@@ -2,6 +2,7 @@ import { notFound } from "next/navigation";
 import { EditorialPage, EmptyNotice } from "@/components/layout/editorial-page";
 import { getRunwayShow, getRunwayShows } from "@/features/content/data";
 import { createMetadata } from "@/lib/seo";
+import { Metadata } from "next";
 
 export async function generateStaticParams() {
   return (await getRunwayShows()).map(({ slug }) => ({ slug }));
@@ -9,7 +10,7 @@ export async function generateStaticParams() {
 
 export async function generateMetadata({
   params,
-}: PageProps<"/runway/[slug]">) {
+}: PageProps<"/runway/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const show = await getRunwayShow(slug);
   return show

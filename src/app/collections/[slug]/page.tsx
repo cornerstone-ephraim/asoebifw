@@ -3,13 +3,15 @@ import { EditorialPage } from "@/components/layout/editorial-page";
 import { EditorialPlaceholder } from "@/components/media/editorial-placeholder";
 import { getCollection, getCollections } from "@/features/content/data";
 import { createMetadata } from "@/lib/seo";
+import { Metadata } from "next";
 
 export async function generateStaticParams() {
   return (await getCollections()).map(({ slug }) => ({ slug }));
 }
+
 export async function generateMetadata({
   params,
-}: PageProps<"/collections/[slug]">) {
+}: PageProps<"/collections/[slug]">): Promise<Metadata> {
   const { slug } = await params;
   const item = await getCollection(slug);
   return item
