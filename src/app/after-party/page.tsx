@@ -1,1 +1,60 @@
-import{createMetadata}from"@/lib/seo";import{EditorialPage,EmptyNotice}from"@/components/layout/editorial-page";export const metadata=createMetadata({title:"Official After Party",description:"Discover the official Asoebi Fashion Week after party, bringing fashion, music, networking and culture together after the runway.",path:"/after-party",keywords:["fashion week after party","Lagos fashion party","fashion networking"]});export default function Page(){return <EditorialPage eyebrow="When the runway ends" title="The Night Begins" intro="Asoebi After Party is the official networking and celebration experience of Asoebi Fashion Week." cta={{href:"/tickets",label:"Ticket information"}}><div className="grid gap-px bg-asoebi-stone md:grid-cols-3">{["VIP & VVIP","Corporate Table","Celebrity Admission"].map(item=><div className="bg-asoebi-ink p-8 text-white" key={item}><p className="text-xs uppercase tracking-[.15em] text-asoebi-purple-300">Admission</p><h2 className="mt-16 font-display text-4xl">{item}</h2></div>)}</div><div className="mt-20"><EmptyNotice title="Party details coming soon" body="Date, venue, DJ line-up and official ticket link have not yet been supplied."/></div></EditorialPage>}
+import { EditorialPage } from "@/components/layout/editorial-page";
+import { createMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+const features = ["DJ line-up", "Networking lounge", "Fashion awards ceremony"];
+const tickets = ["VIP & VVIP", "Corporate Table", "Celebrity Admission"];
+
+export const metadata: Metadata = createMetadata({
+  title: "Asoebi After Party",
+  description:
+    "The official Asoebi Fashion Week networking and celebration event, featuring music, a networking lounge and fashion awards.",
+  path: "/after-party",
+  keywords: [
+    "Asoebi After Party",
+    "fashion networking",
+    "fashion awards ceremony",
+  ],
+});
+
+export default function Page() {
+  return (
+    <EditorialPage
+      eyebrow="Network · Celebrate · Connect"
+      title="Asoebi After Party"
+      intro="The official networking and celebration event."
+    >
+      <div className="grid gap-12 lg:grid-cols-2">
+        <section>
+          <p className="text-xs font-bold uppercase tracking-[.18em] text-brand">
+            Features
+          </p>
+          <ul className="mt-6 border-t border-asoebi-purple-950">
+            {features.map((item) => (
+              <li
+                key={item}
+                className="border-b border-asoebi-purple-950/20 py-6 font-display text-3xl"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+        <section className="rounded-[1.75rem] bg-asoebi-purple-950 p-8 text-white">
+          <p className="text-xs font-bold uppercase tracking-[.18em] text-asoebi-gold-300">
+            Ticket types
+          </p>
+          <ul className="mt-8 space-y-4">
+            {tickets.map((item) => (
+              <li
+                key={item}
+                className="rounded-full bg-white/10 px-5 py-4 font-bold"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </section>
+      </div>
+    </EditorialPage>
+  );
+}

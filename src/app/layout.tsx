@@ -34,19 +34,40 @@ const bricolageGrotesque = localFont({
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://asoebifw.com"),
-  title: { default: "Asoebi Fashion Week", template: "%s | Asoebi Fashion Week" },
-  description: "Discover Asoebi Fashion Week, a global celebration of African fashion, textiles, designers, craftsmanship and culture.",
+  title: {
+    default: "Asoebi Fashion Week",
+    template: "%s | Asoebi Fashion Week",
+  },
+  description:
+    "Discover Asoebi Fashion Week, a global celebration of African fashion, textiles, designers, craftsmanship and culture.",
   applicationName: "Asoebi Fashion Week",
   category: "fashion",
   creator: "Asoebi Fashion Week",
   publisher: "Asoebi Fashion Week",
+  manifest: "/site.webmanifest",
   referrer: "origin-when-cross-origin",
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large", "max-snippet": -1, "max-video-preview": -1 } },
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: {
+      index: true,
+      follow: true,
+      "max-image-preview": "large",
+      "max-snippet": -1,
+      "max-video-preview": -1,
+    },
+  },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: ReactNode }>) {
   return (
-    <html lang="en" className={`${schibstedGrotesk.variable} ${bricolageGrotesque.variable}`}>
+    <html
+      lang="en"
+      className={`${schibstedGrotesk.variable} ${bricolageGrotesque.variable}`}
+      suppressHydrationWarning
+    >
       <body className="flex min-h-screen flex-col bg-canvas-light font-sans text-asoebi-ink antialiased">
         <SiteHeader />
         {children}

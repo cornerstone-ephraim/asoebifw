@@ -17,5 +17,8 @@ export const designerMedia = {
 } as const;
 
 export function getDesignerMedia(slug: string) {
-  return designerMedia[slug as keyof typeof designerMedia] ?? designerMedia["amara-okoye"];
+  return (
+    designerMedia[slug as keyof typeof designerMedia] ??
+    designerMedia["amara-okoye"]
+  );
 }

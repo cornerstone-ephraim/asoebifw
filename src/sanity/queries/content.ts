@@ -1,1 +1,10 @@
-import{defineQuery}from"next-sanity";export const CURRENT_EDITION_QUERY=defineQuery(/* groq */`*[_type=="fashionWeekEdition"&&isCurrentEdition==true][0]{title,"slug":slug.current,year,theme,tagline,description,startDate,endDate,city,country,venue,ticketUrl,isCurrentEdition}`);export const DESIGNERS_QUERY=defineQuery(/* groq */`*[_type=="designer"]|order(featured desc,name asc){name,"slug":slug.current,location,country,bio,featured}`);export const COLLECTIONS_QUERY=defineQuery(/* groq */`*[_type=="collection"]|order(year desc,title asc){title,"slug":slug.current,"designerSlug":designer->slug.current,season,year,description,muxPlaybackId}`);
+import { defineQuery } from "next-sanity";
+export const CURRENT_EDITION_QUERY = defineQuery(
+  /* groq */ `*[_type=="fashionWeekEdition"&&isCurrentEdition==true][0]{title,"slug":slug.current,year,theme,tagline,description,startDate,endDate,city,country,venue,ticketUrl,isCurrentEdition}`,
+);
+export const DESIGNERS_QUERY = defineQuery(
+  /* groq */ `*[_type=="designer"]|order(featured desc,name asc){name,"slug":slug.current,location,country,bio,featured}`,
+);
+export const COLLECTIONS_QUERY = defineQuery(
+  /* groq */ `*[_type=="collection"]|order(year desc,title asc){title,"slug":slug.current,"designerSlug":designer->slug.current,season,year,description,muxPlaybackId}`,
+);

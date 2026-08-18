@@ -1,1 +1,24 @@
-import Link from"next/link";export default function NotFound(){return <main className="flex min-h-screen items-center bg-asoebi-ink px-6 pt-18 text-white"><div className="mx-auto w-full max-w-[1600px]"><p className="text-xs uppercase tracking-[.2em] text-asoebi-purple-300">404 · Off the runway</p><h1 className="font-display mt-6 text-7xl tracking-[-.06em] sm:text-9xl">This look<br/>isn’t here.</h1><Link href="/" className="mt-10 inline-block border-b border-white py-2 text-xs uppercase tracking-[.15em]">Return home ↗</Link></div></main>}
+import Link from "next/link";
+
+export default function NotFound() {
+  return (
+    <main className="flex min-h-screen items-center bg-asoebi-ink px-6 pt-18 text-white">
+      <div className="mx-auto w-full max-w-[1600px]">
+        <p className="text-xs uppercase tracking-[.2em] text-asoebi-purple-300">
+          404 · Off the runway
+        </p>
+        <h1 className="font-display mt-6 text-7xl tracking-[-.06em] sm:text-9xl">
+          This look
+          <br />
+          isn’t here.
+        </h1>
+        <Link
+          href="/"
+          className="mt-10 inline-block border-b border-white py-2 text-xs uppercase tracking-[.15em]"
+        >
+          Return home ↗
+        </Link>
+      </div>
+    </main>
+  );
+}

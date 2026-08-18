@@ -1,1 +1,45 @@
-import{createMetadata}from"@/lib/seo";import{EditorialPage}from"@/components/layout/editorial-page";export const metadata=createMetadata({title:"About Asoebi Fashion Week",description:"Learn how Asoebi Fashion Week brings African fashion, textiles, craftsmanship, designers and community to a global cultural stage.",path:"/about",keywords:["African fashion culture","Asoebi heritage","fashion craftsmanship"]});export default function Page(){return <EditorialPage eyebrow="Fashion · Craft · Community" title="A Global Home for Asoebi" intro="Asoebi Fashion Week is a global fashion and cultural showcase celebrating African textiles, designers, craftsmanship, models, creativity and culture."><div className="grid gap-12 lg:grid-cols-2"><h2 className="font-display text-5xl tracking-[-.05em]">Fashion is the medium.<br/><em>Culture is the story.</em></h2><p className="text-lg leading-8 text-asoebi-graphite">The Fashion Week is the flagship experience in a wider ecosystem spanning recognition through the Asoebi Prize and celebration through the official After Party.</p></div></EditorialPage>}
+import { EditorialPage } from "@/components/layout/editorial-page";
+import { createMetadata } from "@/lib/seo";
+import { Metadata } from "next";
+
+export const metadata: Metadata = createMetadata({
+  title: "About Asoebi Fashion Week",
+  description:
+    "Discover the vision behind Asoebi Fashion Week and its year-round platform for African fashion, culture, commerce and celebration.",
+  path: "/about",
+  keywords: ["Asoebi vision", "African fashion platform", "Asoebi partners"],
+});
+
+export default function Page() {
+  return (
+    <EditorialPage
+      eyebrow="Vision · People · Partnership"
+      title="About Asoebi"
+      intro="Asoebi Fashion Week is a year-round global platform for fashion, culture, awards, networking, commerce and African cultural celebration."
+    >
+      <div className="grid gap-5 md:grid-cols-3">
+        {[
+          [
+            "Vision",
+            "To create the global home of Asoebi fashion, culture and celebration.",
+          ],
+          [
+            "Organizing team",
+            "A platform shaped by people committed to African fashion, creativity and global opportunity.",
+          ],
+          [
+            "Partners and sponsors",
+            "Partnerships support the platform across fashion, awards, commerce and celebration.",
+          ],
+        ].map(([title, copy]) => (
+          <article key={title} className="rounded-3xl bg-asoebi-mist p-7">
+            <h2 className="font-display text-4xl tracking-[-.045em]">
+              {title}
+            </h2>
+            <p className="mt-7 leading-7 text-asoebi-graphite">{copy}</p>
+          </article>
+        ))}
+      </div>
+    </EditorialPage>
+  );
+}

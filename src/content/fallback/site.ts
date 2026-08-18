@@ -17,18 +17,64 @@ export const currentEdition: FashionWeekEdition = {
 };
 
 export const designers: Designer[] = [
-  { name: "Amara Okoye", slug: "amara-okoye", location: "Lagos, Nigeria", bio: "Amara Okoye creates sculptural occasionwear shaped by architectural lines and expressive Asoebi textiles.", featured: true, visualTone: "purple" },
-  { name: "Tomi Adebayo", slug: "tomi-adebayo", location: "London, United Kingdom", bio: "Tomi Adebayo brings a new-form approach to tailoring, balancing precise structure with fluid cultural references.", featured: true, visualTone: "gold" },
-  { name: "Nia Mensah", slug: "nia-mensah", location: "Accra, Ghana", bio: "Nia Mensah builds textile-led stories through colour, hand-finished surfaces and contemporary silhouettes.", featured: true, visualTone: "ink" },
+  {
+    name: "Amara Okoye",
+    slug: "amara-okoye",
+    location: "Lagos, Nigeria",
+    bio: "Amara Okoye creates sculptural occasionwear shaped by architectural lines and expressive Asoebi textiles.",
+    featured: true,
+    visualTone: "purple",
+  },
+  {
+    name: "Tomi Adebayo",
+    slug: "tomi-adebayo",
+    location: "London, United Kingdom",
+    bio: "Tomi Adebayo brings a new-form approach to tailoring, balancing precise structure with fluid cultural references.",
+    featured: true,
+    visualTone: "gold",
+  },
+  {
+    name: "Nia Mensah",
+    slug: "nia-mensah",
+    location: "Accra, Ghana",
+    bio: "Nia Mensah builds textile-led stories through colour, hand-finished surfaces and contemporary silhouettes.",
+    featured: true,
+    visualTone: "ink",
+  },
 ];
 
 export const collections: Collection[] = [
-  { title: "Indigo Bloom", slug: "indigo-bloom", designerSlug: "amara-okoye", description: "A study in sculptural volume, deep indigo and the quiet drama of cloth in motion.", visualTone: "purple" },
-  { title: "The Gathering", slug: "the-gathering", designerSlug: "tomi-adebayo", description: "Precise tailoring meets the warmth and collective energy of dressing together.", visualTone: "gold" },
-  { title: "Golden Hour", slug: "golden-hour", designerSlug: "nia-mensah", description: "Hand-finished textiles and luminous colour capture the softness of late afternoon light.", visualTone: "ivory" },
+  {
+    title: "Indigo Bloom",
+    slug: "indigo-bloom",
+    designerSlug: "amara-okoye",
+    description:
+      "A study in sculptural volume, deep indigo and the quiet drama of cloth in motion.",
+    visualTone: "purple",
+  },
+  {
+    title: "The Gathering",
+    slug: "the-gathering",
+    designerSlug: "tomi-adebayo",
+    description:
+      "Precise tailoring meets the warmth and collective energy of dressing together.",
+    visualTone: "gold",
+  },
+  {
+    title: "Golden Hour",
+    slug: "golden-hour",
+    designerSlug: "nia-mensah",
+    description:
+      "Hand-finished textiles and luminous colour capture the softness of late afternoon light.",
+    visualTone: "ivory",
+  },
 ];
 
-const runwayLabels = ["Featured Runway", "Guest Presentation", "Emerging Runway"] as const;
+const runwayLabels = [
+  "Featured Runway",
+  "Guest Presentation",
+  "Emerging Runway",
+] as const;
 export const runwayShows: RunwayShow[] = designers.map((designer, index) => ({
   title: runwayLabels[index] ?? "Runway Programme",
   slug: `runway-programme-${index + 1}`,
@@ -38,11 +84,30 @@ export const runwayShows: RunwayShow[] = designers.map((designer, index) => ({
 }));
 
 export const schedule: ScheduleEvent[] = [
-  { id: "programme-01", title: "Designer / Event Title", type: "Runway", description: "Official programme details are coming soon." },
-  { id: "programme-02", title: "Designer / Event Title", type: "Presentation", description: "Official programme details are coming soon." },
-  { id: "programme-03", title: "Designer / Event Title", type: "Conversation", description: "Official programme details are coming soon." },
+  {
+    id: "programme-01",
+    title: "Designer / Event Title",
+    type: "Runway",
+    description: "Official programme details are coming soon.",
+  },
+  {
+    id: "programme-02",
+    title: "Designer / Event Title",
+    type: "Presentation",
+    description: "Official programme details are coming soon.",
+  },
+  {
+    id: "programme-03",
+    title: "Designer / Event Title",
+    type: "Conversation",
+    description: "Official programme details are coming soon.",
+  },
 ];
 
 export const partners: Partner[] = [];
 
-export const prizeCategories = ["Best Designer", "Best Wedding Asoebi", "Best Innovative Fabric Design"] as const;
+export const prizeCategories = [
+  "Best Designer",
+  "Best Wedding Asoebi",
+  "Best Innovative Fabric Design",
+] as const;

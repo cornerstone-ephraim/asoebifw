@@ -1,1 +1,17 @@
-import type{MetadataRoute}from"next";const paths=["","/fashion-week","/fashion-week/schedule","/designers","/collections","/runway","/prize","/after-party","/about","/partners","/tickets","/accreditation"];export default function sitemap():MetadataRoute.Sitemap{return paths.map(path=>({url:`https://asoebifw.com${path}`,changeFrequency:"weekly" as const,priority:path===""?1:.7}))}
+import type { MetadataRoute } from "next";
+const paths = [
+  "",
+  "/about",
+  "/fashion-week",
+  "/prize",
+  "/vendor",
+  "/after-party",
+  "/accreditation",
+];
+export default function sitemap(): MetadataRoute.Sitemap {
+  return paths.map((path) => ({
+    url: `https://asoebifw.com${path}`,
+    changeFrequency: "weekly" as const,
+    priority: path === "" ? 1 : 0.7,
+  }));
+}
