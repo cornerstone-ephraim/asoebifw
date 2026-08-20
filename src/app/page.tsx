@@ -13,9 +13,9 @@ export const metadata: Metadata = createMetadata({
 
 export default function Page() {
   return (
-    <>
+    <main id="main-content">
       <HomePage />
       <WaitlistSection />
-    </>
+    </main>
   );
 }

@@ -8,7 +8,7 @@ import { useRef } from "react";
 gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 export function HomeMotion({ children }: { children: React.ReactNode }) {
-  const scope = useRef<HTMLElement>(null);
+  const scope = useRef<HTMLDivElement>(null);
 
   useGSAP(
     () => {
@@ -151,9 +151,5 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
     { scope },
   );
 
-  return (
-    <main id="main-content" ref={scope}>
-      {children}
-    </main>
-  );
+  return <div ref={scope}>{children}</div>;
 }
