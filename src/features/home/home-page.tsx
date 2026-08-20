@@ -29,7 +29,7 @@ export function HomePage() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[58%_center]"
+          className="object-cover object-top"
         />
         <div className="absolute inset-0 bg-linear-to-r from-asoebi-purple-950/88 via-asoebi-purple-950/35 to-transparent" />
         <div className="absolute inset-x-0 bottom-0 h-72 bg-linear-to-t from-asoebi-purple-950/90 to-transparent" />

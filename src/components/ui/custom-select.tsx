@@ -83,7 +83,7 @@ export function CustomSelect({
             openList(event.key === "ArrowDown" ? 1 : -1);
           }
         }}
-        className={`transition-linear flex min-h-13 w-full items-center justify-between gap-4 rounded-full border bg-white px-5 text-left text-sm outline-hidden transition-colors ${invalid ? "border-brand" : "border-asoebi-purple-200 hover:border-asoebi-purple-400"}`}
+        className={`group transition-linear flex min-h-13 w-full items-center justify-between gap-4 rounded-full border bg-white px-5 text-left text-sm outline-hidden transition-colors ${invalid ? "border-brand" : "border-asoebi-purple-200 hover:border-asoebi-purple-400"}`}
       >
         <span
           className={selected ? "text-asoebi-purple-950" : "text-asoebi-muted"}
@@ -92,7 +92,7 @@ export function CustomSelect({
         </span>
         <span
           aria-hidden="true"
-          className={`transition-linear grid size-7 shrink-0 place-items-center rounded-full bg-asoebi-mist text-brand transition-transform ${open ? "rotate-180" : ""}`}
+          className={`transition-linear grid size-7 shrink-0 place-items-center rounded-full bg-asoebi-mist text-brand transition-transform group-hover:translate-y-0.5 group-focus-visible:translate-y-0.5 ${open ? "rotate-180" : ""}`}
         >
           ↓
         </span>
