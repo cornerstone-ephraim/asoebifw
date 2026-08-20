@@ -29,7 +29,7 @@ const stories = [
     src: "/images/editorial/fashion-story/the-celebration-portrait.webp",
     alt: "Asoebi Fashion Week guests gathering in coordinated evening looks",
     position: "object-center",
-  },  
+  },
 ] as const;
 
 export function FashionStoryCrossfade() {
@@ -44,7 +44,7 @@ export function FashionStoryCrossfade() {
       window.clearInterval(timer);
       timer = window.setInterval(() => {
         setActive((current) => (current + 1) % stories.length);
-      }, 6000);
+      }, 3500);
     };
     const handleVisibility = () => {
       if (document.hidden) window.clearInterval(timer);

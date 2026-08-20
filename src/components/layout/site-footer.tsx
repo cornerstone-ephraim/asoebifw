@@ -1,4 +1,10 @@
 import Link from "next/link";
+import {
+  FaInstagram,
+  FaLinkedinIn,
+  FaTiktok,
+  FaXTwitter,
+} from "react-icons/fa6";
 
 const exploreLinks = [
   ["About", "/about"],
@@ -15,10 +21,10 @@ const actionLinks = [
 ] as const;
 
 const socials = [
-  ["Instagram", "https://www.instagram.com/theasoebifw"],
-  ["TikTok", "https://www.tiktok.com/@asoebifw"],
-  ["X", "https://x.com/asoebifw"],
-  ["LinkedIn", "https://www.linkedin.com/company/asoebifw"],
+  ["Instagram", "https://www.instagram.com/theasoebifw", FaInstagram],
+  ["TikTok", "https://www.tiktok.com/@asoebifw", FaTiktok],
+  ["X", "https://x.com/asoebifw", FaXTwitter],
+  ["LinkedIn", "https://www.linkedin.com/company/asoebifw", FaLinkedinIn],
 ] as const;
 
 export function SiteFooter() {
@@ -88,15 +94,16 @@ export function SiteFooter() {
             Follow the story
           </p>
           <div className="flex flex-wrap gap-x-6 gap-y-3 sm:justify-end">
-            {socials.map(([label, href]) => (
+            {socials.map(([label, href, Icon]) => (
               <a
                 key={label}
                 href={href}
                 target="_blank"
                 rel="noreferrer"
-                className="transition-linear text-xs font-bold text-white/70 transition-colors hover:text-asoebi-gold-300"
+                aria-label={label}
+                className="transition-linear grid size-11 place-items-center rounded-full border border-white/25 text-white/70 transition-colors hover:border-asoebi-gold-300 hover:bg-asoebi-gold-300 hover:text-asoebi-purple-950"
               >
-                {label} <span aria-hidden="true">↗</span>
+                <Icon aria-hidden="true" className="size-4" />
               </a>
             ))}
           </div>
