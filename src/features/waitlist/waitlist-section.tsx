@@ -2,7 +2,10 @@
 
 import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
-import { useState } from "react";
+import { useState, useTransition } from "react";
+
+import { submitWaitlist } from "@/features/waitlist/action";
+import { idleActionResult } from "@/lib/action-result";
 
 const roles = {
   Partner: {
@@ -71,13 +74,14 @@ export function WaitlistSection() {
   const [role, setRole] = useState<Role>("Designer");
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
-  const [joined, setJoined] = useState(false);
+  const [result, setResult] = useState(idleActionResult);
+  const [pending, startTransition] = useTransition();
   const reduced = useReducedMotion();
   const valid = name.trim().length > 1 && /^\S+@\S+\.\S+$/.test(email);
 
   const selectRole = (item: Role) => {
     setRole(item);
-    setJoined(false);
+    setResult(idleActionResult);
   };
   const downloadCard = async () => {
     if (!valid) return;
@@ -165,7 +169,25 @@ export function WaitlistSection() {
             className="mt-9 grid gap-3 sm:grid-cols-2"
             onSubmit={(event) => {
               event.preventDefault();
-              if (valid) setJoined(true);
+              if (!valid) return;
+              startTransition(async () => {
+                setResult(
+                  await submitWaitlist({
+                    name,
+                    email,
+                    role: (role === "Other"
+                      ? "community"
+                      : role.toLowerCase()) as
+                      | "partner"
+                      | "designer"
+                      | "buyer"
+                      | "media"
+                      | "vendor"
+                      | "community",
+                    website: "",
+                  }),
+                );
+              });
             }}
           >
             <fieldset className="sm:col-span-2">
@@ -198,7 +220,7 @@ export function WaitlistSection() {
               value={name}
               onChange={(event) => {
                 setName(event.target.value);
-                setJoined(false);
+                setResult(idleActionResult);
               }}
               placeholder="Your name"
               className="min-h-13 rounded-full border border-asoebi-purple-200 px-5 text-sm outline-hidden focus:border-brand"
@@ -212,16 +234,38 @@ export function WaitlistSection() {
               value={email}
               onChange={(event) => {
                 setEmail(event.target.value);
-                setJoined(false);
+                setResult(idleActionResult);
               }}
               type="email"
               placeholder="Email address"
               className="min-h-13 rounded-full border border-asoebi-purple-200 px-5 text-sm outline-hidden focus:border-brand"
             />
-            <button className="min-h-13 rounded-full bg-asoebi-gold-400 px-6 text-xs font-black tracking-[.12em] text-asoebi-purple-950 uppercase sm:col-span-2">
-              {joined ? "You’re on the list" : "Join waitlist"}
+            <input
+              name="website"
+              tabIndex={-1}
+              autoComplete="off"
+              className="sr-only"
+              aria-hidden="true"
+            />
+            <button
+              disabled={pending}
+              className="min-h-13 rounded-full bg-asoebi-gold-400 px-6 text-xs font-black tracking-[.12em] text-asoebi-purple-950 uppercase disabled:cursor-wait disabled:opacity-60 sm:col-span-2"
+            >
+              {pending
+                ? "Joining…"
+                : result.status === "success"
+                  ? "You’re on the list"
+                  : "Join waitlist"}
             </button>
-            {joined && (
+            {result.status !== "idle" && (
+              <p
+                role={result.status === "error" ? "alert" : "status"}
+                className={`sm:col-span-2 ${result.status === "error" ? "text-red-700" : "text-asoebi-graphite"}`}
+              >
+                {result.message}
+              </p>
+            )}
+            {result.status === "success" && (
               <button
                 type="button"
                 onClick={downloadCard}
@@ -264,13 +308,15 @@ export function WaitlistSection() {
                   }}
                   className="absolute inset-0 flex w-full flex-col justify-between rounded-3xl p-5 text-left shadow-asoebi-deep sm:p-9"
                 >
-                  <Image
-                    src={card.illustration}
-                    alt=""
-                    fill
-                    sizes="(min-width: 1024px) 38vw, 90vw"
-                    className="pointer-events-none object-contain object-bottom opacity-20"
-                  />
+                  {active && (
+                    <Image
+                      src={card.illustration}
+                      alt=""
+                      fill
+                      sizes="(min-width: 1024px) 38vw, 90vw"
+                      className="pointer-events-none object-contain object-bottom opacity-20"
+                    />
+                  )}
                   <div className="relative z-10 flex items-start justify-between">
                     <span className="text-[9px] font-black tracking-[.16em] uppercase sm:text-[11px] sm:tracking-[.2em]">
                       Asoebi Fashion Week

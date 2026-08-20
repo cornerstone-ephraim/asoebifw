@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { EditorialPage } from "@/components/layout/editorial-page";
-import { PrizeCountdown } from "@/features/home/prize-countdown";
+import { PrizeCountdown } from "@/features/prize/prize-countdown";
 import { PrizeApplicationForm } from "@/features/prize/prize-application-form";
 import { createMetadata } from "@/lib/seo";
 
@@ -60,7 +60,7 @@ export default function Page() {
     >
       <section className="grid gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
-          Creativity deserves more than applause.
+          A prize designed to move talent forward.
         </h2>
         <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
           The Asoebi Prize brings public voting, a judges panel and meaningful
@@ -78,7 +78,7 @@ export default function Page() {
           </p>
           <h2
             id="prize-countdown-heading"
-            className="mt-3 font-display text-4xl leading-none tracking-[-.05em] sm:text-5xl"
+            className="mt-3 font-display text-4xl leading-none tracking-tighter sm:text-5xl"
           >
             Until the Asoebi Prize
           </h2>

@@ -103,7 +103,7 @@ export default function Page() {
             <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
               How it comes together
             </p>
-            <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-[-.05em] sm:text-7xl">
+            <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-tighter sm:text-7xl">
               Less coordination. More celebration.
             </h2>
           </div>
@@ -118,7 +118,7 @@ export default function Page() {
               key={feature.title}
               className="grid gap-4 border-b border-asoebi-purple-950/20 py-8 last:border-b-0 md:grid-cols-[.8fr_1.2fr] md:items-baseline"
             >
-              <h3 className="font-display text-4xl leading-none tracking-[-.05em]">
+              <h3 className="font-display text-4xl leading-none tracking-tighter">
                 {feature.title}
               </h3>
               <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
@@ -132,7 +132,7 @@ export default function Page() {
             Asoebi Business Network
           </p>
           <div>
-            <h2 className="font-display text-5xl leading-[.92] tracking-[-.05em] sm:text-7xl">
+            <h2 className="font-display text-5xl leading-[.92] tracking-tighter sm:text-7xl">
               A wider market for African fashion businesses.
             </h2>
             <p className="mt-7 max-w-2xl text-lg leading-8 text-asoebi-graphite">

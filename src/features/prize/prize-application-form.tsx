@@ -2,32 +2,17 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { useState } from "react";
 
 import { CustomSelect } from "@/components/ui/custom-select";
 import { CustomCheckbox } from "@/components/ui/custom-checkbox";
-
-const categories = [
-  "Best Designer",
-  "Best Wedding Asoebi",
-  "Best Innovative Fabric Design",
-] as const;
-
-const schema = z.object({
-  name: z.string().trim().min(2, "Enter your full name"),
-  email: z.email("Enter a valid email address"),
-  phone: z.string().trim().min(7, "Enter a valid phone number"),
-  category: z.enum(categories, { message: "Choose a prize category" }),
-  portfolio: z.url("Enter a valid portfolio or social profile link"),
-  statement: z
-    .string()
-    .trim()
-    .min(20, "Tell us a little more about your work")
-    .max(800, "Keep your response under 800 characters"),
-  consent: z.literal(true, { message: "Confirm that these details are yours" }),
-});
-
-type Values = z.infer<typeof schema>;
+import { submitPrizeApplication } from "@/features/prize/action";
+import {
+  prizeApplicationSchema,
+  prizeCategories,
+  type PrizeApplicationInput as Values,
+} from "@/features/prize/schema";
+import { idleActionResult } from "@/lib/action-result";
 
 const fieldClass =
   "min-h-13 w-full rounded-full border border-asoebi-purple-200 bg-white px-5 text-sm outline-hidden transition-colors transition-linear focus:border-brand";
@@ -41,17 +26,20 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 }
 
 export function PrizeApplicationForm() {
+  const [result, setResult] = useState(idleActionResult);
   const {
     register,
     control,
     handleSubmit,
     reset,
-    formState: { errors, isSubmitSuccessful },
-  } = useForm<Values>({ resolver: zodResolver(schema) });
+    formState: { errors, isSubmitting },
+  } = useForm<Values>({ resolver: zodResolver(prizeApplicationSchema) });
 
   return (
     <form
-      onSubmit={handleSubmit(() => undefined)}
+      onSubmit={handleSubmit(async (values) => {
+        setResult(await submitPrizeApplication(values));
+      })}
       className="mt-10 rounded-4xl bg-white p-6 shadow-[0_20px_65px_rgba(80,55,28,.12)] sm:p-9"
       noValidate
     >
@@ -116,7 +104,7 @@ export function PrizeApplicationForm() {
                 label="Prize category"
                 value={field.value}
                 changeAction={field.onChange}
-                options={categories.map((category) => ({
+                options={prizeCategories.map((category) => ({
                   label: category,
                   value: category,
                 }))}
@@ -196,33 +184,39 @@ export function PrizeApplicationForm() {
         />
       </div>
       <FieldError id="prize-consent-error" message={errors.consent?.message} />
+      <input
+        {...register("website")}
+        tabIndex={-1}
+        autoComplete="off"
+        className="sr-only"
+        aria-hidden="true"
+      />
 
       <button
         type="submit"
         className="transition-linear mt-6 min-h-13 w-full rounded-full bg-asoebi-purple-950 px-6 text-xs font-black tracking-[.12em] text-white uppercase transition-colors hover:bg-brand"
       >
-        Prepare application
+        {isSubmitting ? "Submitting…" : "Submit application"}
       </button>
 
-      {isSubmitSuccessful && (
+      {result.status !== "idle" && (
         <div
-          role="status"
+          role={result.status === "error" ? "alert" : "status"}
           className="mt-5 rounded-[1.25rem] bg-asoebi-mist p-5 text-sm leading-6 text-asoebi-graphite"
         >
-          <p className="font-bold text-asoebi-purple-950">
-            Your application details are ready.
-          </p>
-          <p className="mt-1">
-            Final submission will open when the official application channel is
-            connected.
-          </p>
-          <button
-            type="button"
-            onClick={() => reset()}
-            className="transition-linear mt-3 font-bold text-brand transition-opacity hover:opacity-60"
-          >
-            Prepare another application
-          </button>
+          <p className="font-bold text-asoebi-purple-950">{result.message}</p>
+          {result.status === "success" && (
+            <button
+              type="button"
+              onClick={() => {
+                reset();
+                setResult(idleActionResult);
+              }}
+              className="transition-linear mt-3 font-bold text-brand transition-opacity hover:opacity-60"
+            >
+              Submit another application
+            </button>
+          )}
         </div>
       )}
     </form>

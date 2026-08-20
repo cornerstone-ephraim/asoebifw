@@ -2,16 +2,14 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { z } from "zod";
+import { useState } from "react";
 
-const schema = z.object({
-  name: z.string().min(2, "Enter your name"),
-  email: z.email("Enter a valid email"),
-  role: z.enum(["press", "buyer", "designer", "partner", "other"]),
-  message: z.string().max(600).optional(),
-});
-
-type Values = z.infer<typeof schema>;
+import { submitAccreditation } from "@/features/accreditation/action";
+import {
+  accreditationSchema,
+  type AccreditationInput as Values,
+} from "@/features/accreditation/schema";
+import { idleActionResult } from "@/lib/action-result";
 const roles = [
   ["press", "Press / media"],
   ["buyer", "Buyer"],
@@ -23,16 +21,19 @@ const fieldClass =
   "min-h-13 w-full rounded-full border border-asoebi-purple-200 bg-white px-5 text-sm outline-hidden transition-colors transition-linear focus:border-brand";
 
 export function AccreditationForm() {
+  const [result, setResult] = useState(idleActionResult);
   const {
     register,
     control,
     handleSubmit,
-    formState: { errors, isSubmitSuccessful },
-  } = useForm<Values>({ resolver: zodResolver(schema) });
+    formState: { errors, isSubmitting },
+  } = useForm<Values>({ resolver: zodResolver(accreditationSchema) });
 
   return (
     <form
-      onSubmit={handleSubmit(() => undefined)}
+      onSubmit={handleSubmit(async (values) => {
+        setResult(await submitAccreditation(values));
+      })}
       className="rounded-4xl bg-white p-6 shadow-asoebi-warm-soft sm:p-9"
       noValidate
     >
@@ -149,19 +150,25 @@ export function AccreditationForm() {
           )}
         </div>
       </div>
+      <input
+        {...register("website")}
+        tabIndex={-1}
+        autoComplete="off"
+        className="sr-only"
+        aria-hidden="true"
+      />
       <button
         type="submit"
         className="transition-linear mt-4 min-h-13 w-full rounded-full bg-brand px-6 text-xs font-black tracking-[.12em] text-white uppercase transition-colors hover:bg-asoebi-purple-700"
       >
-        Prepare application
+        {isSubmitting ? "Submitting…" : "Submit application"}
       </button>
-      {isSubmitSuccessful && (
+      {result.status !== "idle" && (
         <p
-          role="status"
+          role={result.status === "error" ? "alert" : "status"}
           className="mt-4 rounded-2xl bg-white p-4 text-sm text-asoebi-graphite"
         >
-          Your details are ready. Submission will open when the accreditation
-          programme goes live.
+          {result.message}
         </p>
       )}
     </form>

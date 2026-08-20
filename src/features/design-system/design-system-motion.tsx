@@ -149,7 +149,10 @@ export function DesignSystemMotion({
     { scope },
   );
   return (
-    <main ref={scope} className="bg-asoebi-ivory pt-28 text-asoebi-purple-950">
+    <main
+      ref={scope}
+      className="overflow-x-clip bg-asoebi-ivory pt-28 text-asoebi-purple-950"
+    >
       {children}
     </main>
   );

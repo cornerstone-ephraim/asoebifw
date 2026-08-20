@@ -69,7 +69,10 @@ export default function RootLayout({
       className={`${schibstedGrotesk.variable} ${bricolageGrotesque.variable}`}
       suppressHydrationWarning
     >
-      <body className="flex min-h-screen flex-col bg-canvas-light font-sans text-asoebi-ink antialiased">
+      <body
+        className="flex min-h-screen flex-col bg-canvas-light font-sans text-asoebi-ink antialiased"
+        suppressHydrationWarning
+      >
         <BrandSplash />
         <a
           href="#main-content"

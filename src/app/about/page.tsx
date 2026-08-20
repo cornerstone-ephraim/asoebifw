@@ -77,7 +77,7 @@ export default function Page() {
           <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
             People and partnership
           </p>
-          <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-[-.05em] sm:text-6xl">
+          <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-tighter sm:text-6xl">
             Built with the people moving African fashion forward.
           </h2>
           <p className="mt-7 max-w-lg leading-7 text-asoebi-graphite">
