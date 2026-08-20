@@ -42,7 +42,7 @@ export function EditorialPage({
             fill
             priority
             sizes="100vw"
-            className="object-cover"
+            className="object-cover object-top"
           />
         )}
         <div
@@ -54,9 +54,14 @@ export function EditorialPage({
           {backLink && (
             <Link
               href={backLink.href}
-              className="transition-linear mb-8 inline-flex min-h-11 items-center gap-2 text-xs font-bold tracking-[.12em] uppercase opacity-75 transition-opacity hover:opacity-100"
+              className="group transition-linear mb-8 inline-flex min-h-11 items-center gap-2 text-xs font-bold tracking-[.12em] uppercase opacity-75 transition-opacity hover:opacity-100"
             >
-              <span aria-hidden="true">←</span>
+              <span
+                aria-hidden="true"
+                className="transition-linear inline-block transition-transform group-hover:-translate-x-1 group-focus-visible:-translate-x-1"
+              >
+                ←
+              </span>
               {backLink.label}
             </Link>
           )}

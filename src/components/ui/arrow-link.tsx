@@ -17,7 +17,7 @@ export function ArrowLink({
       {children}
       <span
         aria-hidden="true"
-        className="transition-linear transition-transform duration-300 group-hover:translate-x-1"
+        className="transition-linear transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-focus-visible:translate-x-1 group-focus-visible:-translate-y-0.5"
       >
         ↗
       </span>

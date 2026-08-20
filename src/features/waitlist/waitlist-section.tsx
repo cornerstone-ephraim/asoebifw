@@ -269,9 +269,15 @@ export function WaitlistSection() {
               <button
                 type="button"
                 onClick={downloadCard}
-                className="min-h-13 rounded-full bg-brand px-6 text-xs font-black tracking-[.12em] text-white uppercase sm:col-span-2"
+                className="group min-h-13 rounded-full bg-brand px-6 text-xs font-black tracking-[.12em] text-white uppercase sm:col-span-2"
               >
-                Download my {role.toLowerCase()} card ↓
+                Download my {role.toLowerCase()} card{" "}
+                <span
+                  aria-hidden="true"
+                  className="transition-linear inline-block transition-transform group-hover:translate-y-0.5 group-focus-visible:translate-y-0.5"
+                >
+                  ↓
+                </span>
               </button>
             )}
           </form>
