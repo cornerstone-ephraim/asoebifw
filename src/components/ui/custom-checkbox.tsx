@@ -22,7 +22,7 @@ export function CustomCheckbox({
   changeAction,
 }: CustomCheckboxProps) {
   return (
-    <label className="group relative flex cursor-pointer items-center gap-3 text-sm leading-6 text-asoebi-graphite">
+    <label className="group relative flex cursor-pointer items-start sm:items-center gap-3 text-sm leading-6 text-asoebi-graphite">
       <input
         type="checkbox"
         name={name}

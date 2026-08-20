@@ -144,7 +144,7 @@ button {
 }
 
 .transition-linear {
-  transition-timing-function: linear;
+  @apply transition-all ease-linear;
 }
 
 a:active,

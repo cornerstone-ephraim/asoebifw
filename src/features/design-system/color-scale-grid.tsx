@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-
+import { useRef, useState } from "react";
 import { copyText } from "@/lib/client/clipboard";
 
 export type ColorShade = {
@@ -19,106 +18,143 @@ export type ColorFamily = {
 
 export function ColorScaleGrid({ families }: { families: ColorFamily[] }) {
   const [selection, setSelection] = useState({ family: 0, shade: 7 });
-  const [copyMessage, setCopyMessage] = useState("");
-  const activeFamily = families[selection.family];
-  const activeShade = activeFamily.shades[selection.shade];
+  const [copiedHex, setCopiedHex] = useState<string | null>(null);
+  const copyTimeoutRef = useRef<NodeJS.Timeout | null>(null);
 
-  const copyShade = async (shade: ColorShade) => {
+  const activeFamily = families[selection.family] ?? families[0];
+  const activeShade =
+    activeFamily?.shades[selection.shade] ?? activeFamily?.shades[0];
+
+  const handleCopy = async (shade: ColorShade) => {
     try {
       await copyText(shade.hex);
-      setCopyMessage(`Copied ${shade.hex}`);
+      setCopiedHex(shade.hex);
+
+      if (copyTimeoutRef.current) {
+        clearTimeout(copyTimeoutRef.current);
+      }
+      copyTimeoutRef.current = setTimeout(() => setCopiedHex(null), 1800);
     } catch {
-      setCopyMessage("Copy failed");
+      setCopiedHex(null);
     }
-    window.setTimeout(() => setCopyMessage(""), 1800);
   };
 
+  if (!activeFamily || !activeShade) return null;
+
   return (
-    <section className="mt-16">
+    <section className="mt-16 font-sans">
+      {/* Section Header */}
       <div className="flex flex-col justify-between gap-5 sm:flex-row sm:items-end">
         <div>
           <p className="text-[10px] font-bold tracking-[.16em] text-brand uppercase">
             Primitive scales
           </p>
-          <h3 className="mt-3 font-display text-4xl sm:text-5xl">
+          <h3 className="mt-3 font-display text-4xl text-asoebi-ivory sm:text-5xl">
             Shade, side by side.
           </h3>
         </div>
-        <p className="max-w-md text-sm leading-6 text-asoebi-graphite">
-          Hover, focus or tap a swatch to inspect its production values.
+        <p className="max-w-md text-sm leading-6 text-asoebi-muted">
+          Hover, focus, or tap a swatch to inspect its values. Click to copy
+          hex.
         </p>
       </div>
 
-      <div className="mt-8 overflow-hidden rounded-4xl bg-asoebi-purple-950 text-white shadow-asoebi-deep">
-        <div className="grid gap-3 border-b border-white/15 p-6 sm:grid-cols-[.45fr_1fr_1fr] sm:items-center sm:p-8">
+      {/* Main Container */}
+      <div className="mt-8 overflow-hidden rounded-3xl border border-asoebi-graphite/40 bg-asoebi-charcoal text-white shadow-asoebi-deep">
+        {/* Selected Shade Inspector Header */}
+        <div className="grid gap-6 border-b border-asoebi-graphite/40 p-6 sm:grid-cols-[1fr_auto_auto] sm:items-center sm:p-8">
           <div>
             <p className="text-[9px] font-bold tracking-[.14em] text-asoebi-gold-300 uppercase">
               Selected shade
             </p>
             <div className="mt-2 flex flex-wrap items-center gap-3">
-              <p className="font-display text-3xl">
+              <h4 className="font-display text-3xl text-asoebi-ivory">
                 {activeFamily.name} {activeShade.step}
-              </p>
-              <span
-                aria-live="polite"
-                className={`rounded-full bg-asoebi-gold-300 px-3 py-1 text-[9px] font-bold tracking-[.1em] text-asoebi-purple-950 uppercase transition-opacity ${copyMessage ? "opacity-100" : "opacity-0"}`}
+              </h4>
+              <button
+                type="button"
+                onClick={() => void handleCopy(activeShade)}
+                className={`cursor-pointer rounded-full px-3 py-1 text-[9px] font-bold tracking-[.1em] uppercase transition-all duration-200 ease-[var(--ease-asoebi-arrive)] ${
+                  copiedHex === activeShade.hex
+                    ? "bg-asoebi-gold-300 text-asoebi-purple-950 shadow-[0_0_12px_rgba(253,224,71,0.35)]"
+                    : "bg-white/10 text-asoebi-mist hover:bg-white/15 hover:text-white"
+                }`}
               >
-                {copyMessage || `Copy ${activeShade.hex}`}
-              </span>
+                {copiedHex === activeShade.hex
+                  ? `Copied ${activeShade.hex}`
+                  : `Copy ${activeShade.hex}`}
+              </button>
             </div>
           </div>
-          <div className="font-mono text-xs font-bold tracking-[.05em] uppercase">
+
+          <div className="font-mono text-xs font-semibold tracking-wider text-asoebi-mist uppercase">
             <p>{activeShade.hex}</p>
-            <p className="mt-1 text-white/55">{activeShade.rgba}</p>
+            <p className="mt-1 text-asoebi-muted">{activeShade.rgba}</p>
           </div>
-          <p className="font-mono text-[10px] font-bold tracking-[.04em] text-white/55 uppercase">
+
+          <p className="font-mono text-[11px] font-medium tracking-wide text-asoebi-muted uppercase">
             {activeShade.oklch}
           </p>
         </div>
 
+        {/* Swatches Matrix */}
         <div className="overflow-x-auto p-6 sm:p-8">
-          <div className="min-w-190">
-            <div className="grid grid-cols-[7rem_repeat(11,minmax(2.75rem,1fr))] gap-3">
+          <div className="min-w-fit">
+            <div
+              className="grid items-center gap-x-3 gap-y-6"
+              style={{
+                gridTemplateColumns: `8rem repeat(${families[0].shades.length}, minmax(2.5rem, 1fr))`,
+              }}
+            >
+              {/* Scale Step Numbers Header */}
               <span />
               {families[0].shades.map((shade) => (
                 <span
                   key={shade.step}
-                  className="text-center text-[10px] font-bold tracking-[.08em] text-white/55"
+                  className="text-center font-mono text-[10px] font-semibold tracking-wider text-asoebi-muted"
                 >
                   {shade.step}
                 </span>
               ))}
-              {families.map((family, familyIndex) => (
+
+              {/* Matrix Rows */}
+              {families.map((family, familyIdx) => (
                 <div key={family.name} className="contents">
-                  <div className="flex flex-col justify-center">
-                    <p className="font-display text-xl">{family.name}</p>
-                    <p className="mt-1 text-[9px] leading-4 text-white/45">
+                  <div className="flex flex-col justify-center pr-2">
+                    <p className="font-display text-lg text-asoebi-ivory">
+                      {family.name}
+                    </p>
+                    <p className="text-[10px] text-asoebi-muted">
                       {family.purpose}
                     </p>
                   </div>
-                  {family.shades.map((shade, shadeIndex) => {
-                    const selected =
-                      selection.family === familyIndex &&
-                      selection.shade === shadeIndex;
-                    const selectShade = () =>
-                      setSelection({
-                        family: familyIndex,
-                        shade: shadeIndex,
-                      });
+
+                  {family.shades.map((shade, shadeIdx) => {
+                    const isSelected =
+                      selection.family === familyIdx &&
+                      selection.shade === shadeIdx;
+
+                    const select = () =>
+                      setSelection({ family: familyIdx, shade: shadeIdx });
+
                     return (
                       <button
                         key={shade.step}
                         type="button"
-                        aria-label={`${family.name} ${shade.step}: ${shade.hex}, ${shade.oklch}, ${shade.rgba}`}
-                        aria-pressed={selected}
-                        onMouseEnter={selectShade}
-                        onFocus={selectShade}
+                        aria-label={`${family.name} ${shade.step}: ${shade.hex}`}
+                        aria-pressed={isSelected}
+                        onMouseEnter={select}
+                        onFocus={select}
                         onClick={() => {
-                          selectShade();
-                          void copyShade(shade);
+                          select();
+                          void handleCopy(shade);
                         }}
                         style={{ backgroundColor: shade.oklch }}
-                        className={`transition-linear h-12 rounded-xl border transition-[border-color,transform] hover:-translate-y-1 focus-visible:-translate-y-1 ${selected ? "border-asoebi-gold-300" : "border-white/10"}`}
+                        className={`group relative size-11 cursor-pointer justify-self-center rounded-full transition-linear duration-200 ease-[var(--ease-asoebi-arrive)] hover:scale-110 focus-visible:scale-110 focus-visible:outline-none ${
+                          isSelected
+                            ? "scale-105 ring-2 ring-asoebi-gold-300 ring-offset-2 ring-offset-asoebi-charcoal"
+                            : "ring-1 ring-white/10 hover:ring-white/30"
+                        }`}
                       />
                     );
                   })}

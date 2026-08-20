@@ -15,12 +15,21 @@ const sections = [
 
 export function DesignSystemNav() {
   const [open, setOpen] = useState(false);
-  const [activeSection, setActiveSection] = useState<string>("#principles");
+  const [activeSection, setActiveSection] = useState<string>(() => {
+    if (typeof window !== "undefined" && window.location.hash) {
+      return window.location.hash;
+    }
+    return "#principles";
+  });
 
   useEffect(() => {
-    if (window.location.hash) {
-      setActiveSection(window.location.hash);
-    }
+    const handleHashChange = () => {
+      if (window.location.hash) {
+        setActiveSection(window.location.hash);
+      }
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
 
     const observer = new IntersectionObserver(
       (entries) => {
@@ -38,7 +47,10 @@ export function DesignSystemNav() {
       if (element) observer.observe(element);
     });
 
-    return () => observer.disconnect();
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+      observer.disconnect();
+    };
   }, []);
 
   const handleKeyDown = (e: KeyboardEvent) => {
