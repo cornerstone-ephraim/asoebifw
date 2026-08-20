@@ -101,9 +101,12 @@ export function SiteFooter() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={label}
-                className="transition-linear grid size-11 place-items-center rounded-full border border-white/25 text-white/70 hover:border-asoebi-gold-300 hover:bg-asoebi-gold-300 hover:text-asoebi-purple-950"
+                className="group transition-linear grid size-11 place-items-center rounded-full border border-white/25 text-white/70 hover:border-asoebi-gold-300 hover:bg-asoebi-gold-300 hover:text-asoebi-purple-950"
               >
-                <Icon aria-hidden="true" className="size-4" />
+                <Icon
+                  aria-hidden="true"
+                  className="transition-linear size-4 transition-transform group-hover:-translate-y-0.5 group-focus-visible:-translate-y-0.5"
+                />
               </a>
             ))}
           </div>
