@@ -113,12 +113,12 @@ export function HomePage() {
                 Asoebi Prize
               </p>
               <h2 className="mt-5 font-display text-6xl leading-[.86] tracking-[-.06em] sm:text-8xl">
-                A prize designed to move talent forward.
+                Discovering the future of African fashion.
               </h2>
             </div>
             <p className="text-lg leading-8 text-asoebi-graphite">
-              The annual prize combines public voting, a judges panel, and
-              benefits designed to move African fashion talent forward.
+              A competition for emerging and student brands, created to move
+              African fashion talent toward the world stage.
             </p>
           </div>
           <div className="mt-16 grid border-y border-asoebi-purple-950/25 lg:grid-cols-[.8fr_1.2fr]">
@@ -127,13 +127,21 @@ export function HomePage() {
                 Prize fund and benefits
               </p>
               <p className="mt-6 font-display text-7xl tracking-[-.06em]">
-                ₦10m
+                ₦10,000,000
               </p>
-              <p className="mt-3 text-asoebi-graphite">First place</p>
-              <p className="mt-8 font-display text-4xl">Fashion internship</p>
-              <p className="mt-2 text-asoebi-graphite">Second place</p>
-              <p className="mt-8 font-display text-4xl">Free fashion course</p>
-              <p className="mt-2 text-asoebi-graphite">Third place</p>
+              <p className="mt-3 text-asoebi-graphite">
+                First place · AEFW Prize
+              </p>
+              <p className="mt-8 font-display text-4xl">Rising Star Award</p>
+              <p className="mt-2 text-asoebi-graphite">
+                Second place · Fashion house internship
+              </p>
+              <p className="mt-8 font-display text-4xl">
+                Fashion Education Award
+              </p>
+              <p className="mt-2 text-asoebi-graphite">
+                Third place · Funded international course
+              </p>
             </div>
             <div className="py-10 lg:pl-12">
               <p className="text-xs font-bold tracking-[.16em] text-brand uppercase">

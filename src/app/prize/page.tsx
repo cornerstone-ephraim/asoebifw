@@ -18,28 +18,43 @@ const features = [
 const prizes = [
   {
     place: "First place",
-    reward: "₦10m",
-    description: "The premier award for the winning entry.",
-    color: "bg-asoebi-purple-950 text-white",
+    award: "AEFW Prize",
+    benefits: [
+      "₦10,000,000 cash award",
+      "Headline runway showcase",
+      "Asoebi Fashion Prize Trophy",
+    ],
   },
   {
     place: "Second place",
-    reward: "Fashion internship",
-    description: "Industry experience for the second-place finalist.",
-    color: "bg-asoebi-blush text-asoebi-purple-950",
+    award: "Rising Star Award",
+    benefits: [
+      "Internship with a leading fashion house",
+      "VIP access to Asoebi Fashion Week events",
+      "Professional fashion portfolio development support",
+    ],
   },
   {
     place: "Third place",
-    reward: "Free fashion course",
-    description: "Continued fashion learning for the third-place finalist.",
-    color: "bg-asoebi-gold-300 text-asoebi-purple-950",
+    award: "Fashion Education Award",
+    benefits: [
+      "Fully funded international fashion course",
+      "Certificate from a recognized fashion institution",
+      "Access to AEFW 2027 masterclasses and workshops",
+    ],
   },
+] as const;
+
+const eligibility = [
+  "Ages 18 and above",
+  "A minimum of three collections",
+  "Emerging and student fashion brands only",
 ] as const;
 
 export const metadata: Metadata = createMetadata({
   title: "Asoebi Prize",
   description:
-    "The premier annual award celebrating creativity in African fashion, with ₦10m, a fashion internship and a free fashion course for the top three places.",
+    "Discovering the future of African fashion through the Asoebi Fashion Prize, with awards, industry access and international fashion education for emerging designers.",
   path: "/prize",
   keywords: [
     "African fashion award",
@@ -53,18 +68,19 @@ export default function Page() {
     <EditorialPage
       eyebrow="Recognition · Creativity · Opportunity"
       title="Asoebi Prize"
-      intro="The premier annual award celebrating creativity in African fashion."
+      intro="Discovering the future of African fashion."
       heroImage="/images/waitlist/designer-card-illustration.png"
       heroImageAlt="An editorial illustration of an African fashion designer and her work"
       cta={{ href: "#apply", label: "Apply for the prize" }}
     >
       <section className="grid gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
-          A prize designed to move talent forward.
+          Wear your heritage. Design the future.
         </h2>
         <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
-          The Asoebi Prize brings public voting, a judges panel and meaningful
-          benefits together to celebrate African fashion creativity.
+          Asoebi Fashion Prize exists to discover emerging talent, reward
+          original thinking and launch African designers toward international
+          runways.
         </p>
       </section>
 
@@ -100,13 +116,65 @@ export default function Page() {
                 {prize.place}
               </p>
               <h2 className="font-display text-5xl leading-[.9] tracking-[-.055em] sm:text-6xl">
-                {prize.reward}
+                {prize.award}
               </h2>
-              <p className="max-w-sm leading-7 text-asoebi-graphite">
-                {prize.description}
-              </p>
+              <ul className="max-w-md space-y-2 leading-7 text-asoebi-graphite">
+                {prize.benefits.map((benefit) => (
+                  <li key={benefit}>{benefit}</li>
+                ))}
+              </ul>
             </article>
           ))}
+        </div>
+      </section>
+
+      <section className="mt-24 grid gap-12 bg-asoebi-purple-950 px-7 py-12 text-white sm:px-12 lg:grid-cols-[.75fr_1.25fr] lg:px-16 lg:py-16">
+        <div>
+          <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
+            Eligibility
+          </p>
+          <h2 className="mt-5 font-display text-5xl leading-[.9] tracking-[-.055em] sm:text-6xl">
+            Built for fashion&apos;s next names.
+          </h2>
+        </div>
+        <ul className="border-t border-white/25">
+          {eligibility.map((item) => (
+            <li
+              key={item}
+              className="border-b border-white/25 py-5 text-lg font-bold"
+            >
+              {item}
+            </li>
+          ))}
+        </ul>
+      </section>
+
+      <section className="mt-24 grid gap-12 lg:grid-cols-2">
+        <div className="border-t border-asoebi-purple-950/25 pt-7">
+          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
+            Award ceremony
+          </p>
+          <h2 className="mt-5 font-display text-5xl leading-[.9] tracking-[-.055em] sm:text-6xl">
+            The closing gala.
+          </h2>
+          <p className="mt-7 max-w-xl leading-7 text-asoebi-graphite">
+            Winners will be announced during the closing gala night of Asoebi
+            Fashion Prize, attended by designers, celebrities, investors, media,
+            buyers and fashion enthusiasts from around the world.
+          </p>
+        </div>
+        <div className="border-t border-asoebi-purple-950/25 pt-7">
+          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
+            Our vision
+          </p>
+          <h2 className="mt-5 font-display text-5xl leading-[.9] tracking-[-.055em] sm:text-6xl">
+            African talent on the world stage.
+          </h2>
+          <p className="mt-7 max-w-xl leading-7 text-asoebi-graphite">
+            To become Africa&apos;s most prestigious fashion competition,
+            producing the continent&apos;s equivalent of global fashion award
+            winners and launching designers onto international runways.
+          </p>
         </div>
       </section>
 
