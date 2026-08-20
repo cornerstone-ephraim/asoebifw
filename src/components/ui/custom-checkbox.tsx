@@ -22,7 +22,7 @@ export function CustomCheckbox({
   changeAction,
 }: CustomCheckboxProps) {
   return (
-    <label className="group flex cursor-pointer items-start gap-3 text-sm leading-6 text-asoebi-graphite">
+    <label className="group relative flex cursor-pointer items-center gap-3 text-sm leading-6 text-asoebi-graphite">
       <input
         type="checkbox"
         name={name}
@@ -31,11 +31,19 @@ export function CustomCheckbox({
         onBlur={blurAction}
         aria-invalid={invalid}
         aria-describedby={describedBy}
-        className="peer sr-only"
+        className="peer absolute top-0.5 left-0 z-10 size-6 cursor-pointer opacity-0"
       />
       <span
         aria-hidden="true"
-        className={`transition-linear mt-0.5 grid size-6 shrink-0 place-items-center rounded-lg border-2 transition-colors peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand ${checked ? "border-brand bg-brand text-white" : "border-asoebi-purple-700 bg-white text-transparent group-hover:border-brand"}`}
+        style={{
+          borderColor: invalid
+            ? "var(--color-red-700)"
+            : checked
+              ? "var(--color-brand)"
+              : "var(--color-asoebi-purple-950)",
+          borderStyle: "solid",
+        }}
+        className={`transition-linear mt-0.5 grid size-6 shrink-0 cursor-pointer place-items-center rounded-lg border-1 ring-1 transition-colors ring-inset peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand ${invalid ? "bg-red-50 ring-red-700" : checked ? "bg-brand text-white ring-brand" : "bg-asoebi-purple-100 text-transparent ring-asoebi-purple-950 group-hover:bg-asoebi-purple-200 group-hover:ring-brand"}`}
       >
         <svg viewBox="0 0 16 16" className="size-3.5" fill="none">
           <path

@@ -4,6 +4,7 @@ import Link from "next/link";
 import { HomeMotion } from "@/animation/gsap/home-motion";
 import { ArrowLink } from "@/components/ui/arrow-link";
 import { PrizeCountdown } from "@/features/prize/prize-countdown";
+import { FashionStoryCrossfade } from "./fashion-story-crossfade";
 import { HeroMotion } from "./hero-motion";
 
 const prizeCategories = [
@@ -72,14 +73,8 @@ export function HomePage() {
                   </Link>
                 </div>
                 <div className="mt-7">
-                  <div className="mb-2 flex items-center justify-between gap-4 text-[10px] font-bold tracking-[.14em] uppercase">
+                  <div className="mb-2 text-[10px] font-bold tracking-[.14em] uppercase">
                     <span>Asoebi Prize · December 2026</span>
-                    <Link
-                      href="/prize"
-                      className="transition-linear transition-opacity hover:opacity-60"
-                    >
-                      Prize details ↗
-                    </Link>
                   </div>
                   <PrizeCountdown compact />
                 </div>
@@ -89,42 +84,15 @@ export function HomePage() {
         </div>
       </section>
 
-      <section className="bg-asoebi-paper px-5 py-24 lg:px-10 lg:py-36">
-        <div className="mx-auto max-w-400">
-          <div className="grid gap-10 lg:grid-cols-[.65fr_1.35fr] lg:items-start">
-            <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
-              Asoebi Fashion Week
-            </p>
-            <div>
-              <h2
-                data-motion-reveal
-                className="max-w-5xl font-display text-6xl leading-[.86] tracking-[-.06em] sm:text-8xl lg:text-9xl"
-              >
-                Tradition is not still. It arrives dressed for now.
-              </h2>
-              <div className="mt-10 grid gap-8 border-t border-asoebi-purple-950/20 pt-7 md:grid-cols-2">
-                <p className="text-lg leading-8 text-asoebi-graphite">
-                  Asoebi Fashion Week brings African textiles, craftsmanship and
-                  creative expression into one global cultural platform.
-                </p>
-                <div className="md:text-right">
-                  <ArrowLink href="/about">Discover our vision</ArrowLink>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
       <section className="overflow-hidden bg-asoebi-purple-950 py-20 text-white lg:py-28">
         <div className="px-5 lg:px-10">
           <div className="mx-auto flex max-w-400 items-end justify-between gap-8">
             <div>
               <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
-                Asoebi, many expressions
+                Asoebi Fashion Week
               </p>
               <h2 className="mt-4 font-display text-5xl tracking-[-.055em] sm:text-7xl">
-                One colour story. No single silhouette.
+                A shared palette, styled without limits.
               </h2>
             </div>
             <div className="hidden sm:block">
@@ -134,47 +102,7 @@ export function HomePage() {
             </div>
           </div>
         </div>
-        <div className="relative mt-12 aspect-[2.35/1] min-h-80 w-full overflow-hidden">
-          <Image
-            src="/images/editorial/asoebi-styles.png"
-            alt="Five models presenting varied contemporary Asoebi silhouettes"
-            fill
-            sizes="100vw"
-            className="object-cover"
-          />
-        </div>
-      </section>
-
-      <section className="bg-asoebi-blush px-5 py-24 lg:px-10 lg:py-36">
-        <div className="mx-auto grid max-w-400 gap-14 lg:grid-cols-[1.05fr_.95fr] lg:items-center">
-          <div className="relative min-h-144 overflow-hidden">
-            <Image
-              src="/images/amara-okoye.png"
-              alt="A contemporary Asoebi runway look"
-              fill
-              sizes="(min-width: 1024px) 52vw, 100vw"
-              className="object-cover"
-            />
-          </div>
-          <div>
-            <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
-              Fashion Week
-            </p>
-            <h2 className="mt-5 font-display text-6xl leading-[.86] tracking-[-.06em] sm:text-8xl">
-              Cloth becomes a point of view.
-            </h2>
-            <p className="mt-8 max-w-xl text-lg leading-8 text-asoebi-graphite">
-              Runways, collections and professional accreditation meet on one
-              stage dedicated to African fashion creativity.
-            </p>
-            <div className="mt-9 flex flex-wrap gap-6">
-              <ArrowLink href="/fashion-week">Explore Fashion Week</ArrowLink>
-              <ArrowLink href="/accreditation">
-                Apply for accreditation
-              </ArrowLink>
-            </div>
-          </div>
-        </div>
+        <FashionStoryCrossfade />
       </section>
 
       <section className="bg-asoebi-butter px-5 py-24 lg:px-10 lg:py-36">
@@ -185,7 +113,7 @@ export function HomePage() {
                 Asoebi Prize
               </p>
               <h2 className="mt-5 font-display text-6xl leading-[.86] tracking-[-.06em] sm:text-8xl">
-                Creativity deserves more than applause.
+                A prize designed to move talent forward.
               </h2>
             </div>
             <p className="text-lg leading-8 text-asoebi-graphite">
@@ -236,7 +164,7 @@ export function HomePage() {
               Asoebi Vendor
             </p>
             <h2 className="mt-5 font-display text-6xl leading-[.86] tracking-[-.06em] sm:text-8xl">
-              The people behind the cloth, connected.
+              The Asoebi supply chain, brought together.
             </h2>
             <p className="mt-8 max-w-xl text-lg leading-8 text-asoebi-graphite">
               A marketplace for product listings, online bookings and digital

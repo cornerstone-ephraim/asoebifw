@@ -60,7 +60,7 @@ export default function Page() {
     >
       <section className="grid gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
-          Creativity deserves more than applause.
+          A prize designed to move talent forward.
         </h2>
         <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
           The Asoebi Prize brings public voting, a judges panel and meaningful

@@ -43,7 +43,7 @@ export default function Page() {
     >
       <section className="grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
-          Cloth becomes a point of view.
+          African fashion takes the stage.
         </h2>
         <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
           Runways, collections and professional access come together as one
