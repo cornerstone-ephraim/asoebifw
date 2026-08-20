@@ -37,8 +37,23 @@ jobs:
       - name: Lint
         run: bun lint
 
+      - name: Check formatting
+        run: bun format:check
+
       - name: Type check
         run: bun typecheck
 
+      - name: Unit and integration tests
+        run: bun test:run
+
       - name: Build
         run: bun run build
+
+      - name: Install Playwright browser
+        run: bunx playwright install --with-deps chromium
+
+      - name: End-to-end and accessibility tests
+        run: bun test:e2e
+
+      - name: Performance baseline
+        run: bun perf:audit
