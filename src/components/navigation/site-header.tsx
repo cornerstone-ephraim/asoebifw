@@ -82,9 +82,15 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/prize#apply"
-            className="transition-linear rounded-full bg-asoebi-gold-300 px-4 py-3 text-[10px] font-black tracking-widest text-asoebi-purple-950 uppercase transition-colors hover:bg-asoebi-gold-400 sm:px-5 sm:text-[11px]"
+            className="group transition-linear rounded-full bg-asoebi-gold-300 px-4 py-3 text-[10px] font-black tracking-widest text-asoebi-purple-950 uppercase transition-colors hover:bg-asoebi-gold-400 sm:px-5 sm:text-[11px]"
           >
-            Apply for Prize <span aria-hidden="true">↗</span>
+            Apply for Prize{" "}
+            <span
+              aria-hidden="true"
+              className="transition-linear inline-block transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5"
+            >
+              ↗
+            </span>
           </Link>
           <button
             ref={menuButtonRef}

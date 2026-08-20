@@ -615,9 +615,15 @@ export default function DesignSystemPage() {
             </p>
             <Link
               href="/"
-              className="rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.14em] text-asoebi-purple-950 uppercase"
+              className="group rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.14em] text-asoebi-purple-950 uppercase"
             >
-              Return to the experience ↗
+              Return to the experience{" "}
+              <span
+                aria-hidden="true"
+                className="transition-linear inline-block transition-transform group-hover:translate-x-0.5 group-hover:-translate-y-0.5 group-focus-visible:translate-x-0.5 group-focus-visible:-translate-y-0.5"
+              >
+                ↗
+              </span>
             </Link>
           </div>
         </div>
