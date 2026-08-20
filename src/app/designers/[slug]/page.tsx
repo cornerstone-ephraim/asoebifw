@@ -44,7 +44,7 @@ export default async function Page({ params }: PageProps<"/designers/[slug]">) {
       intro={designer.bio}
     >
       <div className="grid gap-10 lg:grid-cols-[1.35fr_.65fr] lg:items-end">
-        <div className="relative aspect-16/10 overflow-hidden rorounded-4xlg-asoebi-mist shadow-[0_24px_70px_rgba(42,17,87,.12)]">
+        <div className="rorounded-4xlg-asoebi-mist relative aspect-16/10 overflow-hidden shadow-[0_24px_70px_rgba(42,17,87,.12)]">
           <Image
             src={media.src}
             alt={`${designer.name} and their fashion practice`}
@@ -55,20 +55,20 @@ export default async function Page({ params }: PageProps<"/designers/[slug]">) {
           />
         </div>
         <aside className="border-t border-asoebi-purple-300 pt-6">
-          <p className="text-xs font-bold uppercase tracking-[.18em] text-brand">
+          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
             Practice
           </p>
-          <p className="font-display mt-5 text-4xl leading-[.95] tracking-[-.04em]">
+          <p className="mt-5 font-display text-4xl leading-[.95] tracking-[-.04em]">
             {designer.bio}
           </p>
           <dl className="mt-10 grid gap-5 border-t border-asoebi-purple-200 pt-5 text-sm">
             <div className="flex justify-between gap-6">
               <dt className="text-asoebi-muted">Based in</dt>
-              <dd className="font-bold text-right">{designer.location}</dd>
+              <dd className="text-right font-bold">{designer.location}</dd>
             </div>
             <div className="flex justify-between gap-6">
               <dt className="text-asoebi-muted">Showing at</dt>
-              <dd className="font-bold text-right">Asoebi Fashion Week</dd>
+              <dd className="text-right font-bold">Asoebi Fashion Week</dd>
             </div>
           </dl>
         </aside>

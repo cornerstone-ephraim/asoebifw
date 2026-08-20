@@ -4,8 +4,6 @@ import { motion, useReducedMotion } from "motion/react";
 import Image from "next/image";
 import { useState } from "react";
 
-import { CustomSelect } from "@/components/ui/custom-select";
-
 const roles = {
   Partner: {
     line: "Build the stage with us",
@@ -59,10 +57,6 @@ const roles = {
 
 type Role = keyof typeof roles;
 const roleNames = Object.keys(roles) as Role[];
-
-function isRole(value: string): value is Role {
-  return value in roles;
-}
 
 function loadIllustration(source: string) {
   return new Promise<HTMLImageElement>((resolve, reject) => {
@@ -155,12 +149,12 @@ export function WaitlistSection() {
       id="waitlist"
       className="bg-asoebi-mist px-5 py-24 lg:px-10 lg:py-36"
     >
-      <div className="mx-auto grid max-w-375 overflow-hidden rounded-4xl bg-white shadow-[0_24px_90px_rgba(54,23,103,.12)] lg:grid-cols-[1.05fr_.95fr]">
+      <div className="mx-auto grid max-w-375 overflow-hidden rounded-4xl bg-white shadow-asoebi-panel lg:grid-cols-[1.05fr_.95fr]">
         <div className="flex flex-col justify-center p-7 sm:p-12 lg:p-16">
-          <p className="text-xs font-bold uppercase tracking-[.18em] text-brand">
+          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
             Join the circle
           </p>
-          <h2 className="font-display mt-5 max-w-2xl text-5xl leading-[.92] tracking-[-.055em] sm:text-7xl">
+          <h2 className="mt-5 max-w-2xl font-display text-5xl leading-[.92] tracking-[-.055em] sm:text-7xl">
             Your place in the story starts here.
           </h2>
           <p className="mt-6 max-w-xl leading-7 text-asoebi-graphite">
@@ -174,27 +168,27 @@ export function WaitlistSection() {
               if (valid) setJoined(true);
             }}
           >
-            <div className="sm:col-span-2">
-              <label
-                className="mb-2 block px-4 text-[10px] font-bold uppercase tracking-[.16em] text-asoebi-muted"
-                htmlFor="waitlist-role"
-              >
-                Personnel type
-              </label>
-              <CustomSelect
-                id="waitlist-role"
-                label="Personnel type"
-                value={role}
-                onChange={(value) => {
-                  if (isRole(value)) selectRole(value);
-                }}
-                options={roleNames.map((item) => ({
-                  label: item,
-                  value: item,
-                }))}
-                placeholder="Choose your personnel type"
-              />
-            </div>
+            <fieldset className="sm:col-span-2">
+              <legend className="mb-3 px-1 text-[10px] font-bold tracking-[.16em] text-asoebi-muted uppercase">
+                I am joining as
+              </legend>
+              <div className="flex flex-wrap gap-2">
+                {roleNames.map((item) => {
+                  const active = item === role;
+                  return (
+                    <button
+                      key={item}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => selectRole(item)}
+                      className={`transition-linear min-h-11 rounded-full border px-4 py-2 text-xs font-bold transition-colors ${active ? "border-brand bg-brand text-white" : "border-asoebi-purple-200 bg-white text-asoebi-purple-950 hover:border-brand hover:text-brand"}`}
+                    >
+                      {item === "Other" ? "Community" : item}
+                    </button>
+                  );
+                })}
+              </div>
+            </fieldset>
             <label className="sr-only" htmlFor="waitlist-name">
               Name
             </label>
@@ -224,14 +218,14 @@ export function WaitlistSection() {
               placeholder="Email address"
               className="min-h-13 rounded-full border border-asoebi-purple-200 px-5 text-sm outline-hidden focus:border-brand"
             />
-            <button className="min-h-13 rounded-full bg-asoebi-gold-400 px-6 text-xs font-black uppercase tracking-[.12em] text-asoebi-purple-950 sm:col-span-2">
+            <button className="min-h-13 rounded-full bg-asoebi-gold-400 px-6 text-xs font-black tracking-[.12em] text-asoebi-purple-950 uppercase sm:col-span-2">
               {joined ? "You’re on the list" : "Join waitlist"}
             </button>
             {joined && (
               <button
                 type="button"
                 onClick={downloadCard}
-                className="min-h-13 rounded-full bg-brand px-6 text-xs font-black uppercase tracking-[.12em] text-white sm:col-span-2"
+                className="min-h-13 rounded-full bg-brand px-6 text-xs font-black tracking-[.12em] text-white uppercase sm:col-span-2"
               >
                 Download my {role.toLowerCase()} card ↓
               </button>
@@ -251,17 +245,13 @@ export function WaitlistSection() {
                 (index - roleNames.indexOf(role) + roleNames.length) %
                 roleNames.length;
               return (
-                <motion.button
-                  type="button"
+                <motion.div
                   key={item}
-                  onClick={() => selectRole(item)}
-                  aria-pressed={active}
                   initial={false}
                   animate={{
-                    x: active ? 0 : Math.min(distance, 4) * 9,
-                    y: active ? 0 : Math.min(distance, 4) * 13,
-                    rotate: active ? 0 : distance % 2 ? 2.2 : -1.5,
-                    scale: active ? 1 : 1 - Math.min(distance, 4) * 0.018,
+                    transform: active
+                      ? "translate3d(0, 0, 0) rotate(0deg) scale(1)"
+                      : `translate3d(${Math.min(distance, 4) * 9}px, ${Math.min(distance, 4) * 13}px, 0) rotate(${distance % 2 ? 2.2 : -1.5}deg) scale(${1 - Math.min(distance, 4) * 0.018})`,
                   }}
                   transition={{
                     duration: reduced ? 0 : 0.55,
@@ -272,7 +262,7 @@ export function WaitlistSection() {
                     backgroundColor: card.bg,
                     color: card.ink,
                   }}
-                  className="absolute inset-0 flex w-full cursor-pointer flex-col justify-between rounded-3xl p-5 text-left shadow-[0_24px_65px_rgba(14,5,28,.34)] sm:p-9"
+                  className="absolute inset-0 flex w-full flex-col justify-between rounded-3xl p-5 text-left shadow-asoebi-deep sm:p-9"
                 >
                   <Image
                     src={card.illustration}
@@ -282,7 +272,7 @@ export function WaitlistSection() {
                     className="pointer-events-none object-contain object-bottom opacity-20"
                   />
                   <div className="relative z-10 flex items-start justify-between">
-                    <span className="text-[9px] font-black uppercase tracking-[.16em] sm:text-[11px] sm:tracking-[.2em]">
+                    <span className="text-[9px] font-black tracking-[.16em] uppercase sm:text-[11px] sm:tracking-[.2em]">
                       Asoebi Fashion Week
                     </span>
                     <span
@@ -293,22 +283,36 @@ export function WaitlistSection() {
                     </span>
                   </div>
                   <div className="relative z-10">
-                    <p className="text-[9px] font-bold uppercase tracking-[.14em] opacity-65 sm:text-xs sm:tracking-[.18em]">
+                    <p className="text-[9px] font-bold tracking-[.14em] uppercase opacity-65 sm:text-xs sm:tracking-[.18em]">
                       {item === "Other" ? "Community access" : `${item} access`}
                     </p>
-                    <p className="font-display mt-2 text-2xl leading-[.95] tracking-[-.045em] sm:mt-3 sm:text-5xl">
+                    <p className="mt-2 font-display text-2xl leading-[.95] tracking-[-.045em] sm:mt-3 sm:text-5xl">
                       {name && active
                         ? `${name}, this is your invitation.`
                         : card.line}
                     </p>
                   </div>
-                  <div className="relative z-10 flex justify-between border-t border-current/20 pt-3 text-[7px] font-bold uppercase tracking-[.1em] sm:pt-5 sm:text-[10px] sm:tracking-[.16em]">
+                  <div className="relative z-10 flex justify-between border-t border-current/20 pt-3 text-[7px] font-bold tracking-widest uppercase sm:pt-5 sm:text-[10px] sm:tracking-[.16em]">
                     <span>
                       {active ? "Priority updates" : "Tap to bring forward"}
                     </span>
                     <span>AFW · 2026</span>
                   </div>
-                </motion.button>
+                  {active && (
+                    <button
+                      type="button"
+                      aria-label={`Show next card. Current card: ${item}`}
+                      onClick={() =>
+                        selectRole(
+                          roleNames[
+                            (roleNames.indexOf(role) + 1) % roleNames.length
+                          ],
+                        )
+                      }
+                      className="absolute inset-0 z-20 cursor-pointer rounded-3xl bg-transparent"
+                    />
+                  )}
+                </motion.div>
               );
             })}
           </div>

@@ -83,26 +83,7 @@ export const runwayShows: RunwayShow[] = designers.map((designer, index) => ({
   status: "upcoming",
 }));
 
-export const schedule: ScheduleEvent[] = [
-  {
-    id: "programme-01",
-    title: "Designer / Event Title",
-    type: "Runway",
-    description: "Official programme details are coming soon.",
-  },
-  {
-    id: "programme-02",
-    title: "Designer / Event Title",
-    type: "Presentation",
-    description: "Official programme details are coming soon.",
-  },
-  {
-    id: "programme-03",
-    title: "Designer / Event Title",
-    type: "Conversation",
-    description: "Official programme details are coming soon.",
-  },
-];
+export const schedule: ScheduleEvent[] = [];
 
 export const partners: Partner[] = [];
 

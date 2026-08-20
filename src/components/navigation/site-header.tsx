@@ -2,7 +2,8 @@
 
 import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
+import { useEffect, useRef, useState } from "react";
 
 const links = [
   ["Home", "/"],
@@ -17,6 +18,8 @@ export function SiteHeader() {
   const [open, setOpen] = useState(false);
   const [compact, setCompact] = useState(false);
   const reduced = useReducedMotion();
+  const pathname = usePathname();
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
     const updateHeader = () => {
@@ -38,12 +41,23 @@ export function SiteHeader() {
     };
   }, []);
 
+  useEffect(() => {
+    if (!open) return;
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key !== "Escape") return;
+      setOpen(false);
+      menuButtonRef.current?.focus();
+    };
+    document.addEventListener("keydown", closeOnEscape);
+    return () => document.removeEventListener("keydown", closeOnEscape);
+  }, [open]);
+
   return (
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 text-asoebi-purple-950 sm:px-5 sm:pt-4">
       <motion.div
         layout
         transition={{ duration: reduced ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className={`pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-[0_14px_45px_rgba(40,20,73,.16)] backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] transition-linear duration-500 sm:px-6 ${compact ? "h-14 max-w-235 bg-[#eee4ca]/95 text-asoebi-purple-950 shadow-[0_16px_50px_rgba(80,55,28,.18)]" : "h-16 max-w-295 bg-white/94 text-asoebi-purple-950"}`}
+        className={`transition-linear pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-asoebi-float backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] duration-500 sm:px-6 ${compact ? "h-14 max-w-235 bg-asoebi-butter/95 text-asoebi-purple-950 shadow-asoebi-warm" : "h-16 max-w-295 bg-white/94 text-asoebi-purple-950"}`}
       >
         <Link
           href="/"
@@ -57,7 +71,8 @@ export function SiteHeader() {
             <Link
               key={href}
               href={href}
-              className="font-display text-[15px] font-semibold tracking-[-.015em] text-asoebi-purple-950/70 transition-colors transition-linear hover:text-brand"
+              aria-current={pathname === href ? "page" : undefined}
+              className={`transition-linear font-display text-[15px] font-semibold tracking-[-.015em] transition-colors hover:text-brand ${pathname === href ? "text-brand" : "text-asoebi-purple-950/70"}`}
             >
               {label}
             </Link>
@@ -66,17 +81,18 @@ export function SiteHeader() {
         <div className="flex items-center gap-2">
           <Link
             href="/prize#apply"
-            className="rounded-full bg-asoebi-gold-300 px-4 py-3 text-[10px] font-black uppercase tracking-widest text-asoebi-purple-950 transition-colors transition-linear hover:bg-asoebi-gold-400 sm:px-5 sm:text-[11px]"
+            className="transition-linear rounded-full bg-asoebi-gold-300 px-4 py-3 text-[10px] font-black tracking-widest text-asoebi-purple-950 uppercase transition-colors hover:bg-asoebi-gold-400 sm:px-5 sm:text-[11px]"
           >
             Apply for Prize <span aria-hidden="true">↗</span>
           </Link>
           <button
+            ref={menuButtonRef}
             type="button"
             aria-expanded={open}
             aria-controls="mobile-navigation"
             aria-label={open ? "Close navigation" : "Open navigation"}
             onClick={() => setOpen(!open)}
-            className={`grid size-11 place-items-center rounded-full text-xs font-bold transition-colors transition-linear lg:hidden ${compact ? "bg-white/55" : "bg-asoebi-mist"}`}
+            className={`transition-linear grid size-11 place-items-center rounded-full text-xs font-bold transition-colors lg:hidden ${compact ? "bg-white/55" : "bg-asoebi-mist"}`}
           >
             <span aria-hidden="true" className="flex flex-col gap-1.5">
               {open ? (
@@ -117,7 +133,7 @@ export function SiteHeader() {
                 },
               },
             }}
-            className="pointer-events-auto mx-auto mt-2 max-w-295 overflow-hidden rounded-[1.75rem] border border-white/70 bg-asoebi-mist/96 p-5 shadow-[0_18px_60px_rgba(40,20,73,.18)] backdrop-blur-xl lg:hidden"
+            className="pointer-events-auto mx-auto mt-2 max-w-295 overflow-hidden rounded-4xl border border-white/70 bg-asoebi-mist/96 p-5 shadow-asoebi-float backdrop-blur-xl lg:hidden"
           >
             <div className="grid sm:grid-cols-2 sm:gap-x-6">
               {links.map(([label, href]) => (
@@ -135,7 +151,8 @@ export function SiteHeader() {
                   <Link
                     href={href}
                     onClick={() => setOpen(false)}
-                    className="font-display block border-b border-asoebi-purple-300/70 py-3 text-3xl tracking-[-.04em]"
+                    aria-current={pathname === href ? "page" : undefined}
+                    className={`block border-b py-3 font-display text-3xl tracking-[-.04em] ${pathname === href ? "border-brand text-brand" : "border-asoebi-purple-300/70"}`}
                   >
                     {label}
                   </Link>
@@ -146,7 +163,7 @@ export function SiteHeader() {
               variants={{ closed: { opacity: 0 }, open: { opacity: 1 } }}
               className="mt-5 text-xs leading-5 text-asoebi-purple-950/55"
             >
-              Fashion, cloth and culture,together on the global stage.
+              Fashion, cloth and culture, together on the global stage.
             </motion.p>
           </motion.nav>
         )}

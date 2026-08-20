@@ -115,7 +115,7 @@ export function PrizeApplicationForm() {
                 id="prize-category"
                 label="Prize category"
                 value={field.value}
-                onChange={field.onChange}
+                changeAction={field.onChange}
                 options={categories.map((category) => ({
                   label: category,
                   value: category,
@@ -163,7 +163,7 @@ export function PrizeApplicationForm() {
             rows={6}
             placeholder="Tell us about your work and what you would like the judges to know"
             {...register("statement")}
-            className="w-full rounded-3xl border border-asoebi-purple-200 bg-white p-5 text-sm outline-hidden transition-colors transition-linear focus:border-brand"
+            className="transition-linear w-full rounded-3xl border border-asoebi-purple-200 bg-white p-5 text-sm outline-hidden transition-colors focus:border-brand"
             aria-invalid={Boolean(errors.statement)}
             aria-describedby={
               errors.statement ? "prize-statement-error" : undefined
@@ -184,8 +184,8 @@ export function PrizeApplicationForm() {
             <CustomCheckbox
               name={field.name}
               checked={Boolean(field.value)}
-              onChange={field.onChange}
-              onBlur={field.onBlur}
+              changeAction={field.onChange}
+              blurAction={field.onBlur}
               invalid={Boolean(errors.consent)}
               describedBy={errors.consent ? "prize-consent-error" : undefined}
             >
@@ -199,7 +199,7 @@ export function PrizeApplicationForm() {
 
       <button
         type="submit"
-        className="mt-6 min-h-13 w-full rounded-full bg-asoebi-purple-950 px-6 text-xs font-black uppercase tracking-[.12em] text-white transition-colors transition-linear hover:bg-brand"
+        className="transition-linear mt-6 min-h-13 w-full rounded-full bg-asoebi-purple-950 px-6 text-xs font-black tracking-[.12em] text-white uppercase transition-colors hover:bg-brand"
       >
         Prepare application
       </button>
@@ -219,7 +219,7 @@ export function PrizeApplicationForm() {
           <button
             type="button"
             onClick={() => reset()}
-            className="mt-3 font-bold text-brand transition-opacity transition-linear hover:opacity-60"
+            className="transition-linear mt-3 font-bold text-brand transition-opacity hover:opacity-60"
           >
             Prepare another application
           </button>

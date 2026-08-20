@@ -18,13 +18,13 @@ export const metadata: Metadata = createMetadata({
 export default function Page() {
   return (
     <main className="min-h-screen bg-asoebi-ivory pt-18">
-      <section className="px-5 pb-20 pt-14 lg:px-10 lg:pb-28 lg:pt-20">
+      <section className="px-5 pt-14 pb-20 lg:px-10 lg:pt-20 lg:pb-28">
         <div className="mx-auto grid max-w-375 items-center gap-10 overflow-hidden rounded-4xl bg-asoebi-mist p-6 sm:p-10 lg:grid-cols-[.82fr_1.18fr] lg:p-14">
           <div className="relative z-10 py-5">
-            <p className="text-xs font-bold uppercase tracking-[.2em] text-brand">
+            <p className="text-xs font-bold tracking-[.2em] text-brand uppercase">
               Your invitation awaits
             </p>
-            <h1 className="font-display mt-5 text-[clamp(4.2rem,8vw,8.5rem)] leading-[.78] tracking-[-.065em] text-asoebi-purple-950">
+            <h1 className="mt-5 font-display text-[clamp(4.2rem,8vw,8.5rem)] leading-[.78] tracking-[-.065em] text-asoebi-purple-950">
               Dress up.
               <br />
               <span className="text-brand">Show up.</span>
@@ -36,13 +36,13 @@ export default function Page() {
             <div className="mt-8 flex flex-wrap gap-3">
               <Link
                 href="/#waitlist"
-                className="rounded-full bg-brand px-6 py-4 text-xs font-bold uppercase tracking-[.14em] text-white"
+                className="rounded-full bg-brand px-6 py-4 text-xs font-bold tracking-[.14em] text-white uppercase"
               >
                 Get first access
               </Link>
               <Link
                 href="/fashion-week/schedule"
-                className="rounded-full border border-brand px-6 py-4 text-xs font-bold uppercase tracking-[.14em] text-brand"
+                className="rounded-full border border-brand px-6 py-4 text-xs font-bold tracking-[.14em] text-brand uppercase"
               >
                 Explore the programme
               </Link>
@@ -72,10 +72,10 @@ export default function Page() {
             ],
           ].map(([title, copy]) => (
             <article key={title} className="rounded-[1.25rem] bg-white p-6">
-              <p className="text-xs font-bold uppercase tracking-[.16em] text-brand">
+              <p className="text-xs font-bold tracking-[.16em] text-brand uppercase">
                 In the experience
               </p>
-              <h2 className="font-display mt-4 text-3xl tracking-[-.04em]">
+              <h2 className="mt-4 font-display text-3xl tracking-[-.04em]">
                 {title}
               </h2>
               <p className="mt-3 text-sm leading-6 text-asoebi-graphite">

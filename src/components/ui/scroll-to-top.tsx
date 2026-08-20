@@ -24,7 +24,7 @@ export function ScrollToTop() {
           initial={reduced ? false : { opacity: 0, y: 12, scale: 0.9 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 8, scale: 0.9 }}
-          className="fixed bottom-5 right-5 z-40 grid size-12 place-items-center rounded-full bg-asoebi-purple-950 text-lg text-white shadow-[0_12px_35px_rgba(24,7,47,.3)] transition-colors transition-linear hover:bg-brand sm:bottom-7 sm:right-7"
+          className="transition-linear fixed right-5 bottom-5 z-40 grid size-12 place-items-center rounded-full bg-asoebi-purple-950 text-lg text-white shadow-[0_12px_35px_rgba(24,7,47,.3)] transition-colors hover:bg-brand sm:right-7 sm:bottom-7"
         >
           ↑
         </motion.button>

@@ -85,17 +85,17 @@ export default function DesignSystemPage() {
         <div className="mx-auto max-w-375">
           <div
             data-ds-meta
-            className="flex items-center justify-between border-b border-asoebi-purple-200 pb-5 text-[10px] font-bold uppercase tracking-[.18em]"
+            className="flex items-center justify-between border-b border-asoebi-purple-200 pb-5 text-[10px] font-bold tracking-[.18em] uppercase"
           >
             <span>Internal design notes</span>
             <span>AFW · Living system</span>
           </div>
           <div className="grid gap-12 pt-14 lg:grid-cols-[1.3fr_.7fr] lg:items-end">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[.2em] text-brand">
+              <p className="text-xs font-bold tracking-[.2em] text-brand uppercase">
                 Tearing down the system
               </p>
-              <h1 className="font-display mt-5 text-[clamp(4.5rem,11vw,11rem)] leading-[.76] tracking-[-.07em]">
+              <h1 className="mt-5 font-display text-[clamp(4.5rem,11vw,11rem)] leading-[.76] tracking-[-.07em]">
                 <span className="block overflow-hidden">
                   <span data-ds-hero-line className="block">
                     Asoebi,
@@ -114,7 +114,7 @@ export default function DesignSystemPage() {
                 motion work together to make Asoebi Fashion Week feel like a
                 living fashion institution.
               </p>
-              <p className="mt-8 text-xs font-bold uppercase tracking-[.15em] text-asoebi-muted">
+              <p className="mt-8 text-xs font-bold tracking-[.15em] text-asoebi-muted uppercase">
                 Not a component catalogue. A set of decisions.
               </p>
             </div>
@@ -128,10 +128,10 @@ export default function DesignSystemPage() {
       >
         <div className="mx-auto grid max-w-375 gap-14 lg:grid-cols-[.65fr_1.35fr]">
           <div>
-            <p className="text-xs font-bold uppercase tracking-[.18em] text-asoebi-gold-300">
+            <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
               The premise
             </p>
-            <p className="font-display mt-5 text-4xl leading-[.98] tracking-[-.04em]">
+            <p className="mt-5 font-display text-4xl leading-[.98] tracking-[-.04em]">
               Fashion is personality.
               <br />
               The interface is the frame.
@@ -159,7 +159,7 @@ export default function DesignSystemPage() {
 
       <section className="px-5 py-24 lg:px-10 lg:py-36">
         <div className="mx-auto max-w-375">
-          <p className="text-xs font-bold uppercase tracking-[.18em] text-brand">
+          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
             Colour logic
           </p>
           <div className="mt-5 grid gap-8 lg:grid-cols-2">
@@ -182,7 +182,7 @@ export default function DesignSystemPage() {
                 style={{ backgroundColor: value }}
                 className={`flex aspect-4/3 flex-col justify-between rounded-3xl p-6 shadow-[0_18px_50px_rgba(42,17,87,.10)] ${value === "#2a1157" || value === "#52239f" ? "text-white" : "text-asoebi-purple-950"}`}
               >
-                <div className="space-y-1 font-mono text-[10px] font-bold uppercase tracking-[.06em]">
+                <div className="space-y-1 font-mono text-[10px] font-bold tracking-[.06em] uppercase">
                   <p>{value}</p>
                   <p>{oklch}</p>
                   <p>{rgba}</p>
@@ -201,7 +201,7 @@ export default function DesignSystemPage() {
 
       <section className="overflow-hidden bg-asoebi-mist px-5 py-24 lg:px-10 lg:py-36">
         <div className="mx-auto max-w-375">
-          <p className="text-xs font-bold uppercase tracking-[.18em] text-brand">
+          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
             Typography
           </p>
           <div className="mt-10 grid gap-12 lg:grid-cols-2">
@@ -209,13 +209,13 @@ export default function DesignSystemPage() {
               data-ds-specimen
               className="rounded-4xl bg-white p-8 shadow-[0_20px_60px_rgba(42,17,87,.10)] sm:p-12"
             >
-              <p className="text-xs font-bold uppercase tracking-[.18em] text-asoebi-muted">
+              <p className="text-xs font-bold tracking-[.18em] text-asoebi-muted uppercase">
                 Bricolage Grotesque · personality
               </p>
-              <p className="font-display mt-10 text-7xl leading-[.82] tracking-[-.065em] sm:text-9xl">
+              <p className="mt-10 font-display text-7xl leading-[.82] tracking-[-.065em] sm:text-9xl">
                 Cloth carries memory.
               </p>
-              <p className="font-display mt-10 text-3xl">
+              <p className="mt-10 font-display text-3xl">
                 Display, statements, chapters, collection names.
               </p>
             </div>
@@ -223,7 +223,7 @@ export default function DesignSystemPage() {
               data-ds-specimen
               className="rounded-4xl bg-asoebi-purple-950 p-8 text-white shadow-[0_20px_60px_rgba(42,17,87,.16)] sm:p-12"
             >
-              <p className="text-xs font-bold uppercase tracking-[.18em] text-asoebi-purple-300">
+              <p className="text-xs font-bold tracking-[.18em] text-asoebi-purple-300 uppercase">
                 Schibsted Grotesk · readability
               </p>
               <p className="mt-10 max-w-lg text-2xl leading-9">
@@ -231,13 +231,13 @@ export default function DesignSystemPage() {
                 and labels to schedules, forms and metadata.
               </p>
               <div className="mt-14 space-y-4 border-t border-white/20 pt-7 text-sm">
-                <p className="font-bold uppercase tracking-[.18em]">
+                <p className="font-bold tracking-[.18em] uppercase">
                   Navigation / 15px / 600
                 </p>
                 <p className="leading-7 text-white/65">
                   Body copy / 16 to 18px / generous leading
                 </p>
-                <p className="text-xs font-bold uppercase tracking-[.18em] text-asoebi-gold-300">
+                <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
                   Labels / 11 to 12px / deliberate tracking
                 </p>
               </div>
@@ -250,10 +250,10 @@ export default function DesignSystemPage() {
         <div className="mx-auto max-w-375">
           <div className="grid gap-10 lg:grid-cols-[.7fr_1.3fr]">
             <div>
-              <p className="text-xs font-bold uppercase tracking-[.18em] text-brand">
+              <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
                 Composition
               </p>
-              <h2 className="font-display mt-5 text-6xl leading-[.88] tracking-[-.055em]">
+              <h2 className="mt-5 font-display text-6xl leading-[.88] tracking-[-.055em]">
                 Whitespace is part of the outfit.
               </h2>
             </div>
@@ -308,10 +308,10 @@ export default function DesignSystemPage() {
         className="bg-[#fff0bd] px-5 py-24 lg:px-10 lg:py-36"
       >
         <div className="mx-auto max-w-375">
-          <p className="text-xs font-bold uppercase tracking-[.18em] text-asoebi-gold-800">
+          <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-800 uppercase">
             Motion has a job
           </p>
-          <h2 className="font-display mt-5 max-w-5xl text-6xl leading-[.86] tracking-[-.055em] sm:text-8xl">
+          <h2 className="mt-5 max-w-5xl font-display text-6xl leading-[.86] tracking-[-.055em] sm:text-8xl">
             Move meaning,
             <br />
             not everything.
@@ -326,11 +326,11 @@ export default function DesignSystemPage() {
                   <h3 className="font-display text-4xl tracking-[-.04em]">
                     {title}
                   </h3>
-                  <span className="grid size-10 place-items-center rounded-full bg-asoebi-purple-100 text-brand transition-transform transition-linear group-hover:rotate-45">
+                  <span className="transition-linear grid size-10 place-items-center rounded-full bg-asoebi-purple-100 text-brand transition-transform group-hover:rotate-45">
                     ↗
                   </span>
                 </div>
-                <p className="mt-10 text-xs font-bold uppercase tracking-[.16em] text-brand">
+                <p className="mt-10 text-xs font-bold tracking-[.16em] text-brand uppercase">
                   {role}
                 </p>
                 <p className="mt-3 max-w-lg leading-7 text-asoebi-graphite">
@@ -344,10 +344,10 @@ export default function DesignSystemPage() {
 
       <section className="px-5 py-24 lg:px-10 lg:py-36">
         <div className="mx-auto max-w-375">
-          <p className="text-xs font-bold uppercase tracking-[.18em] text-brand">
+          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
             Component anatomy
           </p>
-          <h2 className="font-display mt-5 text-6xl tracking-[-.055em] sm:text-8xl">
+          <h2 className="mt-5 font-display text-6xl tracking-[-.055em] sm:text-8xl">
             The invitation deck.
           </h2>
           <div className="mt-14 grid gap-12 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
@@ -359,21 +359,21 @@ export default function DesignSystemPage() {
               <div className="absolute inset-8 translate-x-5 translate-y-5 rotate-3 rounded-3xl bg-[#f6b928] shadow-2xl" />
               <div className="absolute inset-8 translate-x-2 translate-y-2 -rotate-2 rounded-3xl bg-[#dcd0ff] shadow-2xl" />
               <div className="absolute inset-8 flex flex-col justify-between rounded-3xl bg-asoebi-purple-900 p-8 text-white shadow-2xl">
-                <div className="flex justify-between text-xs font-bold uppercase tracking-[.18em]">
+                <div className="flex justify-between text-xs font-bold tracking-[.18em] uppercase">
                   <span>Asoebi Fashion Week</span>
                   <span className="grid size-10 place-items-center rounded-full bg-asoebi-gold-300 text-asoebi-purple-950">
                     ✺
                   </span>
                 </div>
                 <div>
-                  <p className="text-xs font-bold uppercase tracking-[.16em] text-white/55">
+                  <p className="text-xs font-bold tracking-[.16em] text-white/55 uppercase">
                     Designer access
                   </p>
-                  <p className="font-display mt-3 text-5xl leading-[.9]">
+                  <p className="mt-3 font-display text-5xl leading-[.9]">
                     Your invitation is also an identity.
                   </p>
                 </div>
-                <p className="border-t border-white/20 pt-5 text-[10px] font-bold uppercase tracking-[.16em]">
+                <p className="border-t border-white/20 pt-5 text-[10px] font-bold tracking-[.16em] uppercase">
                   Select · Personalise · Download
                 </p>
               </div>
@@ -419,7 +419,7 @@ export default function DesignSystemPage() {
         className="bg-asoebi-purple-950 px-5 py-24 text-white lg:px-10 lg:py-36"
       >
         <div className="mx-auto max-w-375">
-          <p className="text-xs font-bold uppercase tracking-[.18em] text-asoebi-gold-300">
+          <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
             Responsive behaviour
           </p>
           <div className="mt-8 grid gap-12 lg:grid-cols-2">
@@ -445,13 +445,13 @@ export default function DesignSystemPage() {
             </div>
           </div>
           <div className="mt-20 flex flex-col justify-between gap-8 border-t border-white/20 pt-8 sm:flex-row sm:items-end">
-            <p className="font-display max-w-3xl text-4xl leading-[.95]">
+            <p className="max-w-3xl font-display text-4xl leading-[.95]">
               If a choice does not strengthen fashion, clarity or culture, it
               does not belong in the system.
             </p>
             <Link
               href="/"
-              className="rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black uppercase tracking-[.14em] text-asoebi-purple-950"
+              className="rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.14em] text-asoebi-purple-950 uppercase"
             >
               Return to the experience ↗
             </Link>

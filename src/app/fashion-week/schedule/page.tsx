@@ -35,7 +35,7 @@ export default async function Page() {
               </h2>
               <p className="mt-2 text-asoebi-muted">{event.description}</p>
             </div>
-            <span className="text-xs font-bold uppercase tracking-[.15em]">
+            <span className="text-xs font-bold tracking-[.15em] uppercase">
               {event.type}
             </span>
           </article>

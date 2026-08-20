@@ -15,21 +15,27 @@ function remaining() {
 }
 
 export function PrizeCountdown({ compact = false }: { compact?: boolean }) {
-  const [time, setTime] = useState(remaining);
+  const [time, setTime] = useState<ReturnType<typeof remaining> | null>(null);
   useEffect(() => {
+    const initial = window.setTimeout(() => setTime(remaining()), 0);
     const timer = window.setInterval(() => setTime(remaining()), 1000);
-    return () => window.clearInterval(timer);
+    return () => {
+      window.clearTimeout(initial);
+      window.clearInterval(timer);
+    };
   }, []);
   return (
     <div
       aria-label="Countdown to the Asoebi Prize in December 2026"
       className={
         compact
-          ? "grid grid-cols-4 overflow-hidden rounded-2xl bg-white/88 shadow-[0_16px_50px_rgba(42,17,87,.14)] backdrop-blur-md"
+          ? "grid grid-cols-4 overflow-hidden rounded-2xl bg-white/88 shadow-asoebi-countdown backdrop-blur-md"
           : "grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-asoebi-purple-300 lg:grid-cols-4"
       }
     >
-      {Object.entries(time).map(([label, value], index) => (
+      {Object.entries(
+        time ?? { days: null, hours: null, minutes: null, seconds: null },
+      ).map(([label, value], index) => (
         <div
           key={label}
           className={
@@ -41,17 +47,17 @@ export function PrizeCountdown({ compact = false }: { compact?: boolean }) {
           <strong
             className={
               compact
-                ? "font-display block text-2xl leading-none tracking-[-.045em] sm:text-4xl"
-                : "font-display block text-5xl tracking-[-.055em] sm:text-7xl"
+                ? "block font-display text-2xl leading-none tracking-[-.045em] sm:text-4xl"
+                : "block font-display text-5xl tracking-[-.055em] sm:text-7xl"
             }
           >
-            {String(value).padStart(2, "0")}
+            {value === null ? "--" : String(value).padStart(2, "0")}
           </strong>
           <span
             className={
               compact
-                ? "mt-1.5 block text-[7px] font-bold uppercase tracking-[.12em] text-asoebi-muted sm:text-[9px]"
-                : "mt-3 block text-[10px] font-bold uppercase tracking-[.18em] text-asoebi-muted"
+                ? "mt-1.5 block text-[7px] font-bold tracking-[.12em] text-asoebi-muted uppercase sm:text-[9px]"
+                : "mt-3 block text-[10px] font-bold tracking-[.18em] text-asoebi-muted uppercase"
             }
           >
             {label}

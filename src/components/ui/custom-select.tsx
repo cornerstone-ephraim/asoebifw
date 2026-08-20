@@ -13,7 +13,7 @@ type CustomSelectProps = {
   options: readonly Option[];
   placeholder: string;
   value?: string;
-  onChange: (value: string) => void;
+  changeAction: (value: string) => void;
   invalid?: boolean;
   describedBy?: string;
 };
@@ -24,7 +24,7 @@ export function CustomSelect({
   options,
   placeholder,
   value,
-  onChange,
+  changeAction,
   invalid = false,
   describedBy,
 }: CustomSelectProps) {
@@ -59,7 +59,7 @@ export function CustomSelect({
   };
 
   const selectOption = (index: number) => {
-    onChange(options[index].value);
+    changeAction(options[index].value);
     setOpen(false);
     triggerRef.current?.focus({ preventScroll: true });
   };
@@ -83,7 +83,7 @@ export function CustomSelect({
             openList(event.key === "ArrowDown" ? 1 : -1);
           }
         }}
-        className={`flex min-h-13 w-full items-center justify-between gap-4 rounded-full border bg-white px-5 text-left text-sm outline-hidden transition-colors transition-linear ${invalid ? "border-brand" : "border-asoebi-purple-200 hover:border-asoebi-purple-400"}`}
+        className={`transition-linear flex min-h-13 w-full items-center justify-between gap-4 rounded-full border bg-white px-5 text-left text-sm outline-hidden transition-colors ${invalid ? "border-brand" : "border-asoebi-purple-200 hover:border-asoebi-purple-400"}`}
       >
         <span
           className={selected ? "text-asoebi-purple-950" : "text-asoebi-muted"}
@@ -92,7 +92,7 @@ export function CustomSelect({
         </span>
         <span
           aria-hidden="true"
-          className={`grid size-7 shrink-0 place-items-center rounded-full bg-asoebi-mist text-brand transition-transform transition-linear ${open ? "rotate-180" : ""}`}
+          className={`transition-linear grid size-7 shrink-0 place-items-center rounded-full bg-asoebi-mist text-brand transition-transform ${open ? "rotate-180" : ""}`}
         >
           ↓
         </span>
@@ -148,12 +148,12 @@ export function CustomSelect({
                 aria-selected={isSelected}
                 onPointerEnter={() => setHighlightedIndex(index)}
                 onClick={() => selectOption(index)}
-                className={`flex min-h-12 cursor-pointer items-center justify-between gap-4 rounded-2xl px-4 py-3 text-sm transition-colors transition-linear ${isHighlighted ? "bg-asoebi-mist text-asoebi-purple-950" : "text-asoebi-graphite"}`}
+                className={`transition-linear flex min-h-12 cursor-pointer items-center justify-between gap-4 rounded-2xl px-4 py-3 text-sm transition-colors ${isHighlighted ? "bg-asoebi-mist text-asoebi-purple-950" : "text-asoebi-graphite"}`}
               >
                 <span>{option.label}</span>
                 <span
                   aria-hidden="true"
-                  className={`grid size-6 place-items-center rounded-full bg-brand text-xs text-white transition-opacity transition-linear ${isSelected ? "opacity-100" : "opacity-0"}`}
+                  className={`transition-linear grid size-6 place-items-center rounded-full bg-brand text-xs text-white transition-opacity ${isSelected ? "opacity-100" : "opacity-0"}`}
                 >
                   ✓
                 </span>

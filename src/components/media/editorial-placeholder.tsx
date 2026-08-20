@@ -19,10 +19,10 @@ export function EditorialPlaceholder({
     <div
       role="img"
       aria-label={`${label} , development media placeholder`}
-      className={`relative overflow-hidden bg-gradient-to-br ${tones[tone]} ${className}`}
+      className={`relative overflow-hidden bg-linear-to-br ${tones[tone]} ${className}`}
     >
-      <div className="absolute inset-0 opacity-30 [background-image:repeating-linear-gradient(115deg,transparent_0,transparent_12%,currentColor_12.2%,transparent_12.6%)]" />
-      <span className="absolute bottom-4 left-4 text-[10px] font-semibold uppercase tracking-[0.2em]">
+      <div className="absolute inset-0 bg-[repeating-linear-gradient(115deg,transparent_0,transparent_12%,currentColor_12.2%,transparent_12.6%)] opacity-30" />
+      <span className="absolute bottom-4 left-4 text-[10px] font-semibold tracking-[0.2em] uppercase">
         {label} · image pending
       </span>
     </div>

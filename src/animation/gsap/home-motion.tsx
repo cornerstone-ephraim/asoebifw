@@ -38,7 +38,7 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
                 ease: "power3.out",
                 scrollTrigger: {
                   trigger: element,
-                  start: "top 88%",
+                  start: "top 78%",
                   once: true,
                 },
               },
@@ -62,7 +62,7 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
                 scale: 1,
                 duration: 1.05,
                 ease: "power3.out",
-                scrollTrigger: { trigger: media, start: "top 84%", once: true },
+                scrollTrigger: { trigger: media, start: "top 76%", once: true },
               },
             );
           });
@@ -80,7 +80,7 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
                 ease: "power3.out",
                 scrollTrigger: {
                   trigger: element,
-                  start: "top 90%",
+                  start: "top 80%",
                   once: true,
                 },
               },
@@ -99,17 +99,19 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
                 duration: 0.62,
                 stagger: 0.08,
                 ease: "power3.out",
-                scrollTrigger: { trigger: list, start: "top 82%", once: true },
+                scrollTrigger: { trigger: list, start: "top 74%", once: true },
               },
             );
           });
 
-        gsap.to("[data-motion-ribbon]", {
-          xPercent: -50,
-          duration: 24,
-          repeat: -1,
-          ease: "none",
-        });
+        if (scope.current?.querySelector("[data-motion-ribbon]")) {
+          gsap.to("[data-motion-ribbon]", {
+            xPercent: -50,
+            duration: 24,
+            repeat: -1,
+            ease: "none",
+          });
+        }
       });
 
       mm.add("(max-width: 767px)", () => {
@@ -128,18 +130,20 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
                 ease: "power3.out",
                 scrollTrigger: {
                   trigger: element,
-                  start: "top 90%",
+                  start: "top 82%",
                   once: true,
                 },
               },
             );
           });
-        gsap.to("[data-motion-ribbon]", {
-          xPercent: -50,
-          duration: 18,
-          repeat: -1,
-          ease: "none",
-        });
+        if (scope.current?.querySelector("[data-motion-ribbon]")) {
+          gsap.to("[data-motion-ribbon]", {
+            xPercent: -50,
+            duration: 18,
+            repeat: -1,
+            ease: "none",
+          });
+        }
       });
 
       return () => mm.revert();
@@ -147,5 +151,9 @@ export function HomeMotion({ children }: { children: React.ReactNode }) {
     { scope },
   );
 
-  return <main ref={scope}>{children}</main>;
+  return (
+    <main id="main-content" ref={scope}>
+      {children}
+    </main>
+  );
 }

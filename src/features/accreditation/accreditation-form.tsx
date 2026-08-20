@@ -1,7 +1,7 @@
 "use client";
 
 import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { z } from "zod";
 
 const schema = z.object({
@@ -12,12 +12,20 @@ const schema = z.object({
 });
 
 type Values = z.infer<typeof schema>;
+const roles = [
+  ["press", "Press / media"],
+  ["buyer", "Buyer"],
+  ["designer", "Designer"],
+  ["partner", "Partner"],
+  ["other", "Community"],
+] as const;
 const fieldClass =
-  "min-h-13 w-full rounded-full border border-asoebi-purple-200 bg-white px-5 text-sm outline-none transition-colors transition-linear focus:border-brand";
+  "min-h-13 w-full rounded-full border border-asoebi-purple-200 bg-white px-5 text-sm outline-hidden transition-colors transition-linear focus:border-brand";
 
 export function AccreditationForm() {
   const {
     register,
+    control,
     handleSubmit,
     formState: { errors, isSubmitSuccessful },
   } = useForm<Values>({ resolver: zodResolver(schema) });
@@ -25,10 +33,10 @@ export function AccreditationForm() {
   return (
     <form
       onSubmit={handleSubmit(() => undefined)}
-      className="rounded-[2rem] bg-asoebi-mist p-6 sm:p-9"
+      className="rounded-4xl bg-white p-6 shadow-asoebi-warm-soft sm:p-9"
       noValidate
     >
-      <p className="text-xs font-bold uppercase tracking-[.18em] text-brand">
+      <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
         Tell us about you
       </p>
       <div className="mt-7 grid gap-4 sm:grid-cols-2">
@@ -41,10 +49,15 @@ export function AccreditationForm() {
             placeholder="Your name"
             {...register("name")}
             className={fieldClass}
+            aria-invalid={Boolean(errors.name)}
             aria-describedby={errors.name ? "name-error" : undefined}
           />
           {errors.name && (
-            <p id="name-error" className="mt-2 px-4 text-xs text-brand">
+            <p
+              id="name-error"
+              role="alert"
+              className="mt-2 px-4 text-xs text-brand"
+            >
               {errors.name.message}
             </p>
           )}
@@ -59,33 +72,59 @@ export function AccreditationForm() {
             placeholder="Email address"
             {...register("email")}
             className={fieldClass}
+            aria-invalid={Boolean(errors.email)}
+            aria-describedby={errors.email ? "email-error" : undefined}
           />
           {errors.email && (
-            <p className="mt-2 px-4 text-xs text-brand">
+            <p
+              id="email-error"
+              role="alert"
+              className="mt-2 px-4 text-xs text-brand"
+            >
               {errors.email.message}
             </p>
           )}
         </div>
-        <div className="sm:col-span-2">
-          <label htmlFor="role" className="sr-only">
+        <fieldset
+          className="sm:col-span-2"
+          aria-invalid={Boolean(errors.role)}
+          aria-describedby={errors.role ? "role-error" : undefined}
+        >
+          <legend className="mb-3 px-1 text-[10px] font-bold tracking-[.16em] text-asoebi-muted uppercase">
             Accreditation type
-          </label>
-          <select
-            id="role"
-            {...register("role")}
-            defaultValue=""
-            className={fieldClass}
-          >
-            <option value="" disabled>
-              Choose accreditation type
-            </option>
-            <option value="press">Press / media</option>
-            <option value="buyer">Buyer / fashion professional</option>
-            <option value="designer">Designer</option>
-            <option value="partner">Partner</option>
-            <option value="other">Other</option>
-          </select>
-        </div>
+          </legend>
+          <Controller
+            name="role"
+            control={control}
+            render={({ field }) => (
+              <div className="flex flex-wrap gap-2">
+                {roles.map(([value, label]) => {
+                  const active = field.value === value;
+                  return (
+                    <button
+                      key={value}
+                      type="button"
+                      aria-pressed={active}
+                      onClick={() => field.onChange(value)}
+                      className={`transition-linear min-h-11 rounded-full border px-4 py-2 text-xs font-bold transition-colors ${active ? "border-brand bg-brand text-white" : "border-asoebi-purple-200 bg-white text-asoebi-purple-950 hover:border-brand hover:text-brand"}`}
+                    >
+                      {label}
+                    </button>
+                  );
+                })}
+              </div>
+            )}
+          />
+          {errors.role && (
+            <p
+              id="role-error"
+              role="alert"
+              className="mt-2 px-4 text-xs text-brand"
+            >
+              Choose an accreditation type
+            </p>
+          )}
+        </fieldset>
         <div className="sm:col-span-2">
           <label htmlFor="message" className="sr-only">
             Note
@@ -95,20 +134,31 @@ export function AccreditationForm() {
             placeholder="Anything we should know? (optional)"
             {...register("message")}
             rows={4}
-            className="w-full rounded-[1.5rem] border border-asoebi-purple-200 bg-white p-5 text-sm outline-none transition-colors transition-linear focus:border-brand"
+            className="transition-linear w-full rounded-3xl border border-asoebi-purple-200 bg-white p-5 text-sm outline-hidden transition-colors focus:border-brand"
+            aria-invalid={Boolean(errors.message)}
+            aria-describedby={errors.message ? "message-error" : undefined}
           />
+          {errors.message && (
+            <p
+              id="message-error"
+              role="alert"
+              className="mt-2 px-4 text-xs text-brand"
+            >
+              {errors.message.message}
+            </p>
+          )}
         </div>
       </div>
       <button
         type="submit"
-        className="mt-4 min-h-13 w-full rounded-full bg-brand px-6 text-xs font-black uppercase tracking-[.12em] text-white transition-colors transition-linear hover:bg-asoebi-purple-700"
+        className="transition-linear mt-4 min-h-13 w-full rounded-full bg-brand px-6 text-xs font-black tracking-[.12em] text-white uppercase transition-colors hover:bg-asoebi-purple-700"
       >
         Prepare application
       </button>
       {isSubmitSuccessful && (
         <p
           role="status"
-          className="mt-4 rounded-[1.25rem] bg-white p-4 text-sm text-asoebi-graphite"
+          className="mt-4 rounded-2xl bg-white p-4 text-sm text-asoebi-graphite"
         >
           Your details are ready. Submission will open when the accreditation
           programme goes live.

@@ -31,7 +31,7 @@ export default async function Page() {
             className="grid border-b border-asoebi-ink/25 py-8 md:grid-cols-[1fr_auto]"
           >
             <h2 className="text-2xl font-semibold">{show.title}</h2>
-            <span className="text-xs uppercase tracking-[.15em]">
+            <span className="text-xs tracking-[.15em] uppercase">
               {show.status}
             </span>
           </Link>

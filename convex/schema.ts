@@ -1,1 +1,22 @@
-import{defineSchema,defineTable}from"convex/server";import{v}from"convex/values";export default defineSchema({accreditationApplications:defineTable({name:v.string(),email:v.string(),role:v.union(v.literal("press"),v.literal("buyer"),v.literal("designer"),v.literal("partner"),v.literal("other")),message:v.optional(v.string()),status:v.union(v.literal("submitted"),v.literal("reviewing"),v.literal("approved"),v.literal("declined"))}).index("by_email",["email"])})
+import { defineSchema, defineTable } from "convex/server";
+import { v } from "convex/values";
+export default defineSchema({
+  accreditationApplications: defineTable({
+    name: v.string(),
+    email: v.string(),
+    role: v.union(
+      v.literal("press"),
+      v.literal("buyer"),
+      v.literal("designer"),
+      v.literal("partner"),
+      v.literal("other"),
+    ),
+    message: v.optional(v.string()),
+    status: v.union(
+      v.literal("submitted"),
+      v.literal("reviewing"),
+      v.literal("approved"),
+      v.literal("declined"),
+    ),
+  }).index("by_email", ["email"]),
+});
