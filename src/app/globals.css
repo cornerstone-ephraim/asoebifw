@@ -4,59 +4,72 @@
 
 @theme {
   /* Asoebi purple */
-  --color-asoebi-purple-50: #f7f3ff;
-  --color-asoebi-purple-100: #ede5ff;
-  --color-asoebi-purple-200: #dccbff;
-  --color-asoebi-purple-300: #c4a5ff;
-  --color-asoebi-purple-400: #a779f5;
-  --color-asoebi-purple-500: #8650e6;
-  --color-asoebi-purple-600: #6b32c7;
-  --color-asoebi-purple-700: #52239f;
-  --color-asoebi-purple-800: #3b1977;
-  --color-asoebi-purple-900: #2a1157;
-  --color-asoebi-purple-950: #18072f;
+  --color-asoebi-purple-50: oklch(97.07% 0.0164 301.22);
+  --color-asoebi-purple-100: oklch(93.6% 0.0358 299.74);
+  --color-asoebi-purple-200: oklch(87.29% 0.0731 299.84);
+  --color-asoebi-purple-300: oklch(78.27% 0.129 299.26);
+  --color-asoebi-purple-400: oklch(67.59% 0.1798 298.61);
+  --color-asoebi-purple-500: oklch(57.23% 0.2153 295.29);
+  --color-asoebi-purple-600: oklch(48.2% 0.2135 294.32);
+  --color-asoebi-purple-700: oklch(40.23% 0.1838 293.56);
+  --color-asoebi-purple-800: oklch(32.66% 0.1474 292.77);
+  --color-asoebi-purple-900: oklch(26.46% 0.1167 292.92);
+  --color-asoebi-purple-950: oklch(18.55% 0.0756 298.27);
 
   /* Asoebi gold */
-  --color-asoebi-gold-50: #fff9ea;
-  --color-asoebi-gold-100: #fff0c5;
-  --color-asoebi-gold-200: #ffe08a;
-  --color-asoebi-gold-300: #fbcd4f;
-  --color-asoebi-gold-400: #edb425;
-  --color-asoebi-gold-500: #d69a12;
-  --color-asoebi-gold-600: #b9780c;
-  --color-asoebi-gold-700: #92590c;
-  --color-asoebi-gold-800: #784611;
-  --color-asoebi-gold-900: #653a13;
-  --color-asoebi-gold-950: #3b1e07;
+  --color-asoebi-gold-50: oklch(98.27% 0.0207 88.72);
+  --color-asoebi-gold-100: oklch(95.64% 0.0579 91.09);
+  --color-asoebi-gold-200: oklch(91.42% 0.1109 90.28);
+  --color-asoebi-gold-300: oklch(86.64% 0.1486 88.49);
+  --color-asoebi-gold-400: oklch(80.11% 0.1562 84.1);
+  --color-asoebi-gold-500: oklch(72.54% 0.1469 79.92);
+  --color-asoebi-gold-600: oklch(62.61% 0.132 70.97);
+  --color-asoebi-gold-700: oklch(51.69% 0.1106 66.15);
+  --color-asoebi-gold-800: oklch(44.46% 0.0935 61.59);
+  --color-asoebi-gold-900: oklch(39.37% 0.0798 58.84);
+  --color-asoebi-gold-950: oklch(27% 0.0566 55.56);
 
   /* Editorial neutrals */
-  --color-asoebi-ink: #24133f;
-  --color-asoebi-charcoal: #18131e;
-  --color-asoebi-graphite: #302936;
-  --color-asoebi-muted: #82798b;
-  --color-asoebi-stone: #b8afbf;
-  --color-asoebi-mist: #eee8f8;
-  --color-asoebi-ivory: #fff8ee;
-  --color-asoebi-paper: #fffdf8;
+  --color-asoebi-ink: oklch(23.76% 0.0805 297.76);
+  --color-asoebi-charcoal: oklch(19.82% 0.0229 305.14);
+  --color-asoebi-graphite: oklch(29.41% 0.0251 309.16);
+  --color-asoebi-muted: oklch(59.02% 0.029 307.92);
+  --color-asoebi-stone: oklch(76.64% 0.0246 310.64);
+  --color-asoebi-mist: oklch(94.03% 0.0223 302.93);
+  --color-asoebi-ivory: oklch(98.18% 0.0152 77.07);
+  --color-asoebi-soft-ivory: oklch(98.65% 0.013 82.4);
+  --color-asoebi-paper: oklch(99.42% 0.0069 88.64);
+  --color-asoebi-butter: oklch(95.47% 0.0674 93.62);
+  --color-asoebi-blush: oklch(91.48% 0.0444 33.52);
 
   /* Semantic color utilities */
-  --color-brand: #52239f;
-  --color-brand-deep: #2a1157;
-  --color-accent: #d69a12;
-  --color-canvas-dark: #0b0810;
-  --color-surface-dark: #18131e;
-  --color-canvas-light: #fffdf8;
-  --color-surface-light: #f7f2ea;
+  --color-brand: oklch(40.23% 0.1838 293.56);
+  --color-brand-deep: oklch(26.46% 0.1167 292.92);
+  --color-accent: oklch(72.54% 0.1469 79.92);
+  --color-canvas-dark: oklch(14.29% 0.0181 301.81);
+  --color-surface-dark: oklch(19.82% 0.0229 305.14);
+  --color-canvas-light: oklch(99.42% 0.0069 88.64);
+  --color-surface-light: oklch(96.28% 0.0119 79.78);
 
   /* Typography */
   --font-sans: var(--font-schibsted-grotesk);
   --font-mono: var(--font-schibsted-grotesk);
   /* Replace the fallback with --font-being after licensed webfont files arrive. */
-  --font-display: var(--font-bricolage-grotesque), var(--font-schibsted-grotesk);
+  --font-display:
+    var(--font-bricolage-grotesque), var(--font-schibsted-grotesk);
 
   /* Shared easing utilities. Library-specific code consumes these tokens. */
   --ease-asoebi-arrive: cubic-bezier(0.22, 1, 0.36, 1);
   --ease-asoebi-travel: cubic-bezier(0.77, 0, 0.175, 1);
+
+  /* Elevation */
+  --shadow-asoebi-soft: 0 18px 55px rgba(42, 17, 87, 0.08);
+  --shadow-asoebi-float: 0 14px 45px rgba(40, 20, 73, 0.16);
+  --shadow-asoebi-panel: 0 24px 90px rgba(54, 23, 103, 0.12);
+  --shadow-asoebi-deep: 0 24px 65px rgba(14, 5, 28, 0.34);
+  --shadow-asoebi-warm: 0 16px 50px rgba(80, 55, 28, 0.18);
+  --shadow-asoebi-warm-soft: 0 20px 65px rgba(80, 55, 28, 0.1);
+  --shadow-asoebi-countdown: 0 16px 50px rgba(42, 17, 87, 0.14);
 }
 
 :root {
@@ -81,22 +94,42 @@ html {
   color: var(--foreground);
 }
 
-html { scroll-behavior: smooth; }
+html {
+  scrollbar-width: thin;
+  scrollbar-color: var(--color-asoebi-purple-500) var(--color-asoebi-mist);
+}
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-asoebi-mist);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--color-asoebi-purple-500);
+  border-radius: 999px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--color-asoebi-purple-700);
+}
 
-html { scrollbar-width: thin; scrollbar-color: var(--color-asoebi-purple-500) var(--color-asoebi-mist); }
-::-webkit-scrollbar { width: 6px; height: 6px; }
-::-webkit-scrollbar-track { background: var(--color-asoebi-mist); }
-::-webkit-scrollbar-thumb { background: var(--color-asoebi-purple-500); border-radius: 999px; }
-::-webkit-scrollbar-thumb:hover { background: var(--color-asoebi-purple-700); }
-
-.font-display { font-family: var(--font-display); }
+.font-display {
+  font-family: var(--font-display);
+}
 
 .editorial-grid {
-  background-image: linear-gradient(to right, color-mix(in srgb, currentColor 9%, transparent) 1px, transparent 1px);
+  background-image: linear-gradient(
+    to right,
+    color-mix(in srgb, currentColor 9%, transparent) 1px,
+    transparent 1px
+  );
   background-size: 25% 100%;
 }
 
-.text-stroke { color: transparent; -webkit-text-stroke: 1px currentColor; }
+.text-stroke {
+  color: transparent;
+  -webkit-text-stroke: 1px currentColor;
+}
 
 body {
   min-height: 100vh;
@@ -104,11 +137,18 @@ body {
   color: var(--foreground);
 }
 
-a, button { -webkit-tap-highlight-color: transparent; }
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+  cursor: pointer;
+}
 
-.transition-linear { transition-timing-function: linear; }
+.transition-linear {
+  transition-timing-function: linear;
+}
 
-a:active, button:active {
+a:active,
+button:active {
   transform: translateY(1px);
 }
 
@@ -121,7 +161,9 @@ a:active, button:active {
 :is(input, textarea, select):focus,
 :is(input, textarea, select):focus-visible {
   outline: none;
-  box-shadow: none;
+  border-color: var(--color-asoebi-purple-600);
+  background-color: var(--color-asoebi-soft-ivory);
+  box-shadow: inset 0 0 0 1px var(--color-asoebi-purple-600);
 }
 
 ::selection {

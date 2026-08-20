@@ -1,1 +1,109 @@
-import{createMetadata}from"@/lib/seo";import{EditorialPage,EmptyNotice}from"@/components/layout/editorial-page";export const metadata=createMetadata({title:"Official After Party",description:"Discover the official Asoebi Fashion Week after party, bringing fashion, music, networking and culture together after the runway.",path:"/after-party",keywords:["fashion week after party","Lagos fashion party","fashion networking"]});export default function Page(){return <EditorialPage eyebrow="When the runway ends" title="The Night Begins" intro="Asoebi After Party is the official networking and celebration experience of Asoebi Fashion Week." cta={{href:"/tickets",label:"Ticket information"}}><div className="grid gap-px bg-asoebi-stone md:grid-cols-3">{["VIP & VVIP","Corporate Table","Celebrity Admission"].map(item=><div className="bg-asoebi-ink p-8 text-white" key={item}><p className="text-xs uppercase tracking-[.15em] text-asoebi-purple-300">Admission</p><h2 className="mt-16 font-display text-4xl">{item}</h2></div>)}</div><div className="mt-20"><EmptyNotice title="Party details coming soon" body="Date, venue, DJ line-up and official ticket link have not yet been supplied."/></div></EditorialPage>}
+import type { Metadata } from "next";
+import Image from "next/image";
+
+import { EditorialPage } from "@/components/layout/editorial-page";
+import { ArrowLink } from "@/components/ui/arrow-link";
+import { createMetadata } from "@/lib/seo";
+
+const features = [
+  "DJ line-up",
+  "Networking lounge",
+  "Fashion awards ceremony",
+] as const;
+const tickets = [
+  "VIP & VVIP",
+  "Corporate Table",
+  "Celebrity Admission",
+] as const;
+
+export const metadata: Metadata = createMetadata({
+  title: "Asoebi After Party",
+  description:
+    "The official Asoebi Fashion Week networking and celebration event, featuring music, a networking lounge and fashion awards.",
+  path: "/after-party",
+  keywords: [
+    "Asoebi After Party",
+    "fashion networking",
+    "fashion awards ceremony",
+  ],
+});
+
+export default function Page() {
+  return (
+    <EditorialPage
+      eyebrow="Network · Celebrate · Connect"
+      title="Asoebi After Party"
+      intro="The official networking and celebration event."
+      heroImage="/images/tickets-editorial.png"
+      heroImageAlt="An editorial Asoebi Fashion Week ticket illustration"
+      heroTone="blush"
+      cta={{ href: "/#waitlist", label: "Join for event updates" }}
+    >
+      <section className="grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
+        <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
+          The runway ends. The conversation continues.
+        </h2>
+        <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
+          Music, networking and the fashion awards ceremony bring the Asoebi
+          Fashion Week community together after the show.
+        </p>
+      </section>
+
+      <section className="mt-24 overflow-hidden bg-asoebi-purple-950 text-white">
+        <div className="grid lg:grid-cols-2">
+          <div className="relative min-h-120">
+            <Image
+              src="/images/tickets-editorial.png"
+              alt="Editorial ticket artwork for the Asoebi After Party"
+              fill
+              loading="eager"
+              sizes="(min-width: 1024px) 50vw, 100vw"
+              className="object-cover"
+            />
+          </div>
+          <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
+            <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
+              Inside the celebration
+            </p>
+            <ul className="mt-10 border-t border-white/20">
+              {features.map((item) => (
+                <li
+                  key={item}
+                  className="border-b border-white/20 py-6 font-display text-3xl sm:text-4xl"
+                >
+                  {item}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+      </section>
+
+      <section className="mt-24 border-y border-asoebi-purple-950/25 py-12 sm:py-16">
+        <div className="grid gap-10 lg:grid-cols-2 lg:items-end">
+          <div>
+            <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-900 uppercase">
+              Ticket types
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-[-.05em] sm:text-7xl">
+              Choose how you enter the room.
+            </h2>
+          </div>
+          <ul className="border-t border-asoebi-purple-950/25">
+            {tickets.map((item) => (
+              <li
+                key={item}
+                className="border-b border-asoebi-purple-950/25 py-5 font-display text-3xl"
+              >
+                {item}
+              </li>
+            ))}
+          </ul>
+        </div>
+        <div className="mt-10">
+          <ArrowLink href="/#waitlist">Join for ticket updates</ArrowLink>
+        </div>
+      </section>
+    </EditorialPage>
+  );
+}

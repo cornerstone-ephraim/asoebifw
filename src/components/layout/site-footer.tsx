@@ -1,6 +1,112 @@
 import Link from "next/link";
 
-const links = [["Fashion Week", "/fashion-week"], ["Designers", "/designers"], ["Collections", "/collections"], ["Asoebi Prize", "/prize"], ["Partners", "/partners"], ["Join the circle", "/#waitlist"]] as const;
-const socials = [["Instagram", "https://www.instagram.com/asoebifw"], ["TikTok", "https://www.tiktok.com/@asoebifw"], ["X", "https://x.com/asoebifw"], ["LinkedIn", "https://www.linkedin.com/company/asoebifw"]] as const;
+const exploreLinks = [
+  ["About", "/about"],
+  ["Fashion Week", "/fashion-week"],
+  ["Asoebi Prize", "/prize"],
+  ["Asoebi Vendor", "/vendor"],
+  ["After Party", "/after-party"],
+] as const;
 
-export function SiteFooter() { return <footer className="bg-[#eee8f8] px-5 pb-8 pt-20 text-asoebi-purple-950 lg:px-10"><div className="mx-auto max-w-[1500px] rounded-[2rem] bg-white p-7 sm:p-12"><div className="grid gap-14 lg:grid-cols-[1.4fr_1fr]"><div><p className="font-display text-6xl leading-none tracking-[-.06em] sm:text-8xl">Come as you are.<br/><span className="text-brand">Leave inspired.</span></p><p className="mt-7 max-w-md text-sm leading-6 text-asoebi-graphite">Asoebi Fashion Week is a meeting place for cloth, culture and the people moving both forward.</p><div className="mt-8 flex flex-wrap gap-2">{socials.map(([label, href]) => <a key={label} href={href} target="_blank" rel="noreferrer" className="rounded-full border border-asoebi-purple-200 px-4 py-2 text-xs font-bold transition-colors transition-linear hover:border-brand hover:bg-brand hover:text-white">{label} <span aria-hidden="true">↗</span></a>)}</div></div><nav aria-label="Footer" className="grid content-start grid-cols-2 gap-x-8 gap-y-4 text-sm font-bold">{links.map(([label, href]) => <Link key={href} href={href} className="border-b border-asoebi-purple-200 pb-3 transition-colors transition-linear hover:text-brand">{label}</Link>)}</nav></div><div className="mt-14 flex flex-col gap-3 border-t border-asoebi-purple-200 pt-5 text-[10px] font-bold uppercase tracking-[.16em] text-asoebi-muted sm:flex-row sm:justify-between"><span>© {new Date().getFullYear()} Asoebi Fashion Week</span><span>Lagos · London · The global stage</span></div></div></footer>; }
+const actionLinks = [
+  ["Apply for the Prize", "/prize#apply"],
+  ["Apply for Accreditation", "/accreditation"],
+  ["Join the Waitlist", "/#waitlist"],
+] as const;
+
+const socials = [
+  ["Instagram", "https://www.instagram.com/theasoebifw"],
+  ["TikTok", "https://www.tiktok.com/@asoebifw"],
+  ["X", "https://x.com/asoebifw"],
+  ["LinkedIn", "https://www.linkedin.com/company/asoebifw"],
+] as const;
+
+export function SiteFooter() {
+  return (
+    <footer className="bg-asoebi-purple-950 px-5 pt-20 pb-8 text-white lg:px-10 lg:pt-28">
+      <div className="mx-auto max-w-400">
+        <div className="grid gap-16 border-b border-white/20 pb-16 lg:grid-cols-[1.25fr_.75fr] lg:pb-24">
+          <div>
+            <Link
+              href="/"
+              className="transition-linear inline-block font-display text-2xl font-bold tracking-[-.04em] transition-opacity hover:opacity-65"
+              aria-label="Asoebi Fashion Week home"
+            >
+              AEFW<span className="text-asoebi-gold-300">.</span>
+            </Link>
+            <p className="mt-12 max-w-5xl font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl lg:text-9xl">
+              Come as you are.
+              <br />
+              <span className="text-asoebi-gold-300">Leave inspired.</span>
+            </p>
+            <p className="mt-8 max-w-lg text-sm leading-6 text-white/65">
+              Asoebi Fashion Week is a meeting place for cloth, culture and the
+              people moving both forward.
+            </p>
+          </div>
+
+          <div className="grid content-end gap-12 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+            <nav aria-label="Explore Asoebi Fashion Week">
+              <p className="text-[10px] font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
+                Explore
+              </p>
+              <ul className="mt-5 space-y-3">
+                {exploreLinks.map(([label, href]) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="transition-linear text-sm font-bold text-white/70 transition-colors hover:text-white"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+            <nav aria-label="Participate in Asoebi Fashion Week">
+              <p className="text-[10px] font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
+                Participate
+              </p>
+              <ul className="mt-5 space-y-3">
+                {actionLinks.map(([label, href]) => (
+                  <li key={href}>
+                    <Link
+                      href={href}
+                      className="transition-linear text-sm font-bold text-white/70 transition-colors hover:text-white"
+                    >
+                      {label}
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </nav>
+          </div>
+        </div>
+
+        <div className="grid gap-8 border-b border-white/20 py-8 sm:grid-cols-[auto_1fr] sm:items-center">
+          <p className="text-[10px] font-bold tracking-[.18em] text-white/45 uppercase">
+            Follow the story
+          </p>
+          <div className="flex flex-wrap gap-x-6 gap-y-3 sm:justify-end">
+            {socials.map(([label, href]) => (
+              <a
+                key={label}
+                href={href}
+                target="_blank"
+                rel="noreferrer"
+                className="transition-linear text-xs font-bold text-white/70 transition-colors hover:text-asoebi-gold-300"
+              >
+                {label} <span aria-hidden="true">↗</span>
+              </a>
+            ))}
+          </div>
+        </div>
+
+        <div className="flex flex-col gap-3 pt-6 text-[10px] font-bold tracking-[.16em] text-white/40 uppercase sm:flex-row sm:justify-between">
+          <span>© {new Date().getFullYear()} Asoebi Fashion Week</span>
+          <span>Buy together · Pay together · Celebrate together</span>
+        </div>
+      </div>
+    </footer>
+  );
+}
