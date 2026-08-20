@@ -1,4 +1,5 @@
 import { HomePage } from "@/features/home/home-page";
+import { WaitlistSection } from "@/features/waitlist/waitlist-section";
 import { createMetadata } from "@/lib/seo";
 import { Metadata } from "next";
 
@@ -11,5 +12,10 @@ export const metadata: Metadata = createMetadata({
 });
 
 export default function Page() {
-  return <HomePage />;
+  return (
+    <>
+      <HomePage />
+      <WaitlistSection />
+    </>
+  );
 }

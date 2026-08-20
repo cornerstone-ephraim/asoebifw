@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 import { EditorialPage } from "@/components/layout/editorial-page";
-import { PrizeCountdown } from "@/features/home/prize-countdown";
+import { PrizeCountdown } from "@/features/prize/prize-countdown";
 import { PrizeApplicationForm } from "@/features/prize/prize-application-form";
 import { createMetadata } from "@/lib/seo";
 
@@ -78,7 +78,7 @@ export default function Page() {
           </p>
           <h2
             id="prize-countdown-heading"
-            className="mt-3 font-display text-4xl leading-none tracking-[-.05em] sm:text-5xl"
+            className="mt-3 font-display text-4xl leading-none tracking-tighter sm:text-5xl"
           >
             Until the Asoebi Prize
           </h2>

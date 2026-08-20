@@ -82,7 +82,7 @@ export default function Page() {
             <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
               Professional access
             </p>
-            <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-[-.05em]">
+            <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-tighter">
               Be close to the work and the people behind it.
             </h2>
             <p className="mt-6 leading-7 text-asoebi-graphite">

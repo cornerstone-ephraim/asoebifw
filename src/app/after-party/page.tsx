@@ -85,7 +85,7 @@ export default function Page() {
             <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-900 uppercase">
               Ticket types
             </p>
-            <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-[-.05em] sm:text-7xl">
+            <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-tighter sm:text-7xl">
               Choose how you enter the room.
             </h2>
           </div>

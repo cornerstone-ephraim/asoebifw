@@ -3,9 +3,8 @@ import Link from "next/link";
 
 import { HomeMotion } from "@/animation/gsap/home-motion";
 import { ArrowLink } from "@/components/ui/arrow-link";
-import { WaitlistSection } from "@/features/waitlist/waitlist-section";
+import { PrizeCountdown } from "@/features/prize/prize-countdown";
 import { HeroMotion } from "./hero-motion";
-import { PrizeCountdown } from "./prize-countdown";
 
 const prizeCategories = [
   "Best Designer",
@@ -61,13 +60,13 @@ export function HomePage() {
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     href="/prize#apply"
-                    className="transition-all ease-linear rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.13em] text-asoebi-purple-950 uppercase transition-colors hover:bg-white flex items-center justify-center"
+                    className="flex items-center justify-center rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.13em] text-asoebi-purple-950 uppercase transition-colors ease-linear hover:bg-white"
                   >
                     Apply for the prize
                   </Link>
                   <Link
                     href="/#waitlist"
-                    className="transition-all ease-linear rounded-full border border-white/55 px-6 py-4 text-xs font-black tracking-[.13em] uppercase transition-colors hover:bg-white hover:text-asoebi-purple-950 flex items-center justify-center"
+                    className="flex items-center justify-center rounded-full border border-white/55 px-6 py-4 text-xs font-black tracking-[.13em] uppercase transition-colors ease-linear hover:bg-white hover:text-asoebi-purple-950"
                   >
                     Join the waitlist
                   </Link>
@@ -298,8 +297,6 @@ export function HomePage() {
           </div>
         </div>
       </section>
-
-      <WaitlistSection />
     </HomeMotion>
   );
 }
