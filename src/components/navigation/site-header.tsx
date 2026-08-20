@@ -60,6 +60,7 @@ export function SiteHeader() {
         className={`transition-linear pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-asoebi-float backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] duration-500 sm:px-6 ${compact ? "h-14 max-w-235 bg-asoebi-butter/95 text-asoebi-purple-950 shadow-asoebi-warm" : "h-16 max-w-295 bg-white/94 text-asoebi-purple-950"}`}
       >
         <Link
+          data-site-logo
           href="/"
           className="font-display text-xl font-bold tracking-[-.04em] sm:text-2xl"
         >

@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 
 import { EditorialPage } from "@/components/layout/editorial-page";
+import { PrizeCountdown } from "@/features/home/prize-countdown";
 import { PrizeApplicationForm } from "@/features/prize/prize-application-form";
 import { createMetadata } from "@/lib/seo";
 
@@ -65,6 +66,24 @@ export default function Page() {
           The Asoebi Prize brings public voting, a judges panel and meaningful
           benefits together to celebrate African fashion creativity.
         </p>
+      </section>
+
+      <section
+        aria-labelledby="prize-countdown-heading"
+        className="mt-16 grid gap-7 border-y border-asoebi-purple-950/25 py-8 lg:grid-cols-[.45fr_1.55fr] lg:items-center lg:py-10"
+      >
+        <div>
+          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
+            December 2026
+          </p>
+          <h2
+            id="prize-countdown-heading"
+            className="mt-3 font-display text-4xl leading-none tracking-[-.05em] sm:text-5xl"
+          >
+            Until the Asoebi Prize
+          </h2>
+        </div>
+        <PrizeCountdown />
       </section>
 
       <section className="mt-24">

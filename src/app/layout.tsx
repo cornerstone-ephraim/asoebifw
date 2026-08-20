@@ -4,6 +4,7 @@ import localFont from "next/font/local";
 
 import "./globals.css";
 import { SiteFooter } from "@/components/layout/site-footer";
+import { BrandSplash } from "@/components/motion/brand-splash";
 import { SiteHeader } from "@/components/navigation/site-header";
 import { ScrollToTop } from "@/components/ui/scroll-to-top";
 
@@ -69,6 +70,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="flex min-h-screen flex-col bg-canvas-light font-sans text-asoebi-ink antialiased">
+        <BrandSplash />
         <a
           href="#main-content"
           className="transition-linear fixed top-3 left-3 z-100 -translate-y-24 rounded-full bg-asoebi-purple-950 px-5 py-3 text-sm font-bold text-white transition-transform focus-visible:translate-y-0"

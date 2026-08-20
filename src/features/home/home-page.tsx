@@ -61,13 +61,13 @@ export function HomePage() {
                 <div className="mt-6 flex flex-wrap gap-3">
                   <Link
                     href="/prize#apply"
-                    className="transition-linear rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.13em] text-asoebi-purple-950 uppercase transition-colors hover:bg-white"
+                    className="transition-all ease-linear rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.13em] text-asoebi-purple-950 uppercase transition-colors hover:bg-white flex items-center justify-center"
                   >
                     Apply for the prize
                   </Link>
                   <Link
                     href="/#waitlist"
-                    className="transition-linear rounded-full border border-white/55 px-6 py-4 text-xs font-black tracking-[.13em] uppercase transition-colors hover:bg-white hover:text-asoebi-purple-950"
+                    className="transition-all ease-linear rounded-full border border-white/55 px-6 py-4 text-xs font-black tracking-[.13em] uppercase transition-colors hover:bg-white hover:text-asoebi-purple-950 flex items-center justify-center"
                   >
                     Join the waitlist
                   </Link>

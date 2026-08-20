@@ -47,8 +47,8 @@ export function PrizeCountdown({ compact = false }: { compact?: boolean }) {
           <strong
             className={
               compact
-                ? "block font-display text-2xl leading-none tracking-[-.045em] sm:text-4xl"
-                : "block font-display text-5xl tracking-[-.055em] sm:text-7xl"
+                ? "block font-display text-2xl leading-none tracking-[-.045em] sm:text-4xl text-asoebi-purple-900"
+                : "block font-display text-5xl tracking-[-.055em] sm:text-7xl text-asoebi-purple-900"
             }
           >
             {value === null ? "--" : String(value).padStart(2, "0")}
