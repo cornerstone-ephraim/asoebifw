@@ -1,1 +1,31 @@
-import{createMetadata}from"@/lib/seo";import{EditorialPage,EmptyNotice}from"@/components/layout/editorial-page";export const metadata=createMetadata({title:"Partners",description:"Meet the organisations supporting African fashion, craft, culture and creative enterprise through Asoebi Fashion Week.",path:"/partners",keywords:["fashion week partners","African fashion sponsorship","fashion partnerships"]});export default function Page(){return <EditorialPage eyebrow="Shared ambition" title="Our Partners" intro="Partnerships help place African fashion, craft and culture on a global stage." cta={{href:"/accreditation",label:"Partnership enquiries"}}><EmptyNotice title="Partner announcements are coming soon" body="Official partner names, tiers, logos and links will be published after approval."/></EditorialPage>}
+import { createMetadata } from "@/lib/seo";
+import { EditorialPage, EmptyNotice } from "@/components/layout/editorial-page";
+import { Metadata } from "next";
+
+export const metadata: Metadata = createMetadata({
+  title: "Partners",
+  description:
+    "Meet the organisations supporting African fashion, craft, culture and creative enterprise through Asoebi Fashion Week.",
+  path: "/partners",
+  keywords: [
+    "fashion week partners",
+    "African fashion sponsorship",
+    "fashion partnerships",
+  ],
+});
+
+export default function Page() {
+  return (
+    <EditorialPage
+      eyebrow="Shared ambition"
+      title="Our Partners"
+      intro="Partnerships help place African fashion, craft and culture on a global stage."
+      cta={{ href: "/accreditation", label: "Partnership enquiries" }}
+    >
+      <EmptyNotice
+        title="Partner announcements are coming soon"
+        body="Official partner names, tiers, logos and links will be published after approval."
+      />
+    </EditorialPage>
+  );
+}

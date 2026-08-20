@@ -1,33 +1,28 @@
-# Asoebi Fashion Week architecture
+# Application architecture
 
-## Dependency direction
+## Boundaries
 
-```text
-shared infrastructure → features → app composition
-```
+- `src/app` owns routing, metadata and page composition.
+- `src/features` owns product behavior, feature UI, validation and server actions.
+- `src/components` owns reusable presentation primitives and must not depend on a feature.
+- `src/lib` owns framework-agnostic shared helpers. Server-only infrastructure lives in `src/lib/server`.
+- `src/sanity` owns editorial content queries and schemas. `convex` owns transactional submissions.
 
-- `src/app` owns routes, layouts, metadata, providers, and composition.
-- `src/features` owns business capabilities and domain-specific UI.
-- `src/components` owns feature-agnostic UI.
-- `src/sanity` owns the editorial-content integration.
-- `convex` owns application and realtime backend functions.
-- `src/animation` owns shared motion primitives and lifecycle utilities.
-- `src/content/fallback` owns typed development fixtures.
+## Data flow
 
-The route layer composes feature modules and never queries services directly. `src/features/content/data.ts` is the replaceable editorial source boundary: typed fixtures render today, while Sanity can be connected later without changing presentational components. Shared modules do not import features, and client-only behavior stays in navigation, forms, motion, and media islands.
+Editorial reads use Sanity on the server and are validated with Zod before entering the application. Curated local content is a resilience fallback when Sanity is not configured or returns invalid data.
 
-Routes and layouts are Server Components by default. Browser APIs, interactive state, Motion, GSAP, and Convex React hooks are isolated in small Client Component islands.
+Public forms call server actions. Each action validates untrusted input with Zod, sends only allow-listed fields to a Convex mutation, and returns a serializable success or error result. Convex validates the mutation arguments again and prevents duplicate submissions.
 
-## Data ownership
+## Security and errors
 
-```text
-Sanity → editorial content
-Convex → application and realtime state
-Mux → video delivery
-```
+Production access to `/internal/*` requires Basic Authentication through `src/proxy.ts`. Production deployments must define both internal documentation credentials. Missing credentials deny access.
 
-Presentational components receive typed props and do not communicate directly with services. Runtime validation belongs at environment and external-data boundaries.
+Expected form errors return safe messages. Unexpected server and render errors are captured by Sentry when a DSN is configured. Error boundaries provide recovery UI without exposing implementation details.
 
-## Motion ownership
+## Verification
 
-CSS handles micro-feedback, Motion handles interface state and presence, and GSAP handles justified cinematic or scroll-linked sequences. A single property on an element has one animation owner. Mobile and reduced-motion layouts preserve the narrative without desktop choreography.
+- Vitest covers validation and isolated feature behavior.
+- Playwright covers public journeys and automated axe accessibility checks.
+- Lighthouse CI records a performance, accessibility and SEO baseline.
+- GitHub Actions checks formatting, linting, types, tests, production build, browser journeys and Lighthouse budgets.
