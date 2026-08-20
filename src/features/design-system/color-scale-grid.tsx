@@ -150,7 +150,7 @@ export function ColorScaleGrid({ families }: { families: ColorFamily[] }) {
                           void handleCopy(shade);
                         }}
                         style={{ backgroundColor: shade.oklch }}
-                        className={`group relative size-11 cursor-pointer justify-self-center rounded-full transition-linear duration-200 ease-[var(--ease-asoebi-arrive)] hover:scale-110 focus-visible:scale-110 focus-visible:outline-none ${
+                        className={`group transition-linear relative size-11 cursor-pointer justify-self-center rounded-full duration-200 ease-[var(--ease-asoebi-arrive)] hover:scale-110 focus-visible:scale-110 focus-visible:outline-none ${
                           isSelected
                             ? "scale-105 ring-2 ring-asoebi-gold-300 ring-offset-2 ring-offset-asoebi-charcoal"
                             : "ring-1 ring-white/10 hover:ring-white/30"
