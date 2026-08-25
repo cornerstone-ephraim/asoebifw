@@ -90,7 +90,7 @@ export default function Page() {
       >
         <div>
           <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
-            December 2026
+            December 26, 2026
           </p>
           <h2
             id="prize-countdown-heading"

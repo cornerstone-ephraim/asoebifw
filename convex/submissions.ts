@@ -3,16 +3,10 @@ import { v } from "convex/values";
 
 export const createWaitlistEntry = mutation({
   args: {
-    name: v.string(),
+    firstName: v.string(),
+    lastName: v.string(),
     email: v.string(),
-    role: v.union(
-      v.literal("partner"),
-      v.literal("designer"),
-      v.literal("buyer"),
-      v.literal("media"),
-      v.literal("vendor"),
-      v.literal("community"),
-    ),
+    consent: v.literal(true),
   },
   handler: async (context, input) => {
     const existing = await context.db
@@ -37,9 +31,11 @@ export const createAccreditationApplication = mutation({
     email: v.string(),
     role: v.union(
       v.literal("press"),
+      v.literal("media"),
       v.literal("buyer"),
       v.literal("designer"),
       v.literal("partner"),
+      v.literal("vendor"),
       v.literal("other"),
     ),
     message: v.optional(v.string()),

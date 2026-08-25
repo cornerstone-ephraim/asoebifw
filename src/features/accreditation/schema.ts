@@ -1,10 +1,11 @@
 import { z } from "zod";
 
 export const accreditationRoles = [
-  "press",
+  "media",
   "buyer",
   "designer",
   "partner",
+  "vendor",
   "other",
 ] as const;
 

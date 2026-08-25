@@ -18,8 +18,13 @@ export async function submitWaitlist(input: WaitlistInput) {
     feature: "waitlist",
     schema: waitlistSchema,
     input,
-    submit: ({ name, email, role }) =>
-      runConvexMutation(createWaitlistEntry, { name, email, role }),
+    submit: ({ firstName, lastName, email }) =>
+      runConvexMutation(createWaitlistEntry, {
+        firstName,
+        lastName,
+        email,
+        consent: true,
+      }),
     successMessage: "You’re on the Asoebi Fashion Week waitlist.",
     duplicateMessage: "You’re already on the Asoebi Fashion Week waitlist.",
   });

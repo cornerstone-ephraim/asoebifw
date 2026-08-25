@@ -2,7 +2,7 @@
 
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Controller, useForm } from "react-hook-form";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 
 import { CustomSelect } from "@/components/ui/custom-select";
 import { CustomCheckbox } from "@/components/ui/custom-checkbox";
@@ -26,6 +26,7 @@ function FieldError({ id, message }: { id: string; message?: string }) {
 }
 
 export function PrizeApplicationForm() {
+  const formRef = useRef<HTMLFormElement>(null);
   const [result, setResult] = useState(idleActionResult);
   const {
     register,
@@ -35,8 +36,14 @@ export function PrizeApplicationForm() {
     formState: { errors, isSubmitting },
   } = useForm<Values>({ resolver: zodResolver(prizeApplicationSchema) });
 
+  useEffect(() => {
+    if (formRef.current) formRef.current.dataset.hydrated = "true";
+  }, []);
+
   return (
     <form
+      ref={formRef}
+      data-hydrated="false"
       onSubmit={handleSubmit(async (values) => {
         setResult(await submitPrizeApplication(values));
       })}

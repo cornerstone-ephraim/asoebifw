@@ -8,7 +8,7 @@ import { createMetadata } from "@/lib/seo";
 export const metadata: Metadata = createMetadata({
   title: "Fashion Week",
   description:
-    "Discover the runways, collections and accreditation that make up Asoebi Fashion Week.",
+    "Asoebi Fashion Week returns in 2027 with runways, collections and professional accreditation. The official date will be announced.",
   path: "/fashion-week",
   keywords: ["Asoebi runways", "Asoebi collections", "fashion accreditation"],
 });
@@ -34,9 +34,9 @@ const programme = [
 export default function Page() {
   return (
     <EditorialPage
-      eyebrow="The fashion experience"
+      eyebrow="2027 · Date to be announced"
       title="Fashion Week"
-      intro="A global showcase celebrating African fashion, textiles, craftsmanship and creativity."
+      intro="A global showcase of African fashion, textiles, craftsmanship and creativity, arriving in 2027."
       heroImage="/images/editorial/asoebi-styles.png"
       heroImageAlt="A contemporary Asoebi runway look"
       cta={{ href: "/accreditation", label: "Apply for accreditation" }}
@@ -47,7 +47,8 @@ export default function Page() {
         </h2>
         <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
           Runways, collections and professional access come together as one
-          fashion experience on the Asoebi stage.
+          fashion experience on the Asoebi stage. The official 2027 date will be
+          announced.
         </p>
       </section>
 

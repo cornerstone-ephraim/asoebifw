@@ -12,6 +12,7 @@ const prizeCategories = [
   "Best Wedding Asoebi",
   "Best Innovative Fabric Design",
 ] as const;
+
 const vendorCategories = [
   "Fabric sellers",
   "Fashion designers",
@@ -35,12 +36,6 @@ export function HomePage() {
         <div className="absolute inset-x-0 bottom-0 h-72 bg-linear-to-t from-asoebi-purple-950/90 to-transparent" />
         <div className="relative mx-auto w-full max-w-400">
           <HeroMotion>
-            <p
-              data-hero-eyebrow
-              className="text-xs font-bold tracking-[.2em] text-asoebi-gold-300 uppercase"
-            >
-              Fashion · Culture · Celebration
-            </p>
             <div className="mt-5 grid gap-8 lg:grid-cols-[1.25fr_.75fr] lg:items-end">
               <h1 className="max-w-[10ch] font-display text-[clamp(4.5rem,10vw,10rem)] leading-[.76] tracking-[-.07em]">
                 <span data-hero-title-line className="block">
@@ -74,7 +69,7 @@ export function HomePage() {
                 </div>
                 <div className="mt-7">
                   <div className="mb-2 text-[10px] font-bold tracking-[.14em] uppercase">
-                    <span>Asoebi Prize · December 2026</span>
+                    <span>Asoebi Prize · December 26, 2026</span>
                   </div>
                   <PrizeCountdown compact />
                 </div>
@@ -92,7 +87,7 @@ export function HomePage() {
                 Asoebi Fashion Week
               </p>
               <h2 className="mt-4 font-display text-5xl tracking-[-.055em] sm:text-7xl">
-                A shared palette, styled without limits.
+                Where culture meets catwalk.
               </h2>
             </div>
             <div className="hidden sm:block">
@@ -216,14 +211,14 @@ export function HomePage() {
         <div className="relative mx-auto flex min-h-[55svh] max-w-400 items-end">
           <div className="max-w-4xl">
             <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
-              Asoebi After Party
+              Asoebi After Party · October 2 · London
             </p>
             <h2 className="mt-5 font-display text-6xl leading-[.86] tracking-[-.06em] sm:text-8xl">
-              The runway ends. The conversation continues.
+              London, dressed for the occasion.
             </h2>
             <p className="mt-8 max-w-xl text-lg leading-8 text-white/75">
-              DJ line-up, networking lounge and a fashion awards ceremony bring
-              the community together after the show.
+              Music, fashion and conversation bring the Asoebi community
+              together for one London celebration.
             </p>
             <div className="mt-9">
               <ArrowLink href="/after-party" inverse>

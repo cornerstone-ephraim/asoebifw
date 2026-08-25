@@ -2,7 +2,7 @@
 
 import { useEffect, useState } from "react";
 
-const target = new Date("2026-12-01T00:00:00+01:00").getTime();
+const target = new Date("2026-12-26T00:00:00+00:00").getTime();
 
 function remaining() {
   const difference = Math.max(0, target - Date.now());
@@ -26,7 +26,7 @@ export function PrizeCountdown({ compact = false }: { compact?: boolean }) {
   }, []);
   return (
     <div
-      aria-label="Countdown to the Asoebi Prize in December 2026"
+      aria-label="Countdown to the Asoebi Prize on December 26, 2026"
       className={
         compact
           ? "grid grid-cols-4 overflow-hidden rounded-2xl bg-white/88 shadow-asoebi-countdown backdrop-blur-md"

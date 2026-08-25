@@ -7,11 +7,15 @@ import { useEffect, useRef, useState } from "react";
 
 const links = [
   ["Home", "/"],
-  ["About", "/about"],
-  ["Fashion Week", "/fashion-week"],
+  ["Founders", "/founders"],
   ["Asoebi Prize", "/prize"],
   ["Asoebi Vendor", "/vendor"],
-  ["After Party", "/after-party"],
+  ["Asoebi After Party", "/after-party"],
+] as const;
+
+const participationLinks = [
+  ["Join the Waitlist", "/#waitlist"],
+  ["Apply for Accreditation", "/accreditation"],
 ] as const;
 
 export function SiteHeader() {
@@ -166,12 +170,26 @@ export function SiteHeader() {
                 </motion.div>
               ))}
             </div>
-            <motion.p
+            <motion.div
               variants={{ closed: { opacity: 0 }, open: { opacity: 1 } }}
-              className="mt-5 text-xs leading-5 text-asoebi-purple-950/55"
+              className="mt-7 border-t border-asoebi-purple-300/70 pt-5"
             >
-              Fashion, cloth and culture, together on the global stage.
-            </motion.p>
+              <p className="text-[10px] font-bold tracking-[.18em] text-brand uppercase">
+                Participate
+              </p>
+              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
+                {participationLinks.map(([label, href]) => (
+                  <Link
+                    key={href}
+                    href={href}
+                    onClick={() => setOpen(false)}
+                    className="transition-linear py-2 text-sm font-bold text-asoebi-purple-950 transition-colors hover:text-brand"
+                  >
+                    {label}
+                  </Link>
+                ))}
+              </div>
+            </motion.div>
           </motion.nav>
         )}
       </AnimatePresence>

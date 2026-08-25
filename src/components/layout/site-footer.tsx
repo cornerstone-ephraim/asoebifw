@@ -7,11 +7,11 @@ import {
 } from "react-icons/fa6";
 
 const exploreLinks = [
-  ["About", "/about"],
-  ["Fashion Week", "/fashion-week"],
+  ["Home", "/"],
+  ["Founders", "/founders"],
   ["Asoebi Prize", "/prize"],
   ["Asoebi Vendor", "/vendor"],
-  ["After Party", "/after-party"],
+  ["Asoebi After Party", "/after-party"],
 ] as const;
 
 const actionLinks = [
@@ -46,8 +46,8 @@ export function SiteFooter() {
               <span className="text-asoebi-gold-300">Leave inspired.</span>
             </p>
             <p className="mt-8 max-w-lg text-sm leading-6 text-white/65">
-              Asoebi Fashion Week is a meeting place for cloth, culture and the
-              people moving both forward.
+              Boldly African, fashion forward and globally relevant. AEFW
+              connects the people moving African fashion forward.
             </p>
           </div>
 

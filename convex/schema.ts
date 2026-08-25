@@ -2,15 +2,20 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 export default defineSchema({
   waitlistEntries: defineTable({
-    name: v.string(),
+    firstName: v.optional(v.string()),
+    lastName: v.optional(v.string()),
+    name: v.optional(v.string()),
     email: v.string(),
-    role: v.union(
-      v.literal("partner"),
-      v.literal("designer"),
-      v.literal("buyer"),
-      v.literal("media"),
-      v.literal("vendor"),
-      v.literal("community"),
+    consent: v.optional(v.literal(true)),
+    role: v.optional(
+      v.union(
+        v.literal("partner"),
+        v.literal("designer"),
+        v.literal("buyer"),
+        v.literal("media"),
+        v.literal("vendor"),
+        v.literal("community"),
+      ),
     ),
     status: v.literal("subscribed"),
     submittedAt: v.number(),
@@ -20,9 +25,11 @@ export default defineSchema({
     email: v.string(),
     role: v.union(
       v.literal("press"),
+      v.literal("media"),
       v.literal("buyer"),
       v.literal("designer"),
       v.literal("partner"),
+      v.literal("vendor"),
       v.literal("other"),
     ),
     message: v.optional(v.string()),

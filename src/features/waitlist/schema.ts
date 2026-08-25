@@ -1,20 +1,14 @@
 import { z } from "zod";
 
-export const waitlistRoles = [
-  "partner",
-  "designer",
-  "buyer",
-  "media",
-  "vendor",
-  "community",
-] as const;
-
 export const waitlistSchema = z.object({
-  name: z.string().trim().min(2, "Enter your full name").max(100),
+  firstName: z.string().trim().min(1, "Enter your first name").max(60),
+  lastName: z.string().trim().min(1, "Enter your last name").max(60),
   email: z
     .email("Enter a valid email address")
     .transform((value) => value.toLowerCase()),
-  role: z.enum(waitlistRoles),
+  consent: z
+    .boolean()
+    .refine((value) => value, "Consent is required to join the waitlist"),
   website: z.string().max(0, "Invalid submission").optional().default(""),
 });
 
