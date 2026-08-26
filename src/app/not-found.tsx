@@ -48,7 +48,7 @@ export default function NotFound() {
           <div className="relative mx-auto w-full max-w-2xl lg:mt-4">
             <p
               aria-hidden="true"
-              className="pointer-events-none absolute -top-20 right-0 z-10 font-display text-[clamp(11rem,24vw,25rem)] leading-none font-bold tracking-[-.1em] text-asoebi-gold-500"
+              className="pointer-events-none absolute -top-20 right-0 z-10 font-display text-[clamp(11rem,24vw,25rem)] leading-none font-bold tracking-widest text-asoebi-gold-500"
             >
               404
             </p>

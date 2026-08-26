@@ -7,7 +7,7 @@ describe("waitlistSchema", () => {
     const result = waitlistSchema.parse({
       firstName: " Ada ",
       lastName: " Okafor ",
-      email: "ADA@EXAMPLE.COM",
+      email: " ADA@EXAMPLE.COM ",
       consent: true,
       website: "",
     });
@@ -17,6 +17,18 @@ describe("waitlistSchema", () => {
       email: "ada@example.com",
       consent: true,
     });
+  });
+
+  it("rejects names containing control characters", () => {
+    expect(
+      waitlistSchema.safeParse({
+        firstName: "Ada\nBcc",
+        lastName: "Okafor",
+        email: "ada@example.com",
+        consent: true,
+        website: "",
+      }).success,
+    ).toBe(false);
   });
 
   it("rejects the honeypot and missing consent", () => {

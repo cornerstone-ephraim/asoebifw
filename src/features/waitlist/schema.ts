@@ -1,10 +1,23 @@
 import { z } from "zod";
 
+const nameSchema = (emptyMessage: string) =>
+  z
+    .string()
+    .trim()
+    .min(1, emptyMessage)
+    .max(60, "Keep this name under 60 characters")
+    .regex(
+      /^[\p{L}\p{M}' -]+$/u,
+      "Use letters, spaces, apostrophes or hyphens only",
+    );
+
 export const waitlistSchema = z.object({
-  firstName: z.string().trim().min(1, "Enter your first name").max(60),
-  lastName: z.string().trim().min(1, "Enter your last name").max(60),
+  firstName: nameSchema("Enter your first name"),
+  lastName: nameSchema("Enter your last name"),
   email: z
-    .email("Enter a valid email address")
+    .string()
+    .trim()
+    .pipe(z.email("Enter a valid email address"))
     .transform((value) => value.toLowerCase()),
   consent: z
     .boolean()
