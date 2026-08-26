@@ -1,6 +1,7 @@
 import "server-only";
 
 import { createHash } from "node:crypto";
+import * as Sentry from "@sentry/nextjs";
 
 import { getResend } from "@/lib/server/resend";
 
@@ -38,11 +39,11 @@ async function syncWaitlistContact({
   lastName,
   email,
 }: WaitlistEmailInput) {
-  const { client, waitlistSegmentId } = getResend();
-  const existingContact = await client.contacts.get({ email });
+  const { contactsClient, waitlistSegmentId } = getResend();
+  const existingContact = await contactsClient.contacts.get({ email });
 
   if (existingContact.error?.name === "not_found") {
-    const createdContact = await client.contacts.create({
+    const createdContact = await contactsClient.contacts.create({
       email,
       firstName,
       lastName,
@@ -56,7 +57,7 @@ async function syncWaitlistContact({
 
   assertSuccessful("Find Resend contact", existingContact);
 
-  const updatedContact = await client.contacts.update({
+  const updatedContact = await contactsClient.contacts.update({
     email,
     firstName,
     lastName,
@@ -64,7 +65,7 @@ async function syncWaitlistContact({
   });
   assertSuccessful("Update Resend contact", updatedContact);
 
-  const segment = await client.contacts.segments.add({
+  const segment = await contactsClient.contacts.segments.add({
     email,
     segmentId: waitlistSegmentId,
   });
@@ -76,16 +77,22 @@ export async function sendWaitlistEmails({
   lastName,
   email,
 }: WaitlistEmailInput) {
-  const { client, from, notificationEmail, replyTo } = getResend();
+  const { emailClient, from, notificationEmail, replyTo } = getResend();
   const safeFirstName = escapeHtml(firstName);
   const safeLastName = escapeHtml(lastName);
   const safeEmail = escapeHtml(email);
   const subscriberKey = createHash("sha256").update(email).digest("hex");
 
-  await syncWaitlistContact({ firstName, lastName, email });
+  const contactSync = syncWaitlistContact({ firstName, lastName, email }).catch(
+    (error) => {
+      Sentry.captureException(error, {
+        tags: { feature: "waitlist", operation: "sync-resend-contact" },
+      });
+    },
+  );
 
   const [confirmation, notification] = await Promise.all([
-    client.emails.send(
+    emailClient.emails.send(
       {
         from,
         to: email,
@@ -96,7 +103,7 @@ export async function sendWaitlistEmails({
       },
       { idempotencyKey: `waitlist-confirmation-${subscriberKey}` },
     ),
-    client.emails.send(
+    emailClient.emails.send(
       {
         from,
         to: notificationEmail,
@@ -111,4 +118,5 @@ export async function sendWaitlistEmails({
 
   assertSuccessful("Send waitlist confirmation", confirmation);
   assertSuccessful("Send waitlist notification", notification);
+  await contactSync;
 }

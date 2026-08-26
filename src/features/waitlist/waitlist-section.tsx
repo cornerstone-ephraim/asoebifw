@@ -3,7 +3,7 @@
 import { zodResolver } from "@hookform/resolvers/zod";
 import Image from "next/image";
 import { Controller, useForm } from "react-hook-form";
-import { useEffect, useRef, useState } from "react";
+import { type FormEvent, useEffect, useRef, useState } from "react";
 
 import { CustomCheckbox } from "@/components/ui/custom-checkbox";
 import { submitWaitlist } from "@/features/waitlist/action";
@@ -20,13 +20,15 @@ const labelClass = (invalid: boolean) =>
 
 export function WaitlistSection() {
   const [result, setResult] = useState(idleActionResult);
-  const successRef = useRef<HTMLDivElement>(null);
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const resultRef = useRef<HTMLDivElement>(null);
   const {
+    clearErrors,
     control,
-    handleSubmit,
     register,
     setError,
-    formState: { errors, isSubmitting },
+    setFocus,
+    formState: { errors },
   } = useForm<Values>({
     resolver: zodResolver(waitlistSchema),
     defaultValues: {
@@ -42,18 +44,51 @@ export function WaitlistSection() {
   });
 
   useEffect(() => {
-    if (result.status === "success") successRef.current?.focus();
+    if (result.status === "success" || result.status === "info") {
+      resultRef.current?.focus();
+    }
   }, [result.status]);
 
   const clearResult = () => {
     if (result.status !== "idle") setResult(idleActionResult);
   };
 
-  const submitForm = handleSubmit(async (values) => {
+  const handleFormSubmit = async (event: FormEvent<HTMLFormElement>) => {
+    event.preventDefault();
+    if (isSubmitting) return;
+
+    const formData = new FormData(event.currentTarget);
+    const parsed = waitlistSchema.safeParse({
+      firstName: String(formData.get("firstName") ?? ""),
+      lastName: String(formData.get("lastName") ?? ""),
+      email: String(formData.get("email") ?? ""),
+      consent: formData.get("consent") !== null,
+      website: String(formData.get("website") ?? ""),
+    });
+
+    clearErrors();
+
+    if (!parsed.success) {
+      const fieldErrors = parsed.error.flatten().fieldErrors;
+      const fieldOrder = ["firstName", "lastName", "email", "consent"] as const;
+
+      fieldOrder.forEach((field) => {
+        const message = fieldErrors[field]?.[0];
+        if (message) setError(field, { type: "client", message });
+      });
+
+      const firstInvalidField = fieldOrder.find(
+        (field) => fieldErrors[field]?.length,
+      );
+      if (firstInvalidField) setFocus(firstInvalidField);
+      return;
+    }
+
     setResult(idleActionResult);
+    setIsSubmitting(true);
 
     try {
-      const submissionResult = await submitWaitlist(values);
+      const submissionResult = await submitWaitlist(parsed.data);
 
       if (submissionResult.status === "error" && submissionResult.fieldErrors) {
         Object.entries(submissionResult.fieldErrors).forEach(
@@ -79,8 +114,10 @@ export function WaitlistSection() {
         status: "error",
         message: "Something went wrong. Please try again.",
       });
+    } finally {
+      setIsSubmitting(false);
     }
-  });
+  };
 
   return (
     <section
@@ -100,30 +137,34 @@ export function WaitlistSection() {
             the Prize and the wider platform.
           </p>
 
-          {result.status === "success" ? (
+          {result.status === "success" || result.status === "info" ? (
             <div
-              ref={successRef}
+              ref={resultRef}
               role="status"
               tabIndex={-1}
-              className="mt-9 rounded-3xl bg-asoebi-mist p-7 outline-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:p-9"
+              className={`mt-9 rounded-3xl p-7 outline-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:p-9 ${result.status === "info" ? "bg-asoebi-gold-100" : "bg-asoebi-mist"}`}
             >
               <span
                 aria-hidden="true"
-                className="grid size-11 place-items-center rounded-full bg-brand text-xl text-white"
+                className={`grid size-11 place-items-center rounded-full text-xl ${result.status === "info" ? "bg-asoebi-gold-400 text-asoebi-purple-950" : "bg-brand text-white"}`}
               >
-                ✓
+                {result.status === "info" ? "i" : "✓"}
               </span>
               <h3 className="mt-6 font-display text-4xl leading-none tracking-[-.045em]">
-                You’re on the list.
+                {result.status === "info"
+                  ? "You’re already in the circle."
+                  : "You’re on the list."}
               </h3>
               <p className="mt-4 max-w-md leading-7 text-asoebi-graphite">
-                {result.message} Check your inbox for confirmation.
+                {result.message}
+                {result.status === "success" &&
+                  " Check your inbox for confirmation."}
               </p>
             </div>
           ) : (
             <form
               className="mt-9 grid gap-5 sm:grid-cols-2"
-              onSubmit={submitForm}
+              onSubmit={handleFormSubmit}
               noValidate
               aria-busy={isSubmitting}
             >

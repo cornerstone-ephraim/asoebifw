@@ -66,6 +66,57 @@ describe("WaitlistSection", () => {
     expect(screen.queryByRole("button", { name: "Join waitlist" })).toBeNull();
   });
 
+  it("shows an informational result for an existing email", async () => {
+    submitWaitlistMock.mockResolvedValue({
+      status: "info",
+      message:
+        "This email is already on the waitlist. We’ve resent your confirmation email.",
+    });
+    const user = userEvent.setup();
+    render(<WaitlistSection />);
+
+    await completeForm(user);
+    await user.click(screen.getByRole("button", { name: "Join waitlist" }));
+
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "This email is already on the waitlist.",
+    );
+    expect(screen.getByText("You’re already in the circle.")).toBeVisible();
+  });
+
+  it("submits values populated by browser autofill", async () => {
+    submitWaitlistMock.mockResolvedValue({
+      status: "info",
+      message:
+        "This email is already on the waitlist. We’ve resent your confirmation email.",
+    });
+    const user = userEvent.setup();
+    render(<WaitlistSection />);
+
+    const firstName = screen.getByLabelText(/^First name/) as HTMLInputElement;
+    const lastName = screen.getByLabelText(/^Last name/) as HTMLInputElement;
+    const email = screen.getByLabelText(/^Email address/) as HTMLInputElement;
+    const consent = screen.getByRole("checkbox") as HTMLInputElement;
+
+    firstName.value = "Cornerstone";
+    lastName.value = "Ephraim";
+    email.value = "thecornerstoneephraim@gmail.com";
+    consent.checked = true;
+
+    await user.click(screen.getByRole("button", { name: "Join waitlist" }));
+
+    expect(submitWaitlistMock).toHaveBeenCalledWith({
+      firstName: "Cornerstone",
+      lastName: "Ephraim",
+      email: "thecornerstoneephraim@gmail.com",
+      consent: true,
+      website: "",
+    });
+    expect(await screen.findByRole("status")).toHaveTextContent(
+      "This email is already on the waitlist.",
+    );
+  });
+
   it("shows processing feedback while the submission is pending", async () => {
     let resolveSubmission!: (value: {
       status: "success";

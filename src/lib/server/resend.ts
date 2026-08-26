@@ -5,20 +5,26 @@ import { z } from "zod";
 
 const resendEnvironmentSchema = z.object({
   RESEND_API_KEY: z.string().min(1),
+  RESEND_CONTACTS_API_KEY: z.string().min(1).optional(),
   RESEND_FROM_EMAIL: z.string().min(3),
   RESEND_REPLY_TO: z.email(),
   RESEND_WAITLIST_SEGMENT_ID: z.string().min(1),
   WAITLIST_NOTIFICATION_EMAIL: z.email(),
 });
 
-let resend: Resend | null = null;
+let emailClient: Resend | null = null;
+let contactsClient: Resend | null = null;
 
 export function getResend() {
   const environment = resendEnvironmentSchema.parse(process.env);
-  resend ??= new Resend(environment.RESEND_API_KEY);
+  emailClient ??= new Resend(environment.RESEND_API_KEY);
+  contactsClient ??= new Resend(
+    environment.RESEND_CONTACTS_API_KEY ?? environment.RESEND_API_KEY,
+  );
 
   return {
-    client: resend,
+    emailClient,
+    contactsClient,
     from: environment.RESEND_FROM_EMAIL,
     replyTo: environment.RESEND_REPLY_TO,
     waitlistSegmentId: environment.RESEND_WAITLIST_SEGMENT_ID,

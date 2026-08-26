@@ -29,19 +29,20 @@ export async function submitWaitlist(input: WaitlistInput) {
         consent: true,
       });
 
-      if (result.status === "created") {
-        try {
-          await sendWaitlistEmails({ firstName, lastName, email });
-        } catch (error) {
-          Sentry.captureException(error, {
-            tags: { feature: "waitlist", operation: "send-emails" },
-          });
-        }
+      try {
+        await sendWaitlistEmails({ firstName, lastName, email });
+      } catch (error) {
+        Sentry.captureException(error, {
+          tags: { feature: "waitlist", operation: "send-emails" },
+        });
+        throw error;
       }
 
       return result;
     },
     successMessage: "You’re on the Asoebi Fashion Week waitlist.",
-    duplicateMessage: "You’re already on the Asoebi Fashion Week waitlist.",
+    duplicateMessage:
+      "This email is already on the waitlist. We’ve resent your confirmation email.",
+    duplicateStatus: "info",
   });
 }
