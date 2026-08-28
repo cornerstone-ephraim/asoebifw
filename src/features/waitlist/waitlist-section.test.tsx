@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { beforeEach, describe, expect, it, vi } from "vitest";
 
@@ -90,7 +90,6 @@ describe("WaitlistSection", () => {
       message:
         "This email is already on the waitlist. We’ve resent your confirmation email.",
     });
-    const user = userEvent.setup();
     render(<WaitlistSection />);
 
     const firstName = screen.getByLabelText(/^First name/) as HTMLInputElement;
@@ -98,20 +97,28 @@ describe("WaitlistSection", () => {
     const email = screen.getByLabelText(/^Email address/) as HTMLInputElement;
     const consent = screen.getByRole("checkbox") as HTMLInputElement;
 
-    firstName.value = "Cornerstone";
-    lastName.value = "Ephraim";
-    email.value = "thecornerstoneephraim@gmail.com";
-    consent.checked = true;
-
-    await user.click(screen.getByRole("button", { name: "Join waitlist" }));
-
-    expect(submitWaitlistMock).toHaveBeenCalledWith({
-      firstName: "Cornerstone",
-      lastName: "Ephraim",
-      email: "thecornerstoneephraim@gmail.com",
-      consent: true,
-      website: "",
+    fireEvent.input(firstName, { target: { value: "Cornerstone" } });
+    fireEvent.input(lastName, { target: { value: "Ephraim" } });
+    fireEvent.input(email, {
+      target: { value: "thecornerstoneephraim@gmail.com" },
     });
+    fireEvent.click(consent);
+
+    const form = screen
+      .getByRole("button", { name: "Join waitlist" })
+      .closest("form");
+    expect(form).not.toBeNull();
+    fireEvent.submit(form!);
+
+    await waitFor(() =>
+      expect(submitWaitlistMock).toHaveBeenCalledWith({
+        firstName: "Cornerstone",
+        lastName: "Ephraim",
+        email: "thecornerstoneephraim@gmail.com",
+        consent: true,
+        website: "",
+      }),
+    );
     expect(await screen.findByRole("status")).toHaveTextContent(
       "This email is already on the waitlist.",
     );

@@ -3,6 +3,7 @@ import "server-only";
 import { createHash } from "node:crypto";
 import * as Sentry from "@sentry/nextjs";
 
+import { buildAdminWaitlistEmail } from "@/features/waitlist/admin-email-template";
 import { getResend } from "@/lib/server/resend";
 
 type WaitlistEmailInput = {
@@ -79,9 +80,8 @@ export async function sendWaitlistEmails({
 }: WaitlistEmailInput) {
   const { emailClient, from, notificationEmail, replyTo } = getResend();
   const safeFirstName = escapeHtml(firstName);
-  const safeLastName = escapeHtml(lastName);
-  const safeEmail = escapeHtml(email);
   const subscriberKey = createHash("sha256").update(email).digest("hex");
+  const adminEmail = buildAdminWaitlistEmail({ firstName, lastName, email });
 
   const contactSync = syncWaitlistContact({ firstName, lastName, email }).catch(
     (error) => {
@@ -108,9 +108,9 @@ export async function sendWaitlistEmails({
         from,
         to: notificationEmail,
         replyTo: email,
-        subject: `New waitlist signup: ${firstName} ${lastName}`,
-        text: `A new person joined the Asoebi Fashion Week waitlist.\n\nName: ${firstName} ${lastName}\nEmail: ${email}`,
-        html: `<div style="font-family:Arial,sans-serif;padding:24px"><h1 style="font-size:24px">New waitlist signup</h1><p><strong>Name:</strong> ${safeFirstName} ${safeLastName}</p><p><strong>Email:</strong> ${safeEmail}</p></div>`,
+        subject: `New in the AEFW circle: ${firstName} ${lastName}`,
+        text: adminEmail.text,
+        html: adminEmail.html,
       },
       { idempotencyKey: `waitlist-notification-${subscriberKey}` },
     ),
