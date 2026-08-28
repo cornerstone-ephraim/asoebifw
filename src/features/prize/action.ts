@@ -1,5 +1,7 @@
 "use server";
 
+import * as Sentry from "@sentry/nextjs";
+
 import { convexMutation, runConvexMutation } from "@/lib/server/convex";
 import { runValidatedSubmission } from "@/lib/server/submit-action";
 import {
@@ -13,23 +15,55 @@ const createPrizeApplication = convexMutation<
   { status: "created" | "duplicate" }
 >("submissions:createPrizeApplication");
 
+const generatePrizeUploadUrlMutation = convexMutation<
+  Record<string, never>,
+  string
+>("submissions:generatePrizeUploadUrl");
+
+export async function getPrizeUploadUrl() {
+  try {
+    return {
+      status: "success" as const,
+      uploadUrl: await runConvexMutation(generatePrizeUploadUrlMutation, {}),
+    };
+  } catch (error) {
+    Sentry.captureException(error, {
+      tags: { feature: "prize-application", operation: "upload-url" },
+    });
+    return {
+      status: "error" as const,
+      message: "We could not prepare your upload. Please try again.",
+    };
+  }
+}
+
 export async function submitPrizeApplication(input: PrizeApplicationInput) {
   return runValidatedSubmission({
     feature: "prize-application",
     schema: prizeApplicationSchema,
     input,
-    submit: ({ name, email, phone, category, portfolio, statement, consent }) =>
+    submit: ({
+      firstName,
+      lastName,
+      email,
+      submissionMode,
+      submissionUrl,
+      pdfStorageId,
+      consent,
+    }) =>
       runConvexMutation(createPrizeApplication, {
-        name,
+        firstName,
+        lastName,
         email,
-        phone,
-        category,
-        portfolio,
-        statement,
+        submissionMode,
+        submissionUrl,
+        pdfStorageId,
         consent,
       }),
-    successMessage: "Your Asoebi Prize application has been submitted.",
+    successMessage:
+      "Your two-collection submission has been received for the Asoebi Fashion Prize.",
     duplicateMessage:
-      "An application for this email and category has already been received.",
+      "An application from this email has already been received.",
+    duplicateStatus: "info",
   });
 }

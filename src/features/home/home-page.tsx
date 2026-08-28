@@ -7,12 +7,6 @@ import { PrizeCountdown } from "@/features/prize/prize-countdown";
 import { FashionStoryCrossfade } from "./fashion-story-crossfade";
 import { HeroMotion } from "./hero-motion";
 
-const prizeCategories = [
-  "Best Designer",
-  "Best Wedding Asoebi",
-  "Best Innovative Fabric Design",
-] as const;
-
 const vendorCategories = [
   "Fabric sellers",
   "Fashion designers",
@@ -140,18 +134,25 @@ export function HomePage() {
             </div>
             <div className="py-10 lg:pl-12">
               <p className="text-xs font-bold tracking-[.16em] text-brand uppercase">
-                Prize categories
+                Collection submission
               </p>
               <ul className="mt-6">
-                {prizeCategories.map((category) => (
+                {[
+                  "At least two original collections",
+                  "One clear, organised submission",
+                  "Instagram, YouTube, website or PDF",
+                ].map((requirement) => (
                   <li
-                    key={category}
+                    key={requirement}
                     className="border-t border-asoebi-purple-950/20 py-6 font-display text-3xl sm:text-4xl"
                   >
-                    {category}
+                    {requirement}
                   </li>
                 ))}
               </ul>
+              <p className="mt-6 font-bold text-asoebi-purple-950">
+                Applications close December 19, 2026.
+              </p>
               <div className="mt-8">
                 <ArrowLink href="/prize#apply">Put your work forward</ArrowLink>
               </div>

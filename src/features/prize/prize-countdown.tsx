@@ -2,9 +2,9 @@
 
 import { useEffect, useState } from "react";
 
-const target = new Date("2026-12-26T00:00:00+00:00").getTime();
+const prizeDate = "2026-12-26T00:00:00+00:00";
 
-function remaining() {
+function remaining(target: number) {
   const difference = Math.max(0, target - Date.now());
   return {
     days: Math.floor(difference / 86400000),
@@ -14,19 +14,28 @@ function remaining() {
   };
 }
 
-export function PrizeCountdown({ compact = false }: { compact?: boolean }) {
+export function PrizeCountdown({
+  compact = false,
+  targetDate = prizeDate,
+  accessibleLabel = "Countdown to the Asoebi Prize on December 26, 2026",
+}: {
+  compact?: boolean;
+  targetDate?: string;
+  accessibleLabel?: string;
+}) {
+  const target = new Date(targetDate).getTime();
   const [time, setTime] = useState<ReturnType<typeof remaining> | null>(null);
   useEffect(() => {
-    const initial = window.setTimeout(() => setTime(remaining()), 0);
-    const timer = window.setInterval(() => setTime(remaining()), 1000);
+    const initial = window.setTimeout(() => setTime(remaining(target)), 0);
+    const timer = window.setInterval(() => setTime(remaining(target)), 1000);
     return () => {
       window.clearTimeout(initial);
       window.clearInterval(timer);
     };
-  }, []);
+  }, [target]);
   return (
     <div
-      aria-label="Countdown to the Asoebi Prize on December 26, 2026"
+      aria-label={accessibleLabel}
       className={
         compact
           ? "grid grid-cols-4 overflow-hidden rounded-2xl bg-white/88 shadow-asoebi-countdown backdrop-blur-md"

@@ -59,30 +59,29 @@ export const createAccreditationApplication = mutation({
 
 export const createPrizeApplication = mutation({
   args: {
-    name: v.string(),
+    firstName: v.string(),
+    lastName: v.string(),
     email: v.string(),
-    phone: v.string(),
-    category: v.union(
-      v.literal("Best Designer"),
-      v.literal("Best Wedding Asoebi"),
-      v.literal("Best Innovative Fabric Design"),
+    submissionMode: v.union(
+      v.literal("instagram"),
+      v.literal("youtube"),
+      v.literal("website"),
+      v.literal("pdf"),
     ),
-    portfolio: v.string(),
-    statement: v.string(),
+    submissionUrl: v.optional(v.string()),
+    pdfStorageId: v.optional(v.id("_storage")),
     consent: v.literal(true),
   },
   handler: async (context, input) => {
     const existing = await context.db
       .query("prizeApplications")
-      .filter((query) =>
-        query.and(
-          query.eq(query.field("email"), input.email),
-          query.eq(query.field("category"), input.category),
-        ),
-      )
+      .withIndex("by_email", (query) => query.eq("email", input.email))
       .first();
 
-    if (existing) return { status: "duplicate" as const };
+    if (existing) {
+      if (input.pdfStorageId) await context.storage.delete(input.pdfStorageId);
+      return { status: "duplicate" as const };
+    }
 
     await context.db.insert("prizeApplications", {
       ...input,
@@ -91,4 +90,9 @@ export const createPrizeApplication = mutation({
     });
     return { status: "created" as const };
   },
+});
+
+export const generatePrizeUploadUrl = mutation({
+  args: {},
+  handler: (context) => context.storage.generateUploadUrl(),
 });
