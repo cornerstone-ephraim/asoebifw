@@ -68,6 +68,9 @@ export default defineSchema({
     submissionUrl: v.optional(v.string()),
     pdfStorageId: v.optional(v.id("_storage")),
     consent: v.literal(true),
+    emailStatus: v.optional(
+      v.union(v.literal("pending"), v.literal("sent"), v.literal("failed")),
+    ),
     status: v.union(v.literal("submitted"), v.literal("reviewing")),
     submittedAt: v.number(),
   })

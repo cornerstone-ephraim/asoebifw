@@ -80,15 +80,57 @@ export const createPrizeApplication = mutation({
 
     if (existing) {
       if (input.pdfStorageId) await context.storage.delete(input.pdfStorageId);
-      return { status: "duplicate" as const };
+      const reviewUrl = existing.pdfStorageId
+        ? await context.storage.getUrl(existing.pdfStorageId)
+        : existing.submissionUrl;
+      return {
+        status: "duplicate" as const,
+        applicationId: existing._id,
+        firstName: existing.firstName ?? input.firstName,
+        lastName: existing.lastName ?? input.lastName,
+        email: existing.email,
+        submissionMode: existing.submissionMode ?? input.submissionMode,
+        reviewUrl,
+        submittedAt: existing.submittedAt,
+        shouldSendEmails:
+          existing.emailStatus === "pending" ||
+          existing.emailStatus === "failed",
+      };
     }
 
-    await context.db.insert("prizeApplications", {
+    const submittedAt = Date.now();
+    const applicationId = await context.db.insert("prizeApplications", {
       ...input,
+      emailStatus: "pending",
       status: "submitted",
-      submittedAt: Date.now(),
+      submittedAt,
     });
-    return { status: "created" as const };
+    const reviewUrl = input.pdfStorageId
+      ? await context.storage.getUrl(input.pdfStorageId)
+      : input.submissionUrl;
+    return {
+      status: "created" as const,
+      applicationId,
+      firstName: input.firstName,
+      lastName: input.lastName,
+      email: input.email,
+      submissionMode: input.submissionMode,
+      reviewUrl,
+      submittedAt,
+      shouldSendEmails: true,
+    };
+  },
+});
+
+export const setPrizeEmailStatus = mutation({
+  args: {
+    applicationId: v.id("prizeApplications"),
+    emailStatus: v.union(v.literal("sent"), v.literal("failed")),
+  },
+  handler: async (context, input) => {
+    await context.db.patch(input.applicationId, {
+      emailStatus: input.emailStatus,
+    });
   },
 });
 
