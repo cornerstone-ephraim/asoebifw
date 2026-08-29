@@ -7,6 +7,7 @@ import {
   buildApplicantPrizeEmail,
 } from "@/features/prize/email-templates";
 import type { PrizeSubmissionMode } from "@/features/prize/schema";
+import { syncNewsletterContactSafely } from "@/lib/server/newsletter";
 import { getResend } from "@/lib/server/resend";
 
 type PrizeEmailInput = {
@@ -32,6 +33,12 @@ export async function sendPrizeApplicationEmails(input: PrizeEmailInput) {
   const applicantEmail = buildApplicantPrizeEmail(input);
   const adminEmail = buildAdminPrizeEmail(input);
   const applicationKey = createHash("sha256").update(input.email).digest("hex");
+  const contactSync = syncNewsletterContactSafely({
+    firstName: input.firstName,
+    lastName: input.lastName,
+    email: input.email,
+    source: "prize",
+  });
 
   const [confirmation, notification] = await Promise.all([
     emailClient.emails.send(
@@ -60,4 +67,5 @@ export async function sendPrizeApplicationEmails(input: PrizeEmailInput) {
 
   assertSuccessful("Send Prize application confirmation", confirmation);
   assertSuccessful("Send Prize application notification", notification);
+  await contactSync;
 }

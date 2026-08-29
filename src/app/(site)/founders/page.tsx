@@ -3,6 +3,7 @@ import Image from "next/image";
 
 import { EditorialPage } from "@/components/layout/editorial-page";
 import { ArrowLink } from "@/components/ui/arrow-link";
+import { FounderDisclosures } from "@/features/founders/founder-disclosures";
 import { createMetadata } from "@/lib/seo";
 
 const brandPillars = [
@@ -47,8 +48,6 @@ const values = [
   },
 ] as const;
 
-const founders = ["Funfere Keniye Koroye", "Abiola Orimolade"] as const;
-
 export const metadata: Metadata = createMetadata({
   title: "Founders and Vision",
   description:
@@ -67,7 +66,7 @@ export default function Page() {
       eyebrow="Boldly African · Fashion forward"
       title="Founders"
       intro="AEFW is the premier platform celebrating African style, creativity and community through the global language of fashion."
-      heroImage="/images/editorial/home-hero.png"
+      heroImage="/images/editorial/home-hero.webp"
       heroImageAlt="Contemporary African occasionwear presented in Asoebi Fashion Week colours"
       cta={{ href: "/#waitlist", label: "Join the community" }}
     >
@@ -78,19 +77,10 @@ export default function Page() {
         <h2 id="founders-heading" className="sr-only">
           Asoebi Fashion Week founders
         </h2>
-        <div className="mt-8 border-y border-asoebi-purple-950/25">
-          {founders.map((founder) => (
-            <p
-              key={founder}
-              className="border-b border-asoebi-purple-950/20 py-8 font-display text-5xl leading-[.9] tracking-[-.055em] last:border-b-0 sm:text-7xl lg:text-8xl"
-            >
-              {founder}
-            </p>
-          ))}
-        </div>
+        <FounderDisclosures />
       </section>
 
-      <section className="grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+      <section className="pt-16 grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
           Where culture meets catwalk.
         </h2>

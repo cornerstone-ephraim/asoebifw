@@ -59,7 +59,7 @@ const submissionModes = [
   {
     name: "PDF",
     detail:
-      "A public link to one organised document containing both collections.",
+      "A public link to one organised document containing both collections. Set access to anyone with the link so the judges can open it without requesting permission.",
   },
 ] as const;
 
@@ -257,7 +257,8 @@ export default function Page() {
             </p>
             <p className="mt-2 leading-7 text-asoebi-graphite">
               Submit one organised package containing at least two original
-              collections.
+              collections. PDF links must remain publicly accessible throughout
+              the review period.
             </p>
           </div>
         </div>

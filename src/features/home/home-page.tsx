@@ -19,7 +19,7 @@ export function HomePage() {
       <section className="relative flex min-h-svh items-end overflow-hidden bg-asoebi-purple-950 px-5 pt-36 pb-12 text-white sm:pb-16 lg:px-10 lg:pb-20">
         <Image
           data-hero-atmosphere
-          src="/images/editorial/home-hero.png"
+          src="/images/editorial/home-hero.webp"
           alt="Three models wearing contemporary purple, lilac and ivory Asoebi looks"
           fill
           priority

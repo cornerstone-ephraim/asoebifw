@@ -271,7 +271,8 @@ export function PrizeApplicationForm() {
               >
                 I confirm that I own or am authorised to submit this work, that
                 it contains at least two original collections, and that Asoebi
-                Fashion Prize may review it for this competition.{" "}
+                Fashion Prize may review it for this competition. I also agree
+                to receive AEFW news and updates.{" "}
                 <span aria-hidden="true">*</span>
               </CustomCheckbox>
             )}
