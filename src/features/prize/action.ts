@@ -29,32 +29,10 @@ const createPrizeApplication = convexMutation<
   PrizeSubmissionResult
 >("submissions:createPrizeApplication");
 
-const generatePrizeUploadUrlMutation = convexMutation<
-  Record<string, never>,
-  string
->("submissions:generatePrizeUploadUrl");
-
 const setPrizeEmailStatus = convexMutation<
   { applicationId: string; emailStatus: "sent" | "failed" },
   null
 >("submissions:setPrizeEmailStatus");
-
-export async function getPrizeUploadUrl() {
-  try {
-    return {
-      status: "success" as const,
-      uploadUrl: await runConvexMutation(generatePrizeUploadUrlMutation, {}),
-    };
-  } catch (error) {
-    Sentry.captureException(error, {
-      tags: { feature: "prize-application", operation: "upload-url" },
-    });
-    return {
-      status: "error" as const,
-      message: "We could not prepare your upload. Please try again.",
-    };
-  }
-}
 
 export async function submitPrizeApplication(input: PrizeApplicationInput) {
   return runValidatedSubmission({
@@ -67,7 +45,6 @@ export async function submitPrizeApplication(input: PrizeApplicationInput) {
       email,
       submissionMode,
       submissionUrl,
-      pdfStorageId,
       consent,
     }) => {
       const result = await runConvexMutation(createPrizeApplication, {
@@ -76,7 +53,6 @@ export async function submitPrizeApplication(input: PrizeApplicationInput) {
         email,
         submissionMode,
         submissionUrl,
-        pdfStorageId,
         consent,
       });
 

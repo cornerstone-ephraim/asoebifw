@@ -516,7 +516,7 @@ export default function DesignSystemPage() {
               <div className="absolute inset-8 translate-x-2 translate-y-2 -rotate-2 rounded-3xl bg-asoebi-purple-200 shadow-asoebi-deep" />
               <div className="absolute inset-8 flex flex-col justify-between rounded-3xl bg-asoebi-purple-900 p-8 text-white shadow-asoebi-deep">
                 <Image
-                  src="/images/waitlist/designer-card-illustration.png"
+                  src="/images/waitlist/designer-card-illustration.webp"
                   alt=""
                   fill
                   sizes="(min-width: 1024px) 50vw, 100vw"

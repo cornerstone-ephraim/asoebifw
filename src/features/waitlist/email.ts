@@ -1,9 +1,9 @@
 import "server-only";
 
 import { createHash } from "node:crypto";
-import * as Sentry from "@sentry/nextjs";
 
 import { buildAdminWaitlistEmail } from "@/features/waitlist/admin-email-template";
+import { syncNewsletterContactSafely } from "@/lib/server/newsletter";
 import { getResend } from "@/lib/server/resend";
 
 type WaitlistEmailInput = {
@@ -35,44 +35,6 @@ function assertSuccessful(
   }
 }
 
-async function syncWaitlistContact({
-  firstName,
-  lastName,
-  email,
-}: WaitlistEmailInput) {
-  const { contactsClient, waitlistSegmentId } = getResend();
-  const existingContact = await contactsClient.contacts.get({ email });
-
-  if (existingContact.error?.name === "not_found") {
-    const createdContact = await contactsClient.contacts.create({
-      email,
-      firstName,
-      lastName,
-      segments: [{ id: waitlistSegmentId }],
-      unsubscribed: false,
-    });
-
-    assertSuccessful("Create Resend contact", createdContact);
-    return;
-  }
-
-  assertSuccessful("Find Resend contact", existingContact);
-
-  const updatedContact = await contactsClient.contacts.update({
-    email,
-    firstName,
-    lastName,
-    unsubscribed: false,
-  });
-  assertSuccessful("Update Resend contact", updatedContact);
-
-  const segment = await contactsClient.contacts.segments.add({
-    email,
-    segmentId: waitlistSegmentId,
-  });
-  assertSuccessful("Add Resend contact to waitlist segment", segment);
-}
-
 export async function sendWaitlistEmails({
   firstName,
   lastName,
@@ -83,13 +45,12 @@ export async function sendWaitlistEmails({
   const subscriberKey = createHash("sha256").update(email).digest("hex");
   const adminEmail = buildAdminWaitlistEmail({ firstName, lastName, email });
 
-  const contactSync = syncWaitlistContact({ firstName, lastName, email }).catch(
-    (error) => {
-      Sentry.captureException(error, {
-        tags: { feature: "waitlist", operation: "sync-resend-contact" },
-      });
-    },
-  );
+  const contactSync = syncNewsletterContactSafely({
+    firstName,
+    lastName,
+    email,
+    source: "waitlist",
+  });
 
   const [confirmation, notification] = await Promise.all([
     emailClient.emails.send(

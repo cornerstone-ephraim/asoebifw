@@ -60,15 +60,15 @@ export function SiteHeader() {
     <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 text-asoebi-purple-950 sm:px-5 sm:pt-4">
       <motion.div
         layout
-        transition={{ duration: reduced ? 0 : 0.5, ease: [0.22, 1, 0.36, 1] }}
-        className={`transition-linear pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-asoebi-float backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] duration-500 sm:px-6 ${compact ? "h-14 max-w-235 bg-asoebi-butter/95 text-asoebi-purple-950 shadow-asoebi-warm" : "h-16 max-w-295 bg-white/94 text-asoebi-purple-950"}`}
+        transition={{ duration: reduced ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
+        className={`transition-linear pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-asoebi-float backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] duration-250 sm:px-6 ${compact ? "h-14 max-w-235 bg-white/80 text-asoebi-purple-950 shadow-asoebi-warm" : "h-16 max-w-295 bg-white/94 text-asoebi-purple-950"}`}
       >
         <Link
           data-site-logo
           href="/"
           className="font-display text-xl font-bold tracking-[-.04em] sm:text-2xl"
         >
-          AEFW<span className="text-brand">.</span>
+          AEFW<span className="text-asoebi-gold-500">.</span>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-5 lg:flex">

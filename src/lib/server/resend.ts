@@ -10,7 +10,6 @@ const resendEnvironmentSchema = z.object({
   RESEND_REPLY_TO: z.email(),
   RESEND_WAITLIST_SEGMENT_ID: z.string().min(1),
   WAITLIST_NOTIFICATION_EMAIL: z.email(),
-  PRIZE_NOTIFICATION_EMAILS: z.string().min(3).optional(),
 });
 
 let emailClient: Resend | null = null;
@@ -18,16 +17,6 @@ let contactsClient: Resend | null = null;
 
 export function getResend() {
   const environment = resendEnvironmentSchema.parse(process.env);
-  const prizeNotificationEmails = z
-    .array(z.email())
-    .parse(
-      (
-        environment.PRIZE_NOTIFICATION_EMAILS ??
-        environment.WAITLIST_NOTIFICATION_EMAIL
-      )
-        .split(",")
-        .map((email) => email.trim()),
-    );
   emailClient ??= new Resend(environment.RESEND_API_KEY);
   contactsClient ??= new Resend(
     environment.RESEND_CONTACTS_API_KEY ?? environment.RESEND_API_KEY,
@@ -40,6 +29,5 @@ export function getResend() {
     replyTo: environment.RESEND_REPLY_TO,
     waitlistSegmentId: environment.RESEND_WAITLIST_SEGMENT_ID,
     notificationEmail: environment.WAITLIST_NOTIFICATION_EMAIL,
-    prizeNotificationEmails,
   };
 }
