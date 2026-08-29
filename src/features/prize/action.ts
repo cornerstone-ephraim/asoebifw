@@ -88,7 +88,6 @@ export async function submitPrizeApplication(input: PrizeApplicationInput) {
         Sentry.captureException(error, {
           tags: { feature: "prize-application", operation: "send-emails" },
         });
-        throw error;
       }
 
       return result;
