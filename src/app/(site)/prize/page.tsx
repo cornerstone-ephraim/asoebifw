@@ -59,7 +59,7 @@ const submissionModes = [
   {
     name: "PDF",
     detail:
-      "One organised document containing both collections, up to 30 pages and 20MB.",
+      "A public link to one organised document containing both collections.",
   },
 ] as const;
 
@@ -81,7 +81,7 @@ export default function Page() {
       eyebrow="Recognition · Creativity · Opportunity"
       title="Asoebi Prize"
       intro="Two collections. One opportunity to shape what African fashion becomes next."
-      heroImage="/images/waitlist/designer-card-illustration.png"
+      heroImage="/images/waitlist/designer-card-illustration.webp"
       heroImageAlt="An editorial illustration of an African fashion designer and her work"
       cta={{ href: "#apply", label: "Apply for the prize" }}
     >
@@ -253,7 +253,7 @@ export default function Page() {
           </div>
           <div className="border-t border-asoebi-purple-950/30 pt-5">
             <p className="font-bold text-asoebi-purple-950">
-              Deadline: December 19, 2026
+              Deadline: December 26, 2026
             </p>
             <p className="mt-2 leading-7 text-asoebi-graphite">
               Submit one organised package containing at least two original

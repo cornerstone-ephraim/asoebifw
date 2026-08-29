@@ -190,7 +190,7 @@ export function HomePage() {
           </div>
           <div className="relative min-h-144 overflow-hidden bg-asoebi-purple-950">
             <Image
-              src="/images/waitlist/vendor-card-illustration.png"
+              src="/images/waitlist/vendor-card-illustration.webp"
               alt="An editorial illustration of an Asoebi fashion marketplace"
               fill
               sizes="(min-width: 1024px) 58vw, 100vw"

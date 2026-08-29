@@ -69,7 +69,6 @@ export const createPrizeApplication = mutation({
       v.literal("pdf"),
     ),
     submissionUrl: v.optional(v.string()),
-    pdfStorageId: v.optional(v.id("_storage")),
     consent: v.literal(true),
   },
   handler: async (context, input) => {
@@ -79,7 +78,6 @@ export const createPrizeApplication = mutation({
       .first();
 
     if (existing) {
-      if (input.pdfStorageId) await context.storage.delete(input.pdfStorageId);
       const reviewUrl = existing.pdfStorageId
         ? await context.storage.getUrl(existing.pdfStorageId)
         : existing.submissionUrl;
@@ -105,9 +103,7 @@ export const createPrizeApplication = mutation({
       status: "submitted",
       submittedAt,
     });
-    const reviewUrl = input.pdfStorageId
-      ? await context.storage.getUrl(input.pdfStorageId)
-      : input.submissionUrl;
+    const reviewUrl = input.submissionUrl;
     return {
       status: "created" as const,
       applicationId,
@@ -132,9 +128,4 @@ export const setPrizeEmailStatus = mutation({
       emailStatus: input.emailStatus,
     });
   },
-});
-
-export const generatePrizeUploadUrl = mutation({
-  args: {},
-  handler: (context) => context.storage.generateUploadUrl(),
 });

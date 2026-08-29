@@ -10,8 +10,6 @@ export const prizeSubmissionModes = [
 export type PrizeSubmissionMode =
   (typeof prizeSubmissionModes)[number]["value"];
 
-export const MAX_PRIZE_PDF_SIZE = 20 * 1024 * 1024;
-
 const nameSchema = (message: string) =>
   z
     .string()
@@ -53,8 +51,6 @@ function validateSubmissionUrl(
   value: SubmissionValues,
   context: z.RefinementCtx,
 ) {
-  if (value.submissionMode === "pdf") return;
-
   let url: URL;
   try {
     url = new URL(value.submissionUrl ?? "");
@@ -107,31 +103,8 @@ export const prizeApplicationSchema = z
     consent: z.literal(true, {
       message: "Confirm that you are authorised to submit this work",
     }),
-    pdfStorageId: z.string().optional(),
   })
-  .superRefine((value, context) => {
-    validateSubmissionUrl(value, context);
-    if (value.submissionMode === "pdf" && !value.pdfStorageId) {
-      context.addIssue({
-        code: "custom",
-        path: ["pdfStorageId"],
-        message: "Upload your collection PDF",
-      });
-    }
-  });
-
-export const prizeUploadResponseSchema = z.object({
-  storageId: z.string().min(1),
-});
-
-export function validatePrizePdf(file?: File | null) {
-  if (!file) return "Upload your collection PDF";
-  if (file.type !== "application/pdf" && !file.name.endsWith(".pdf")) {
-    return "Choose a PDF file";
-  }
-  if (file.size > MAX_PRIZE_PDF_SIZE) return "Keep the PDF under 20MB";
-  return undefined;
-}
+  .superRefine(validateSubmissionUrl);
 
 export type PrizeApplicationFormInput = z.input<
   typeof prizeApplicationFormSchema

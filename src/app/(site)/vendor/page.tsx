@@ -49,7 +49,7 @@ export default function Page() {
       eyebrow="Fashion and technology"
       title="Asoebi Vendor"
       intro="Buy together. Pay together. Celebrate together."
-      heroImage="/images/waitlist/vendor-card-illustration.png"
+      heroImage="/images/waitlist/vendor-card-illustration.webp"
       heroImageAlt="An editorial illustration of an Asoebi fashion storefront"
       heroTone="gold"
       cta={{ href: "/#waitlist", label: "Join the vendor waitlist" }}
@@ -87,7 +87,7 @@ export default function Page() {
         </div>
         <div className="relative min-h-120 bg-asoebi-gold-300">
           <Image
-            src="/images/waitlist/vendor-card-illustration.png"
+            src="/images/waitlist/vendor-card-illustration.webp"
             alt="Fabric, accessories and storefront details represented in an Asoebi editorial illustration"
             fill
             loading="eager"

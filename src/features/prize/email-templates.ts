@@ -51,7 +51,7 @@ export function buildApplicantPrizeEmail({
 
   return {
     subject: "Your Asoebi Fashion Prize application is in",
-    text: `Hi ${firstName},\n\nYour application for the Asoebi Fashion Prize has been received.\n\nSubmission mode: ${mode}\nApplication deadline: 19 December 2026\n\nKeep any submitted links public or unlisted and accessible until judging ends. If your submission was a PDF, it is stored with your application.\n\nWear Your Heritage. Design the Future.\n\nAsoebi Fashion Week`,
+    text: `Hi ${firstName},\n\nYour application for the Asoebi Fashion Prize has been received.\n\nSubmission mode: ${mode}\nApplication deadline: 19 December 2026\n\nKeep your submitted link public or unlisted and accessible until judging ends.\n\nWear Your Heritage. Design the Future.\n\nAsoebi Fashion Week`,
     html: `<!doctype html>
 <html lang="en">
   <body style="margin:0;background:#f1ecf7;color:#2a1157;font-family:Arial,Helvetica,sans-serif;padding:0;">
@@ -92,7 +92,7 @@ export function buildApplicantPrizeEmail({
                   </tr>
                 </table>
 
-                <p style="color:#5f5669;font-size:14px;line-height:1.7;margin:28px 0 0;">Keep submitted links public or unlisted and accessible until judging ends. PDF submissions are stored with the application.</p>
+                <p style="color:#5f5669;font-size:14px;line-height:1.7;margin:28px 0 0;">Keep your submitted link public or unlisted and accessible until judging ends.</p>
                 <p style="border-top:1px solid #e8ddf2;color:#2a1157;font-family:Georgia,'Times New Roman',serif;font-size:22px;line-height:1.35;margin:32px 0 0;padding-top:24px;">Wear Your Heritage.<br>Design the Future.</p>
               </td>
             </tr>

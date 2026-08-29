@@ -1,15 +1,11 @@
 "use client";
 
 import { Controller } from "react-hook-form";
-import { FiFileText, FiUploadCloud } from "react-icons/fi";
 
 import { CustomCheckbox } from "@/components/ui/custom-checkbox";
 import { CustomSelect } from "@/components/ui/custom-select";
 import { usePrizeApplicationForm } from "@/features/prize/hooks/use-prize-application-form";
-import {
-  MAX_PRIZE_PDF_SIZE,
-  prizeSubmissionModes,
-} from "@/features/prize/schema";
+import { prizeSubmissionModes } from "@/features/prize/schema";
 
 const fieldClass =
   "min-h-13 w-full rounded-full border border-asoebi-purple-300 bg-white px-5 text-sm outline-hidden transition-colors transition-linear placeholder:text-asoebi-muted focus:border-brand aria-invalid:border-red-700";
@@ -45,6 +41,11 @@ const linkDetails = {
     placeholder: "https://yourstudio.com/prize-portfolio",
     note: "Link directly to the page where both collections are presented.",
   },
+  pdf: {
+    label: "Public PDF link",
+    placeholder: "https://drive.google.com/file/d/...",
+    note: "Share one organised PDF containing both collections. Make sure anyone with the link can view it.",
+  },
 } as const;
 
 export function PrizeApplicationForm() {
@@ -55,12 +56,9 @@ export function PrizeApplicationForm() {
     formRef,
     handleFormSubmit,
     isSubmitting,
-    pdfError,
-    pdfFile,
     register,
     result,
     resultRef,
-    selectPdf,
     setSubmissionMode,
     stage,
     submissionMode,
@@ -92,14 +90,9 @@ export function PrizeApplicationForm() {
     );
   }
 
-  const linkDetail =
-    submissionMode && submissionMode !== "pdf"
-      ? linkDetails[submissionMode]
-      : undefined;
+  const linkDetail = submissionMode ? linkDetails[submissionMode] : undefined;
   const buttonLabel = {
     idle: "Submit application",
-    preparing: "Preparing upload…",
-    uploading: "Uploading PDF…",
     submitting: "Submitting application…",
   }[stage];
 
@@ -257,48 +250,6 @@ export function PrizeApplicationForm() {
               id="prize-submission-url-error"
               message={errors.submissionUrl?.message}
             />
-          </div>
-        )}
-
-        {submissionMode === "pdf" && (
-          <div className="sm:col-span-2">
-            <label
-              htmlFor="prize-pdf"
-              className={labelClass(Boolean(pdfError))}
-            >
-              Collection PDF <span aria-hidden="true">*</span>
-            </label>
-            <label
-              htmlFor="prize-pdf"
-              className={`transition-linear flex min-h-32 cursor-pointer items-center gap-5 rounded-3xl border bg-asoebi-paper p-5 transition-colors hover:bg-asoebi-mist ${pdfError ? "border-red-700" : "border-asoebi-purple-300"}`}
-            >
-              <span
-                aria-hidden="true"
-                className="grid size-12 shrink-0 place-items-center rounded-full bg-white text-xl text-brand"
-              >
-                {pdfFile ? <FiFileText /> : <FiUploadCloud />}
-              </span>
-              <span>
-                <span className="block font-bold text-asoebi-purple-950">
-                  {pdfFile?.name ?? "Choose your collection PDF"}
-                </span>
-                <span className="mt-1 block text-xs leading-5 text-asoebi-muted">
-                  One organised PDF containing both collections. Maximum 30
-                  pages and {MAX_PRIZE_PDF_SIZE / 1024 / 1024}MB.
-                </span>
-              </span>
-            </label>
-            <input
-              id="prize-pdf"
-              type="file"
-              accept="application/pdf,.pdf"
-              required
-              onChange={(event) => selectPdf(event.target.files?.[0])}
-              className="sr-only"
-              aria-invalid={Boolean(pdfError)}
-              aria-describedby={pdfError ? "prize-pdf-error" : undefined}
-            />
-            <FieldError id="prize-pdf-error" message={pdfError} />
           </div>
         )}
 

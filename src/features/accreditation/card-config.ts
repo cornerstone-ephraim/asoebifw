@@ -6,7 +6,7 @@ export const accreditationCards = {
     background: "#fff0bd",
     ink: "#2a1157",
     mark: "✦",
-    illustration: "/images/waitlist/partner-card-illustration.png",
+    illustration: "/images/waitlist/partner-card-illustration.webp",
   },
   designer: {
     label: "Designer",
@@ -15,7 +15,7 @@ export const accreditationCards = {
     background: "#2a1157",
     ink: "#ffffff",
     mark: "✺",
-    illustration: "/images/waitlist/designer-card-illustration.png",
+    illustration: "/images/waitlist/designer-card-illustration.webp",
   },
   buyer: {
     label: "Buyer",
@@ -24,7 +24,7 @@ export const accreditationCards = {
     background: "#ffd9d0",
     ink: "#2a1157",
     mark: "◒",
-    illustration: "/images/waitlist/buyer-card-illustration.png",
+    illustration: "/images/waitlist/buyer-card-illustration.webp",
   },
   media: {
     label: "Media",
@@ -33,7 +33,7 @@ export const accreditationCards = {
     background: "#dcd0ff",
     ink: "#2a1157",
     mark: "◎",
-    illustration: "/images/waitlist/media-card-illustration.png",
+    illustration: "/images/waitlist/media-card-illustration.webp",
   },
   vendor: {
     label: "Vendor",
@@ -42,7 +42,7 @@ export const accreditationCards = {
     background: "#f6b928",
     ink: "#2a1157",
     mark: "◇",
-    illustration: "/images/waitlist/vendor-card-illustration.png",
+    illustration: "/images/waitlist/vendor-card-illustration.webp",
   },
   other: {
     label: "Community",
@@ -51,7 +51,7 @@ export const accreditationCards = {
     background: "#fffaf1",
     ink: "#2a1157",
     mark: "+",
-    illustration: "/images/waitlist/other-card-illustration.png",
+    illustration: "/images/waitlist/other-card-illustration.webp",
   },
 } as const;
 

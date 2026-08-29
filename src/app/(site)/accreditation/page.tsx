@@ -21,7 +21,7 @@ export default function Page() {
       eyebrow="Press · Buyers · Industry"
       title="Accreditation"
       intro="Register your interest in Fashion Week accreditation. Applications will be processed once the official programme opens."
-      heroImage="/images/waitlist/media-card-illustration.png"
+      heroImage="/images/waitlist/media-card-illustration.webp"
       heroImageAlt="An editorial illustration representing fashion media and runway coverage"
       heroTone="mist"
     >

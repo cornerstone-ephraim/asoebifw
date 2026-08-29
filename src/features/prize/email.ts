@@ -28,7 +28,7 @@ function assertSuccessful(
 }
 
 export async function sendPrizeApplicationEmails(input: PrizeEmailInput) {
-  const { emailClient, from, prizeNotificationEmails, replyTo } = getResend();
+  const { emailClient, from, notificationEmail, replyTo } = getResend();
   const applicantEmail = buildApplicantPrizeEmail(input);
   const adminEmail = buildAdminPrizeEmail(input);
   const applicationKey = createHash("sha256").update(input.email).digest("hex");
@@ -48,7 +48,7 @@ export async function sendPrizeApplicationEmails(input: PrizeEmailInput) {
     emailClient.emails.send(
       {
         from,
-        to: prizeNotificationEmails,
+        to: notificationEmail,
         replyTo: input.email,
         subject: adminEmail.subject,
         text: adminEmail.text,

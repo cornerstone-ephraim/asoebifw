@@ -1,10 +1,8 @@
 import { describe, expect, it } from "vitest";
 
 import {
-  MAX_PRIZE_PDF_SIZE,
   prizeApplicationFormSchema,
   prizeApplicationSchema,
-  validatePrizePdf,
 } from "@/features/prize/schema";
 
 const validApplication = {
@@ -34,7 +32,17 @@ describe("prize application validation", () => {
     ).toBe(false);
   });
 
-  it("requires a storage id for PDF applications", () => {
+  it("accepts a public PDF link", () => {
+    expect(
+      prizeApplicationSchema.safeParse({
+        ...validApplication,
+        submissionMode: "pdf",
+        submissionUrl: "https://drive.google.com/file/d/collections/view",
+      }).success,
+    ).toBe(true);
+  });
+
+  it("requires a link for PDF applications", () => {
     expect(
       prizeApplicationSchema.safeParse({
         ...validApplication,
@@ -42,14 +50,5 @@ describe("prize application validation", () => {
         submissionUrl: "",
       }).success,
     ).toBe(false);
-  });
-
-  it("rejects oversized PDF files", () => {
-    const file = new File(
-      [new Uint8Array(MAX_PRIZE_PDF_SIZE + 1)],
-      "collections.pdf",
-      { type: "application/pdf" },
-    );
-    expect(validatePrizePdf(file)).toBe("Keep the PDF under 20MB");
   });
 });
