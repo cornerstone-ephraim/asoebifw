@@ -35,7 +35,6 @@ export async function submitWaitlist(input: WaitlistInput) {
         Sentry.captureException(error, {
           tags: { feature: "waitlist", operation: "send-emails" },
         });
-        throw error;
       }
 
       return result;
