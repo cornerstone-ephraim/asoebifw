@@ -80,7 +80,7 @@ export default function Page() {
         <FounderDisclosures />
       </section>
 
-      <section className="pt-16 grid gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+      <section className="grid gap-10 pt-16 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
           Where culture meets catwalk.
         </h2>
