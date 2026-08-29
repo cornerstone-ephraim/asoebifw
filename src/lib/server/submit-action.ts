@@ -12,6 +12,7 @@ export async function runValidatedSubmission<Input, Output>({
   submit,
   successMessage,
   duplicateMessage,
+  duplicateStatus = "success",
 }: {
   feature: string;
   schema: z.ZodType<Input>;
@@ -19,6 +20,7 @@ export async function runValidatedSubmission<Input, Output>({
   submit: (validated: Input) => Promise<Output>;
   successMessage: string;
   duplicateMessage?: string;
+  duplicateStatus?: "success" | "info";
 }): Promise<ActionResult> {
   const parsed = schema.safeParse(input);
   if (!parsed.success) {
@@ -41,7 +43,7 @@ export async function runValidatedSubmission<Input, Output>({
       result.status === "duplicate";
 
     return {
-      status: "success",
+      status: duplicate ? duplicateStatus : "success",
       message:
         duplicate && duplicateMessage ? duplicateMessage : successMessage,
     };

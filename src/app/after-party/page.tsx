@@ -19,7 +19,7 @@ const tickets = [
 export const metadata: Metadata = createMetadata({
   title: "Asoebi After Party",
   description:
-    "The official Asoebi Fashion Week networking and celebration event, featuring music, a networking lounge and fashion awards.",
+    "Join the Asoebi After Party in London on October 2, 2026 for music, fashion, networking and celebration.",
   path: "/after-party",
   keywords: [
     "Asoebi After Party",
@@ -31,9 +31,9 @@ export const metadata: Metadata = createMetadata({
 export default function Page() {
   return (
     <EditorialPage
-      eyebrow="Network · Celebrate · Connect"
+      eyebrow="October 2, 2026 · London"
       title="Asoebi After Party"
-      intro="The official networking and celebration event."
+      intro="One London night for fashion, culture and connection."
       heroImage="/images/tickets-editorial.png"
       heroImageAlt="An editorial Asoebi Fashion Week ticket illustration"
       heroTone="blush"
@@ -41,11 +41,11 @@ export default function Page() {
     >
       <section className="grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
-          The runway ends. The conversation continues.
+          London, dressed for the occasion.
         </h2>
         <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
-          Music, networking and the fashion awards ceremony bring the Asoebi
-          Fashion Week community together after the show.
+          Music, networking and fashion bring the Asoebi community together in
+          London on October 2.
         </p>
       </section>
 
@@ -63,7 +63,7 @@ export default function Page() {
           </div>
           <div className="flex flex-col justify-center p-8 sm:p-12 lg:p-16">
             <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-300 uppercase">
-              Inside the celebration
+              October 2 · London
             </p>
             <ul className="mt-10 border-t border-white/20">
               {features.map((item) => (

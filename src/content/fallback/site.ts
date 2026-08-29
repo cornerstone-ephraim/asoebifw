@@ -86,9 +86,3 @@ export const runwayShows: RunwayShow[] = designers.map((designer, index) => ({
 export const schedule: ScheduleEvent[] = [];
 
 export const partners: Partner[] = [];
-
-export const prizeCategories = [
-  "Best Designer",
-  "Best Wedding Asoebi",
-  "Best Innovative Fabric Design",
-] as const;

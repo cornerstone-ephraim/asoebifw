@@ -1,21 +1,31 @@
 import { z } from "zod";
 
-export const waitlistRoles = [
-  "partner",
-  "designer",
-  "buyer",
-  "media",
-  "vendor",
-  "community",
-] as const;
+const nameSchema = (emptyMessage: string) =>
+  z
+    .string()
+    .trim()
+    .min(1, { message: emptyMessage })
+    .max(60, { message: "Keep this name under 60 characters" })
+    .regex(/^[\p{L}\p{M}' -]+$/u, {
+      message: "Use letters, spaces, apostrophes or hyphens only",
+    });
 
 export const waitlistSchema = z.object({
-  name: z.string().trim().min(2, "Enter your full name").max(100),
+  firstName: nameSchema("Enter your first name"),
+  lastName: nameSchema("Enter your last name"),
   email: z
-    .email("Enter a valid email address")
+    .string()
+    .trim()
+    .pipe(z.email({ message: "Enter a valid email address" }))
     .transform((value) => value.toLowerCase()),
-  role: z.enum(waitlistRoles),
-  website: z.string().max(0, "Invalid submission").optional().default(""),
+  consent: z.boolean().refine((value) => value === true, {
+    message: "Consent is required to join the waitlist",
+  }),
+  website: z
+    .string()
+    .max(0, { message: "Invalid submission" })
+    .optional()
+    .default(""),
 });
 
 export type WaitlistInput = z.input<typeof waitlistSchema>;

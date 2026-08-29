@@ -5,23 +5,39 @@ import { waitlistSchema } from "@/features/waitlist/schema";
 describe("waitlistSchema", () => {
   it("normalizes a valid submission", () => {
     const result = waitlistSchema.parse({
-      name: " Ada Okafor ",
-      email: "ADA@EXAMPLE.COM",
-      role: "designer",
+      firstName: " Ada ",
+      lastName: " Okafor ",
+      email: " ADA@EXAMPLE.COM ",
+      consent: true,
       website: "",
     });
     expect(result).toMatchObject({
-      name: "Ada Okafor",
+      firstName: "Ada",
+      lastName: "Okafor",
       email: "ada@example.com",
+      consent: true,
     });
   });
 
-  it("rejects the honeypot and invalid roles", () => {
+  it("rejects names containing control characters", () => {
     expect(
       waitlistSchema.safeParse({
-        name: "Ada Okafor",
+        firstName: "Ada\nBcc",
+        lastName: "Okafor",
         email: "ada@example.com",
-        role: "admin",
+        consent: true,
+        website: "",
+      }).success,
+    ).toBe(false);
+  });
+
+  it("rejects the honeypot and missing consent", () => {
+    expect(
+      waitlistSchema.safeParse({
+        firstName: "Ada",
+        lastName: "Okafor",
+        email: "ada@example.com",
+        consent: false,
         website: "spam.example",
       }).success,
     ).toBe(false);

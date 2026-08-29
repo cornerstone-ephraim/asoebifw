@@ -77,14 +77,14 @@ export function DesignSystemNav() {
         aria-expanded={open}
         aria-label="Toggle navigation"
         onClick={() => setOpen((prev) => !prev)}
-        className="flex h-20 w-1.5 cursor-pointer rounded-full bg-brand-deep ring-1 ring-asoebi-gold-900 transition-all duration-300 ease-[var(--ease-asoebi-arrive)] hover:w-2 hover:bg-brand hover:ring-asoebi-gold-400"
+        className="flex h-20 w-1.5 cursor-pointer rounded-full bg-brand-deep ring-1 ring-asoebi-gold-900 transition-all duration-300 ease-asoebi-arrive hover:w-2 hover:bg-brand hover:ring-asoebi-gold-400"
       />
 
       {/* Expanded Floating Popout Card */}
       <nav
         aria-label="Design system sections"
         aria-hidden={!open}
-        className={`absolute top-1/2 left-3 w-45 -translate-y-1/2 rounded-2xl border border-asoebi-graphite bg-asoebi-charcoal/95 p-4 text-asoebi-mist shadow-asoebi-deep backdrop-blur-xl transition-all duration-200 ease-[var(--ease-asoebi-arrive)] before:absolute before:top-0 before:-left-4 before:h-full before:w-4 before:content-[''] ${
+        className={`absolute top-1/2 left-3 w-45 -translate-y-1/2 rounded-2xl border border-asoebi-graphite bg-asoebi-charcoal/95 p-4 text-asoebi-mist shadow-asoebi-deep backdrop-blur-xl transition-all duration-200 ease-asoebi-arrive before:absolute before:top-0 before:-left-4 before:h-full before:w-4 before:content-[''] ${
           open
             ? "pointer-events-auto translate-x-0 opacity-100"
             : "pointer-events-none -translate-x-2 opacity-0"
@@ -118,7 +118,7 @@ export function DesignSystemNav() {
                     setActiveSection(href);
                     setOpen(false);
                   }}
-                  className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-semibold transition-colors duration-150 ease-[var(--ease-asoebi-arrive)] focus-visible:outline-none ${
+                  className={`flex items-center gap-2 rounded-lg px-2.5 py-2 text-xs font-semibold transition-colors duration-150 ease-asoebi-arrive focus-visible:outline-none ${
                     isActive
                       ? "bg-asoebi-purple-950 text-asoebi-gold-300"
                       : "text-asoebi-mist/80 hover:bg-asoebi-ink/60 hover:text-asoebi-ivory focus-visible:bg-asoebi-ink/60 focus-visible:text-asoebi-ivory"

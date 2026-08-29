@@ -3,16 +3,10 @@ import { v } from "convex/values";
 
 export const createWaitlistEntry = mutation({
   args: {
-    name: v.string(),
+    firstName: v.string(),
+    lastName: v.string(),
     email: v.string(),
-    role: v.union(
-      v.literal("partner"),
-      v.literal("designer"),
-      v.literal("buyer"),
-      v.literal("media"),
-      v.literal("vendor"),
-      v.literal("community"),
-    ),
+    consent: v.literal(true),
   },
   handler: async (context, input) => {
     const existing = await context.db
@@ -37,9 +31,11 @@ export const createAccreditationApplication = mutation({
     email: v.string(),
     role: v.union(
       v.literal("press"),
+      v.literal("media"),
       v.literal("buyer"),
       v.literal("designer"),
       v.literal("partner"),
+      v.literal("vendor"),
       v.literal("other"),
     ),
     message: v.optional(v.string()),
@@ -63,36 +59,82 @@ export const createAccreditationApplication = mutation({
 
 export const createPrizeApplication = mutation({
   args: {
-    name: v.string(),
+    firstName: v.string(),
+    lastName: v.string(),
     email: v.string(),
-    phone: v.string(),
-    category: v.union(
-      v.literal("Best Designer"),
-      v.literal("Best Wedding Asoebi"),
-      v.literal("Best Innovative Fabric Design"),
+    submissionMode: v.union(
+      v.literal("instagram"),
+      v.literal("youtube"),
+      v.literal("website"),
+      v.literal("pdf"),
     ),
-    portfolio: v.string(),
-    statement: v.string(),
+    submissionUrl: v.optional(v.string()),
+    pdfStorageId: v.optional(v.id("_storage")),
     consent: v.literal(true),
   },
   handler: async (context, input) => {
     const existing = await context.db
       .query("prizeApplications")
-      .filter((query) =>
-        query.and(
-          query.eq(query.field("email"), input.email),
-          query.eq(query.field("category"), input.category),
-        ),
-      )
+      .withIndex("by_email", (query) => query.eq("email", input.email))
       .first();
 
-    if (existing) return { status: "duplicate" as const };
+    if (existing) {
+      if (input.pdfStorageId) await context.storage.delete(input.pdfStorageId);
+      const reviewUrl = existing.pdfStorageId
+        ? await context.storage.getUrl(existing.pdfStorageId)
+        : existing.submissionUrl;
+      return {
+        status: "duplicate" as const,
+        applicationId: existing._id,
+        firstName: existing.firstName ?? input.firstName,
+        lastName: existing.lastName ?? input.lastName,
+        email: existing.email,
+        submissionMode: existing.submissionMode ?? input.submissionMode,
+        reviewUrl,
+        submittedAt: existing.submittedAt,
+        shouldSendEmails:
+          existing.emailStatus === "pending" ||
+          existing.emailStatus === "failed",
+      };
+    }
 
-    await context.db.insert("prizeApplications", {
+    const submittedAt = Date.now();
+    const applicationId = await context.db.insert("prizeApplications", {
       ...input,
+      emailStatus: "pending",
       status: "submitted",
-      submittedAt: Date.now(),
+      submittedAt,
     });
-    return { status: "created" as const };
+    const reviewUrl = input.pdfStorageId
+      ? await context.storage.getUrl(input.pdfStorageId)
+      : input.submissionUrl;
+    return {
+      status: "created" as const,
+      applicationId,
+      firstName: input.firstName,
+      lastName: input.lastName,
+      email: input.email,
+      submissionMode: input.submissionMode,
+      reviewUrl,
+      submittedAt,
+      shouldSendEmails: true,
+    };
   },
+});
+
+export const setPrizeEmailStatus = mutation({
+  args: {
+    applicationId: v.id("prizeApplications"),
+    emailStatus: v.union(v.literal("sent"), v.literal("failed")),
+  },
+  handler: async (context, input) => {
+    await context.db.patch(input.applicationId, {
+      emailStatus: input.emailStatus,
+    });
+  },
+});
+
+export const generatePrizeUploadUrl = mutation({
+  args: {},
+  handler: (context) => context.storage.generateUploadUrl(),
 });

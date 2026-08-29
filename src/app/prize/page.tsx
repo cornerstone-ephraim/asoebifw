@@ -5,16 +5,6 @@ import { PrizeCountdown } from "@/features/prize/prize-countdown";
 import { PrizeApplicationForm } from "@/features/prize/prize-application-form";
 import { createMetadata } from "@/lib/seo";
 
-const categories = [
-  "Best Designer",
-  "Best Wedding Asoebi",
-  "Best Innovative Fabric Design",
-] as const;
-const features = [
-  "Public vote",
-  "Judges panel",
-  "Prize fund and benefits",
-] as const;
 const prizes = [
   {
     place: "First place",
@@ -47,8 +37,30 @@ const prizes = [
 
 const eligibility = [
   "Ages 18 and above",
-  "A minimum of three collections",
+  "A minimum of two original collections",
   "Emerging and student fashion brands only",
+] as const;
+
+const submissionModes = [
+  {
+    name: "Instagram",
+    detail:
+      "A public profile, Highlight or pinned sequence presenting both collections.",
+  },
+  {
+    name: "YouTube",
+    detail:
+      "A public or unlisted playlist, or one video with clearly labelled chapters.",
+  },
+  {
+    name: "Website",
+    detail: "One portfolio page where both collections are easy to review.",
+  },
+  {
+    name: "PDF",
+    detail:
+      "One organised document containing both collections, up to 30 pages and 20MB.",
+  },
 ] as const;
 
 export const metadata: Metadata = createMetadata({
@@ -68,7 +80,7 @@ export default function Page() {
     <EditorialPage
       eyebrow="Recognition · Creativity · Opportunity"
       title="Asoebi Prize"
-      intro="Discovering the future of African fashion."
+      intro="Two collections. One opportunity to shape what African fashion becomes next."
       heroImage="/images/waitlist/designer-card-illustration.png"
       heroImageAlt="An editorial illustration of an African fashion designer and her work"
       cta={{ href: "#apply", label: "Apply for the prize" }}
@@ -90,16 +102,19 @@ export default function Page() {
       >
         <div>
           <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
-            December 2026
+            Applications close December 19, 2026
           </p>
           <h2
             id="prize-countdown-heading"
             className="mt-3 font-display text-4xl leading-none tracking-tighter sm:text-5xl"
           >
-            Until the Asoebi Prize
+            Until entries close
           </h2>
         </div>
-        <PrizeCountdown />
+        <PrizeCountdown
+          targetDate="2026-12-19T23:59:59+01:00"
+          accessibleLabel="Countdown to the Asoebi Fashion Prize application deadline on December 19, 2026"
+        />
       </section>
 
       <section className="mt-24">
@@ -178,52 +193,74 @@ export default function Page() {
         </div>
       </section>
 
-      <section className="mt-24 grid gap-12 border-y border-asoebi-purple-950/25 py-12 lg:grid-cols-2 lg:py-16">
-        <div>
-          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
-            Prize categories
+      <section className="mt-24 border-y border-asoebi-purple-950/25 py-12 lg:py-16">
+        <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
+          <div>
+            <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
+              Prepare your submission
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-[.9] tracking-[-.055em] sm:text-7xl">
+              Two collections. One clear point of view.
+            </h2>
+          </div>
+          <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
+            Present both collections as one coherent submission package. Every
+            look, detail and idea should be easy for the judges to follow.
           </p>
-          <ul className="mt-8 border-t border-asoebi-purple-950/20">
-            {categories.map((item) => (
-              <li
-                key={item}
-                className="border-b border-asoebi-purple-950/20 py-6 font-display text-3xl sm:text-4xl"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
         </div>
-        <div className="lg:border-l lg:border-asoebi-purple-950/20 lg:pl-12">
-          <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
-            How the prize works
+
+        <div className="mt-12 border-t border-asoebi-purple-950/20">
+          {submissionModes.map((mode) => (
+            <article
+              key={mode.name}
+              className="grid gap-3 border-b border-asoebi-purple-950/20 py-6 sm:grid-cols-[.4fr_1.6fr] sm:items-baseline"
+            >
+              <h3 className="font-display text-3xl tracking-[-.04em]">
+                {mode.name}
+              </h3>
+              <p className="max-w-2xl leading-7 text-asoebi-graphite">
+                {mode.detail}
+              </p>
+            </article>
+          ))}
+        </div>
+
+        <div className="mt-10 grid gap-5 bg-asoebi-mist p-7 sm:grid-cols-3 sm:p-9">
+          <p className="font-bold text-asoebi-purple-950">
+            Name and separate both collections.
           </p>
-          <ul className="mt-8 border-t border-asoebi-purple-950/20">
-            {features.map((item) => (
-              <li
-                key={item}
-                className="border-b border-asoebi-purple-950/20 py-5 font-bold"
-              >
-                {item}
-              </li>
-            ))}
-          </ul>
+          <p className="font-bold text-asoebi-purple-950">
+            Use sharp photography or stable, well-lit video.
+          </p>
+          <p className="font-bold text-asoebi-purple-950">
+            Keep every link accessible until judging ends.
+          </p>
         </div>
       </section>
 
       <section
         id="apply"
-        className="mt-24 scroll-mt-24 bg-asoebi-gold-300 p-8 sm:p-12 lg:p-16"
+        className="mt-24 scroll-mt-24 bg-asoebi-gold-300 p-6 sm:p-12 lg:p-16"
       >
-        <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-900 uppercase">
-          Applications
-        </p>
-        <h2 className="mt-5 max-w-3xl font-display text-6xl leading-[.88] tracking-[-.055em] sm:text-8xl">
-          Put your work forward.
-        </h2>
-        <p className="mt-7 max-w-xl leading-7 text-asoebi-graphite">
-          Choose your category and tell us about the work you want considered.
-        </p>
+        <div className="grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
+          <div>
+            <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-900 uppercase">
+              Applications
+            </p>
+            <h2 className="mt-5 max-w-3xl font-display text-6xl leading-[.88] tracking-[-.055em] sm:text-8xl">
+              Put your collections forward.
+            </h2>
+          </div>
+          <div className="border-t border-asoebi-purple-950/30 pt-5">
+            <p className="font-bold text-asoebi-purple-950">
+              Deadline: December 19, 2026
+            </p>
+            <p className="mt-2 leading-7 text-asoebi-graphite">
+              Submit one organised package containing at least two original
+              collections.
+            </p>
+          </div>
+        </div>
         <PrizeApplicationForm />
       </section>
     </EditorialPage>

@@ -1,31 +1,55 @@
 import { describe, expect, it } from "vitest";
 
-import { prizeApplicationSchema } from "@/features/prize/schema";
+import {
+  MAX_PRIZE_PDF_SIZE,
+  prizeApplicationFormSchema,
+  prizeApplicationSchema,
+  validatePrizePdf,
+} from "@/features/prize/schema";
 
 const validApplication = {
-  name: "Ada Okafor",
+  firstName: "Ada",
+  lastName: "Okafor",
   email: "ada@example.com",
-  phone: "+2348000000000",
-  category: "Best Designer" as const,
-  portfolio: "https://example.com/ada",
-  statement: "A textile-led practice grounded in shared celebration.",
+  submissionMode: "website" as const,
+  submissionUrl: "https://example.com/ada/collections",
   consent: true as const,
   website: "",
 };
 
-describe("prizeApplicationSchema", () => {
-  it("accepts complete applications", () => {
-    expect(prizeApplicationSchema.safeParse(validApplication).success).toBe(
+describe("prize application validation", () => {
+  it("accepts an organised website submission", () => {
+    expect(prizeApplicationFormSchema.safeParse(validApplication).success).toBe(
       true,
     );
   });
 
-  it("rejects incomplete statements", () => {
+  it("requires the selected platform for social submissions", () => {
+    expect(
+      prizeApplicationFormSchema.safeParse({
+        ...validApplication,
+        submissionMode: "instagram",
+        submissionUrl: "https://youtube.com/watch?v=collections",
+      }).success,
+    ).toBe(false);
+  });
+
+  it("requires a storage id for PDF applications", () => {
     expect(
       prizeApplicationSchema.safeParse({
         ...validApplication,
-        statement: "Too short",
+        submissionMode: "pdf",
+        submissionUrl: "",
       }).success,
     ).toBe(false);
+  });
+
+  it("rejects oversized PDF files", () => {
+    const file = new File(
+      [new Uint8Array(MAX_PRIZE_PDF_SIZE + 1)],
+      "collections.pdf",
+      { type: "application/pdf" },
+    );
+    expect(validatePrizePdf(file)).toBe("Keep the PDF under 20MB");
   });
 });

@@ -22,7 +22,9 @@ export function CustomCheckbox({
   changeAction,
 }: CustomCheckboxProps) {
   return (
-    <label className="group relative flex cursor-pointer items-start gap-3 text-sm leading-6 text-asoebi-graphite sm:items-center">
+    <label
+      className={`group relative flex cursor-pointer items-start gap-3 text-sm leading-6 sm:items-center ${invalid ? "text-red-800" : "text-asoebi-graphite"}`}
+    >
       <input
         type="checkbox"
         name={name}
@@ -43,7 +45,7 @@ export function CustomCheckbox({
               : "var(--color-asoebi-purple-950)",
           borderStyle: "solid",
         }}
-        className={`transition-linear mt-0.5 grid size-6 shrink-0 cursor-pointer place-items-center rounded-lg border-1 ring-1 transition-colors ring-inset peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand ${invalid ? "bg-red-50 ring-red-700" : checked ? "bg-brand text-white ring-brand" : "bg-asoebi-purple-100 text-transparent ring-asoebi-purple-950 group-hover:bg-asoebi-purple-200 group-hover:ring-brand"}`}
+        className={`transition-linear mt-0.5 grid size-6 shrink-0 cursor-pointer place-items-center rounded-lg border ring-1 transition-colors ring-inset peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-brand ${invalid ? "bg-red-50 ring-red-700" : checked ? "bg-brand text-white ring-brand" : "bg-asoebi-purple-100 text-transparent ring-asoebi-purple-950 group-hover:bg-asoebi-purple-200 group-hover:ring-brand"}`}
       >
         <svg viewBox="0 0 16 16" className="size-3.5" fill="none">
           <path

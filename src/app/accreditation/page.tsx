@@ -25,19 +25,22 @@ export default function Page() {
       heroImageAlt="An editorial illustration representing fashion media and runway coverage"
       heroTone="mist"
     >
-      <div className="grid gap-16 border-y border-asoebi-purple-950/25 py-12 lg:grid-cols-2 lg:py-16">
+      <div className="border-y border-asoebi-purple-950/25 py-12 lg:py-16">
         <div>
           <h2 className="font-display text-5xl tracking-tighter">
             Your place
             <br />
             <em>behind the story.</em>
           </h2>
-          <p className="mt-8 max-w-md text-asoebi-graphite">
-            This first version validates applications locally; no information is
-            transmitted until Convex is connected.
+          <p className="mt-8 max-w-2xl text-asoebi-graphite">
+            Choose the accreditation that reflects your place in the industry.
+            Your generated card confirms receipt of your application and remains
+            pending until the AEFW team completes its review.
           </p>
         </div>
-        <AccreditationForm />
+        <div className="mt-12">
+          <AccreditationForm />
+        </div>
       </div>
     </EditorialPage>
   );

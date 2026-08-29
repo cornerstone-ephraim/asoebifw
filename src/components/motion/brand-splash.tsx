@@ -78,7 +78,7 @@ export function BrandSplash() {
             delay: handoff ? 0.6 : 0,
             ease: [0.23, 1, 0.32, 1],
           }}
-          className="fixed inset-0 z-90 bg-asoebi-purple-950"
+          className="fixed inset-0 z-90 bg-asoebi-purple-950 motion-reduce:hidden"
         >
           <motion.span
             initial={false}
