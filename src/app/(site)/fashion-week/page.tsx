@@ -39,7 +39,7 @@ export default function Page() {
       intro="A global showcase of African fashion, textiles, craftsmanship and creativity, arriving in 2027."
       heroImage="/images/editorial/asoebi-styles.png"
       heroImageAlt="A contemporary Asoebi runway look"
-      cta={{ href: "/accreditation", label: "Apply for accreditation" }}
+      cta={{ href: "/accreditation", label: "Apply to participate" }}
     >
       <section className="grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-center">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
