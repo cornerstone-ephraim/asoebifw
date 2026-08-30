@@ -15,7 +15,7 @@ const links = [
 
 const participationLinks = [
   ["Join the Waitlist", "/#waitlist"],
-  ["Apply for Accreditation", "/accreditation"],
+  ["Apply for Participate", "/accreditation"],
 ] as const;
 
 export function SiteHeader() {
