@@ -66,7 +66,7 @@ export function SiteHeader() {
         <Link
           data-site-logo
           href="/"
-          className="font-display text-xl font-bold tracking-[-.04em] sm:text-2xl"
+          className="font-display text-xl leading-none font-bold tracking-[-.085em] sm:text-2xl"
         >
           AEFW<span className="text-asoebi-gold-500">.</span>
         </Link>

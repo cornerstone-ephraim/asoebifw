@@ -35,7 +35,7 @@ export function SiteFooter() {
           <div>
             <Link
               href="/"
-              className="transition-linear inline-block font-display text-2xl font-bold tracking-[-.04em] transition-opacity hover:opacity-65"
+              className="transition-linear inline-block font-display text-2xl leading-none font-bold tracking-[-.085em] whitespace-nowrap transition-opacity hover:opacity-65"
               aria-label="Asoebi Fashion Week home"
             >
               AEFW<span className="text-asoebi-gold-300">.</span>
