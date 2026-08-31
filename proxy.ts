@@ -1,12 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
 
-export function proxy(request: NextRequest) {
-  const host = request.headers.get("host");
+// Using default export allows any function name
+export default function proxy(request: NextRequest) {
+  const host =
+    request.headers.get("x-forwarded-host") || request.headers.get("host");
 
   if (host === "asoebifw.vercel.app") {
     const url = request.nextUrl.clone();
     url.hostname = "asoebifw.com";
     url.protocol = "https:";
+    url.port = "";
 
     return NextResponse.redirect(url, 308);
   }

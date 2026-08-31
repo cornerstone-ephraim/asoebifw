@@ -3,6 +3,21 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  async redirects() {
+    return [
+      {
+        source: "/:path*",
+        has: [
+          {
+            type: "host",
+            value: "asoebifw.vercel.app",
+          },
+        ],
+        destination: "https://asoebifw.com/:path*",
+        permanent: true, // Returns a 308 redirect
+      },
+    ];
+  },
 };
 
 export default withSentryConfig(nextConfig, {
