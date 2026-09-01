@@ -4,6 +4,7 @@ import { Controller } from "react-hook-form";
 
 import { CustomCheckbox } from "@/components/ui/custom-checkbox";
 import { useWaitlistForm } from "@/features/waitlist/hooks/use-waitlist-form";
+import { playInterfaceSound } from "@/features/sound/interface-sound";
 
 const fieldClass =
   "min-h-13 w-full rounded-full border border-asoebi-purple-300 bg-white px-5 text-sm outline-hidden transition-colors transition-linear placeholder:text-asoebi-muted focus:border-brand aria-invalid:border-red-700";
@@ -198,6 +199,7 @@ export function WaitlistForm() {
       <button
         type="submit"
         disabled={isSubmitting}
+        onClick={() => playInterfaceSound("press", 0.65)}
         className="transition-linear flex min-h-13 items-center justify-center gap-3 rounded-full bg-asoebi-gold-400 px-6 text-xs font-black tracking-[.12em] text-asoebi-purple-950 uppercase transition-colors hover:bg-asoebi-gold-300 disabled:cursor-wait disabled:opacity-70 sm:col-span-2"
       >
         {isSubmitting && (

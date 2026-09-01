@@ -18,13 +18,17 @@ const actionLinks = [
   ["Join the Waitlist", "/#waitlist"],
   ["Apply for the Prize", "/prize#apply"],
   ["Apply to Participate", "/accreditation"],
+  [
+    "Become a Sponsor",
+    "mailto:asoebifashionweek@gmail.com?subject=AEFW%20Sponsorship%20Enquiry",
+  ],
 ] as const;
 
 const socials = [
   ["Instagram", "https://www.instagram.com/theasoebifw", FaInstagram],
-  ["TikTok", "https://www.tiktok.com/@asoebifw", FaTiktok],
-  ["X", "https://x.com/asoebifw", FaXTwitter],
-  ["LinkedIn", "https://www.linkedin.com/company/asoebifw", FaLinkedinIn],
+  ["TikTok", "https://www.tiktok.com/@theasoebifw", FaTiktok],
+  ["X", "https://x.com/theasoebifw", FaXTwitter],
+  ["LinkedIn", "https://www.linkedin.com/company/theasoebifw", FaLinkedinIn],
 ] as const;
 
 export function SiteFooter() {

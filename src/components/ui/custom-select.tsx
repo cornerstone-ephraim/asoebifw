@@ -1,167 +1,351 @@
 "use client";
 
-import { useEffect, useId, useRef, useState } from "react";
+import {
+  type KeyboardEvent,
+  type ReactNode,
+  useCallback,
+  useEffect,
+  useId,
+  useMemo,
+  useRef,
+  useState,
+} from "react";
+import { createPortal } from "react-dom";
 
-type Option = {
+import { useFloatingListbox } from "@/components/ui/use-floating-listbox";
+
+export type Option = {
   label: string;
   value: string;
+  disabled?: boolean;
+  icon?: ReactNode;
 };
 
-type CustomSelectProps = {
+export type CustomSelectProps = {
   id: string;
   label: string;
   options: readonly Option[];
-  placeholder: string;
+  placeholder?: string;
   value?: string;
   changeAction: (value: string) => void;
   invalid?: boolean;
+  disabled?: boolean;
   describedBy?: string;
+  className?: string;
+  triggerClassName?: string;
+  selectedTextClassName?: string;
+  /** Maximum height in pixels for the dropdown list */
+  maxListHeight?: number;
 };
+
+function findEnabledIndex(
+  options: readonly Option[],
+  startIndex: number,
+  direction: 1 | -1,
+) {
+  if (!options.some((option) => !option.disabled)) return -1;
+
+  let index = startIndex;
+  for (let attempts = 0; attempts < options.length; attempts += 1) {
+    index = (index + direction + options.length) % options.length;
+    if (!options[index]?.disabled) return index;
+  }
+
+  return -1;
+}
+
+function moveFocusFromTrigger(
+  trigger: HTMLButtonElement | null,
+  direction: 1 | -1,
+) {
+  if (!trigger) return;
+
+  const candidates = Array.from(
+    document.querySelectorAll<HTMLElement>(
+      'a[href], button:not([disabled]), input:not([disabled]), select:not([disabled]), textarea:not([disabled]), [tabindex]:not([tabindex="-1"])',
+    ),
+  );
+  const visibleCandidates = candidates.filter(
+    (candidate) => candidate.getClientRects().length > 0,
+  );
+  const focusable = visibleCandidates.length ? visibleCandidates : candidates;
+  const triggerIndex = focusable.indexOf(trigger);
+  const nextTarget = focusable[triggerIndex + direction];
+
+  window.setTimeout(() => nextTarget?.focus(), 0);
+}
 
 export function CustomSelect({
   id,
   label,
   options,
-  placeholder,
+  placeholder = "Select an option",
   value,
   changeAction,
   invalid = false,
+  disabled = false,
   describedBy,
+  className = "",
+  triggerClassName = "",
+  selectedTextClassName = "",
+  maxListHeight = 240,
 }: CustomSelectProps) {
   const listboxId = useId();
   const containerRef = useRef<HTMLDivElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
   const listboxRef = useRef<HTMLUListElement>(null);
-  const selectedIndex = options.findIndex((option) => option.value === value);
+
   const [open, setOpen] = useState(false);
-  const [highlightedIndex, setHighlightedIndex] = useState(
-    Math.max(selectedIndex, 0),
+
+  const selectedIndex = useMemo(
+    () => options.findIndex((opt) => opt.value === value),
+    [options, value],
+  );
+
+  const [highlightedIndex, setHighlightedIndex] = useState(() =>
+    selectedIndex >= 0 ? selectedIndex : 0,
+  );
+
+  const { style: listboxStyle, updatePosition } = useFloatingListbox({
+    open,
+    triggerRef,
+    optionCount: options.length,
+    maxHeight: maxListHeight,
+  });
+
+  const openDropdown = useCallback(
+    (initialIndex?: number) => {
+      if (disabled) return;
+      const targetIndex =
+        initialIndex !== undefined
+          ? options[initialIndex]?.disabled
+            ? findEnabledIndex(options, initialIndex, 1)
+            : initialIndex
+          : selectedIndex >= 0
+            ? selectedIndex
+            : findEnabledIndex(options, -1, 1);
+      setHighlightedIndex(targetIndex);
+      updatePosition();
+      setOpen(true);
+    },
+    [disabled, options, selectedIndex, updatePosition],
+  );
+
+  const closeDropdown = useCallback((restoreFocus = true) => {
+    setOpen(false);
+    if (restoreFocus) {
+      triggerRef.current?.focus({ preventScroll: true });
+    }
+  }, []);
+
+  const selectOption = useCallback(
+    (index: number) => {
+      const option = options[index];
+      if (!option || option.disabled) return;
+
+      changeAction(option.value);
+      closeDropdown(true);
+    },
+    [options, changeAction, closeDropdown],
   );
 
   useEffect(() => {
     if (!open) return;
-    const closeOnOutsidePress = (event: PointerEvent) => {
-      if (!containerRef.current?.contains(event.target as Node)) setOpen(false);
+
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target as Node;
+      const insideTrigger = containerRef.current?.contains(target);
+      const insideListbox = listboxRef.current?.contains(target);
+
+      if (!insideTrigger && !insideListbox) closeDropdown(false);
     };
-    document.addEventListener("pointerdown", closeOnOutsidePress);
-    return () =>
-      document.removeEventListener("pointerdown", closeOnOutsidePress);
-  }, [open]);
+
+    document.addEventListener("pointerdown", handlePointerDown);
+    return () => document.removeEventListener("pointerdown", handlePointerDown);
+  }, [open, closeDropdown]);
 
   useEffect(() => {
-    if (open) listboxRef.current?.focus({ preventScroll: true });
-  }, [open]);
+    if (open) {
+      updatePosition();
+      listboxRef.current?.focus({ preventScroll: true });
+    }
+  }, [open, updatePosition]);
 
-  const openList = (direction: 1 | -1 = 1) => {
-    const fallback = direction === 1 ? 0 : options.length - 1;
-    setHighlightedIndex(selectedIndex >= 0 ? selectedIndex : fallback);
-    setOpen(true);
+  useEffect(() => {
+    if (!open || highlightedIndex < 0) return;
+    const activeEl = document.getElementById(
+      `${listboxId}-${highlightedIndex}`,
+    );
+    if (typeof activeEl?.scrollIntoView === "function") {
+      activeEl.scrollIntoView({ block: "nearest" });
+    }
+  }, [open, highlightedIndex, listboxId]);
+
+  const handleTriggerKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (disabled) return;
+
+    if (event.key === "ArrowDown") {
+      event.preventDefault();
+      openDropdown(selectedIndex >= 0 ? selectedIndex : 0);
+    } else if (event.key === "ArrowUp") {
+      event.preventDefault();
+      openDropdown(selectedIndex >= 0 ? selectedIndex : options.length - 1);
+    } else if (event.key === " " || event.key === "Enter") {
+      event.preventDefault();
+      openDropdown();
+    }
   };
 
-  const selectOption = (index: number) => {
-    changeAction(options[index].value);
-    setOpen(false);
-    triggerRef.current?.focus({ preventScroll: true });
+  const handleListboxKeyDown = (event: KeyboardEvent<HTMLUListElement>) => {
+    if (!options.length) return;
+
+    switch (event.key) {
+      case "Escape": {
+        event.preventDefault();
+        closeDropdown(true);
+        break;
+      }
+      case "Tab": {
+        event.preventDefault();
+        moveFocusFromTrigger(triggerRef.current, event.shiftKey ? -1 : 1);
+        closeDropdown(false);
+        break;
+      }
+      case "ArrowDown": {
+        event.preventDefault();
+        setHighlightedIndex((previous) =>
+          findEnabledIndex(options, previous, 1),
+        );
+        break;
+      }
+      case "ArrowUp": {
+        event.preventDefault();
+        setHighlightedIndex((previous) =>
+          findEnabledIndex(options, previous, -1),
+        );
+        break;
+      }
+      case "Home": {
+        event.preventDefault();
+        setHighlightedIndex(findEnabledIndex(options, -1, 1));
+        break;
+      }
+      case "End": {
+        event.preventDefault();
+        setHighlightedIndex(findEnabledIndex(options, 0, -1));
+        break;
+      }
+      case "Enter":
+      case " ": {
+        event.preventDefault();
+        selectOption(highlightedIndex);
+        break;
+      }
+    }
   };
 
   const selected = options[selectedIndex];
 
   return (
-    <div ref={containerRef} className="relative">
+    <div ref={containerRef} className={`relative ${className}`}>
       <button
         ref={triggerRef}
         id={id}
         type="button"
+        disabled={disabled}
         aria-haspopup="listbox"
         aria-expanded={open}
-        aria-controls={listboxId}
+        aria-controls={open ? listboxId : undefined}
+        aria-label={label}
         aria-describedby={describedBy}
-        onClick={() => (open ? setOpen(false) : openList())}
-        onKeyDown={(event) => {
-          if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-            event.preventDefault();
-            openList(event.key === "ArrowDown" ? 1 : -1);
-          }
-        }}
-        className={`group transition-linear flex min-h-13 w-full items-center justify-between gap-4 rounded-full border bg-white px-5 text-left text-sm outline-hidden transition-colors ${invalid ? "border-brand" : "border-asoebi-purple-200 hover:border-asoebi-purple-400"}`}
+        data-invalid={invalid || undefined}
+        onClick={() => (open ? closeDropdown(false) : openDropdown())}
+        onKeyDown={handleTriggerKeyDown}
+        className={`group transition-linear flex min-h-13 w-full items-center justify-between gap-4 rounded-full border bg-white px-5 text-left text-sm outline-hidden transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-brand ${
+          disabled
+            ? "cursor-not-allowed border-asoebi-purple-100 bg-asoebi-mist opacity-60"
+            : invalid
+              ? "border-brand"
+              : "border-asoebi-purple-200 hover:border-asoebi-purple-400"
+        } ${triggerClassName}`}
       >
         <span
-          className={selected ? "text-asoebi-purple-950" : "text-asoebi-muted"}
+          className={`flex min-w-0 items-center gap-2 truncate ${
+            selected ? "text-asoebi-purple-950" : "text-asoebi-muted"
+          } ${selectedTextClassName}`}
         >
+          {selected?.icon}
           {selected?.label ?? placeholder}
         </span>
+
         <span
           aria-hidden="true"
-          className={`transition-linear grid size-7 shrink-0 place-items-center rounded-full bg-asoebi-mist text-brand transition-transform group-hover:translate-y-0.5 group-focus-visible:translate-y-0.5 ${open ? "rotate-180" : ""}`}
+          className={`grid size-7 shrink-0 place-items-center rounded-full bg-asoebi-mist text-brand transition-transform duration-200 ease-in-out group-hover:translate-y-0.5 group-focus-visible:translate-y-0.5 ${
+            open ? "rotate-180" : ""
+          }`}
         >
           ↓
         </span>
       </button>
 
-      {open && (
-        <ul
-          ref={listboxRef}
-          id={listboxId}
-          role="listbox"
-          tabIndex={-1}
-          aria-label={label}
-          aria-activedescendant={`${listboxId}-${highlightedIndex}`}
-          onKeyDown={(event) => {
-            if (event.key === "Escape" || event.key === "Tab") {
-              if (event.key === "Escape") event.preventDefault();
-              setOpen(false);
-              if (event.key === "Escape") {
-                triggerRef.current?.focus({ preventScroll: true });
-              }
-              return;
+      {open &&
+        createPortal(
+          <ul
+            ref={listboxRef}
+            id={listboxId}
+            role="listbox"
+            tabIndex={-1}
+            aria-label={label}
+            aria-activedescendant={
+              highlightedIndex >= 0
+                ? `${listboxId}-${highlightedIndex}`
+                : undefined
             }
-            if (event.key === "ArrowDown" || event.key === "ArrowUp") {
-              event.preventDefault();
-              const movement = event.key === "ArrowDown" ? 1 : -1;
-              setHighlightedIndex(
-                (index) => (index + movement + options.length) % options.length,
-              );
-              return;
-            }
-            if (event.key === "Home" || event.key === "End") {
-              event.preventDefault();
-              setHighlightedIndex(
-                event.key === "Home" ? 0 : options.length - 1,
-              );
-              return;
-            }
-            if (event.key === "Enter" || event.key === " ") {
-              event.preventDefault();
-              selectOption(highlightedIndex);
-            }
-          }}
-          className="absolute inset-x-0 top-full z-30 mt-2 overflow-hidden rounded-3xl bg-white p-2 shadow-[0_18px_55px_rgba(42,17,87,.16)] outline-hidden"
-        >
-          {options.map((option, index) => {
-            const isSelected = option.value === value;
-            const isHighlighted = index === highlightedIndex;
-            return (
-              <li
-                id={`${listboxId}-${index}`}
-                key={option.value}
-                role="option"
-                aria-selected={isSelected}
-                onPointerEnter={() => setHighlightedIndex(index)}
-                onClick={() => selectOption(index)}
-                className={`transition-linear flex min-h-12 cursor-pointer items-center justify-between gap-4 rounded-2xl px-4 py-3 text-sm transition-colors ${isHighlighted ? "bg-asoebi-mist text-asoebi-purple-950" : "text-asoebi-graphite"}`}
-              >
-                <span>{option.label}</span>
-                <span
-                  aria-hidden="true"
-                  className={`transition-linear grid size-6 place-items-center rounded-full bg-brand text-xs text-white transition-opacity ${isSelected ? "opacity-100" : "opacity-0"}`}
+            onKeyDown={handleListboxKeyDown}
+            style={listboxStyle}
+            className="fixed z-100 [scrollbar-width:thin] [scrollbar-color:theme(colors.asoebi-purple-200)_transparent] overflow-y-auto rounded-3xl bg-white p-2 shadow-[0_18px_55px_rgba(42,17,87,.16)] outline-hidden [&::-webkit-scrollbar]:w-1.5 [&::-webkit-scrollbar-thumb]:rounded-full [&::-webkit-scrollbar-thumb]:bg-asoebi-purple-200 hover:[&::-webkit-scrollbar-thumb]:bg-asoebi-purple-300 [&::-webkit-scrollbar-track]:bg-transparent"
+          >
+            {options.map((option, index) => {
+              const isSelected = option.value === value;
+              const isHighlighted = index === highlightedIndex;
+
+              return (
+                <li
+                  key={option.value}
+                  id={`${listboxId}-${index}`}
+                  role="option"
+                  aria-selected={isSelected}
+                  aria-disabled={option.disabled}
+                  onPointerEnter={() => {
+                    if (!option.disabled) setHighlightedIndex(index);
+                  }}
+                  onClick={() => selectOption(index)}
+                  className={`flex min-h-12 items-center justify-between gap-4 rounded-2xl px-4 py-3 text-sm transition-colors ${
+                    option.disabled
+                      ? "cursor-not-allowed text-asoebi-muted opacity-50"
+                      : isHighlighted
+                        ? "cursor-pointer bg-asoebi-mist text-asoebi-purple-950"
+                        : "cursor-pointer text-asoebi-graphite"
+                  }`}
                 >
-                  ✓
-                </span>
-              </li>
-            );
-          })}
-        </ul>
-      )}
+                  <span className="flex min-w-0 items-center gap-2">
+                    {option.icon}
+                    <span className="truncate">{option.label}</span>
+                  </span>
+                  <span
+                    aria-hidden="true"
+                    className={`grid size-6 shrink-0 place-items-center rounded-full bg-brand text-xs text-white transition-opacity ${
+                      isSelected ? "opacity-100" : "opacity-0"
+                    }`}
+                  >
+                    ✓
+                  </span>
+                </li>
+              );
+            })}
+          </ul>,
+          document.body,
+        )}
     </div>
   );
 }

@@ -138,7 +138,7 @@ export function HomePage() {
               </p>
               <ul className="mt-6">
                 {[
-                  "At least two original collections",
+                  "Two original collections",
                   "One clear, organised submission",
                   "Instagram, YouTube, website or PDF",
                 ].map((requirement) => (
@@ -196,6 +196,37 @@ export function HomePage() {
               sizes="(min-width: 1024px) 58vw, 100vw"
               className="object-cover object-bottom"
             />
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-asoebi-gold-300 px-5 py-20 text-asoebi-purple-950 lg:px-10 lg:py-28">
+        <div className="mx-auto grid max-w-400 gap-10 lg:grid-cols-[1.2fr_.8fr] lg:items-end">
+          <div>
+            <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-900 uppercase">
+              Partnerships
+            </p>
+            <h2 className="mt-5 max-w-5xl font-display text-5xl leading-[.88] tracking-[-.055em] sm:text-7xl lg:text-8xl">
+              Put your name behind African fashion&apos;s next chapter.
+            </h2>
+          </div>
+          <div className="border-t border-asoebi-purple-950/30 pt-6">
+            <p className="max-w-xl text-base leading-7 text-asoebi-graphite sm:text-lg sm:leading-8">
+              Partner with AEFW to support emerging talent, cultural commerce
+              and experiences that carry African fashion onto the world stage.
+            </p>
+            <a
+              href="mailto:asoebifashionweek@gmail.com?subject=AEFW%20Sponsorship%20Enquiry"
+              className="group transition-linear mt-7 inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-asoebi-purple-950 px-6 text-xs font-black tracking-[.13em] text-white uppercase transition-colors hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-asoebi-purple-950"
+            >
+              Become a sponsor
+              <span
+                aria-hidden="true"
+                className="transition-linear transition-transform duration-300 group-hover:translate-x-1 group-hover:-translate-y-0.5 group-focus-visible:translate-x-1 group-focus-visible:-translate-y-0.5"
+              >
+                ↗
+              </span>
+            </a>
           </div>
         </div>
       </section>

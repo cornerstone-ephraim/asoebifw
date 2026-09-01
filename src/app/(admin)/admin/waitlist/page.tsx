@@ -12,10 +12,15 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-export default async function AdminWaitlistPage() {
+export default async function AdminWaitlistPage({
+  searchParams,
+}: {
+  searchParams: Promise<{ search?: string }>;
+}) {
   const admin = await fetchAuthQuery(api.auth.getCurrentAdmin);
   if (!admin) redirect("/admin/sign-in");
 
+  const filters = await searchParams;
   const entries = await fetchAuthQuery(api.admin.listWaitlistEntries);
 
   return (
@@ -25,7 +30,7 @@ export default async function AdminWaitlistPage() {
         title="Waitlist"
         description={`${entries.length} ${entries.length === 1 ? "person is" : "people are"} waiting to hear what comes next.`}
       />
-      <WaitlistTable entries={entries} />
+      <WaitlistTable entries={entries} initialSearch={filters.search ?? ""} />
     </AdminShell>
   );
 }

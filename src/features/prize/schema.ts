@@ -1,10 +1,15 @@
 import { z } from "zod";
 
+import {
+  isPrizePhoneCountry,
+  normalizePrizePhone,
+} from "@/features/prize/phone";
+
 export const prizeSubmissionModes = [
-  { label: "Instagram", value: "instagram" },
-  { label: "YouTube", value: "youtube" },
-  { label: "Website URL", value: "website" },
   { label: "PDF", value: "pdf" },
+  { label: "YouTube", value: "youtube" },
+  { label: "Instagram", value: "instagram" },
+  { label: "Website URL", value: "website" },
 ] as const;
 
 export type PrizeSubmissionMode =
@@ -33,6 +38,12 @@ const baseApplicationFields = {
     .trim()
     .pipe(z.email({ message: "Enter a valid email address" }))
     .transform((value) => value.toLowerCase()),
+  phoneCountry: z.string().refine(isPrizePhoneCountry, {
+    message: "Choose a country code",
+  }),
+  phoneNumber: z.string().trim().min(1, {
+    message: "Enter your phone number",
+  }),
   submissionMode: submissionModeSchema,
   submissionUrl: z.string().trim().max(500).optional().default(""),
   website: z
@@ -42,7 +53,27 @@ const baseApplicationFields = {
     .default(""),
 };
 
+const idDocumentSchema = z
+  .instanceof(File, { message: "Upload an ID document" })
+  .refine((file) => file.size <= 8 * 1024 * 1024, {
+    message: "Keep the ID document under 8 MB",
+  })
+  .refine(
+    (file) =>
+      [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/webp",
+        "image/heic",
+        "image/heif",
+      ].includes(file.type),
+    { message: "Upload a PDF, JPEG, PNG, WebP or HEIC file" },
+  );
+
 type SubmissionValues = {
+  phoneCountry: string;
+  phoneNumber: string;
   submissionMode: PrizeSubmissionMode;
   submissionUrl?: string;
 };
@@ -51,6 +82,14 @@ function validateSubmissionUrl(
   value: SubmissionValues,
   context: z.RefinementCtx,
 ) {
+  if (!normalizePrizePhone(value.phoneCountry, value.phoneNumber)) {
+    context.addIssue({
+      code: "custom",
+      path: ["phoneNumber"],
+      message: "Enter a valid phone number",
+    });
+  }
+
   let url: URL;
   try {
     url = new URL(value.submissionUrl ?? "");
@@ -91,6 +130,7 @@ function validateSubmissionUrl(
 export const prizeApplicationFormSchema = z
   .object({
     ...baseApplicationFields,
+    idDocument: idDocumentSchema,
     consent: z.boolean().refine((value) => value, {
       message: "Confirm that you are authorised to submit this work",
     }),
@@ -100,6 +140,7 @@ export const prizeApplicationFormSchema = z
 export const prizeApplicationSchema = z
   .object({
     ...baseApplicationFields,
+    idDocument: idDocumentSchema,
     consent: z.literal(true, {
       message: "Confirm that you are authorised to submit this work",
     }),

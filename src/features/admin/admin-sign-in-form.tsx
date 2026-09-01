@@ -1,11 +1,12 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
 import { authClient } from "@/lib/auth-client";
 
 type Step = "email" | "code";
+type Message = { text: string; tone: "error" | "success" };
 
 export function AdminSignInForm() {
   const router = useRouter();
@@ -13,10 +14,20 @@ export function AdminSignInForm() {
   const [code, setCode] = useState("");
   const [step, setStep] = useState<Step>("email");
   const [pending, setPending] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<Message | null>(null);
+  const [resendCooldown, setResendCooldown] = useState(0);
 
-  async function requestCode(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+
+    const timer = window.setInterval(() => {
+      setResendCooldown((current) => Math.max(0, current - 1));
+    }, 1_000);
+
+    return () => window.clearInterval(timer);
+  }, [resendCooldown]);
+
+  async function sendCode() {
     setPending(true);
     setMessage(null);
 
@@ -28,11 +39,27 @@ export function AdminSignInForm() {
     setPending(false);
 
     if (error) {
-      setMessage("We could not send a sign-in code to this email.");
-      return;
+      setMessage({
+        text: "We could not send a sign-in code to this email.",
+        tone: "error",
+      });
+      return false;
     }
 
+    setResendCooldown(30);
+    return true;
+  }
+
+  async function requestCode(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const sent = await sendCode();
+
+    if (!sent) return;
     setStep("code");
+    setMessage({
+      text: `A six-digit code was sent to ${email.trim().toLowerCase()}.`,
+      tone: "success",
+    });
   }
 
   async function verifyCode(event: FormEvent<HTMLFormElement>) {
@@ -49,7 +76,10 @@ export function AdminSignInForm() {
     setPending(false);
 
     if (error) {
-      setMessage("That code is invalid or has expired.");
+      setMessage({
+        text: "That code is invalid or has expired.",
+        tone: "error",
+      });
       return;
     }
 
@@ -103,8 +133,11 @@ export function AdminSignInForm() {
       )}
 
       {message && (
-        <p role="alert" className="text-sm font-semibold text-red-700">
-          {message}
+        <p
+          role={message.tone === "error" ? "alert" : "status"}
+          className={`text-sm font-semibold ${message.tone === "error" ? "text-red-700" : "text-emerald-800"}`}
+        >
+          {message.text}
         </p>
       )}
 
@@ -121,17 +154,38 @@ export function AdminSignInForm() {
       </button>
 
       {step === "code" && (
-        <button
-          type="button"
-          onClick={() => {
-            setStep("email");
-            setCode("");
-            setMessage(null);
-          }}
-          className="transition-linear mx-auto block min-h-11 text-sm font-bold text-asoebi-purple-800 underline-offset-4 transition-colors hover:text-asoebi-purple-950 hover:underline"
-        >
-          Use a different email
-        </button>
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+          <button
+            type="button"
+            disabled={pending || resendCooldown > 0}
+            onClick={async () => {
+              const sent = await sendCode();
+              if (sent) {
+                setMessage({
+                  text: "A new sign-in code has been sent.",
+                  tone: "success",
+                });
+              }
+            }}
+            className="transition-linear min-h-11 text-sm font-bold text-asoebi-purple-800 underline-offset-4 transition-colors hover:text-asoebi-purple-950 hover:underline disabled:cursor-not-allowed disabled:text-asoebi-muted disabled:no-underline"
+          >
+            {resendCooldown > 0
+              ? `Resend code in ${resendCooldown}s`
+              : "Resend code"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setStep("email");
+              setCode("");
+              setMessage(null);
+              setResendCooldown(0);
+            }}
+            className="transition-linear min-h-11 text-sm font-bold text-asoebi-purple-800 underline-offset-4 transition-colors hover:text-asoebi-purple-950 hover:underline"
+          >
+            Use a different email
+          </button>
+        </div>
       )}
     </form>
   );
