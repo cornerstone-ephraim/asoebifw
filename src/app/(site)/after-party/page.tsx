@@ -109,9 +109,9 @@ export default function Page() {
             Come dressed. Come ready.
           </h2>
           <p className="mt-7 max-w-lg text-lg leading-8 text-asoebi-graphite">
-            Dress code is strictly traditional attire for a West African
-            wedding. Indoor seating is available on a first come, first served
-            basis.
+            Dress code is strictly traditional attire for a West African wedding
+            in purple, gold, white or black. Indoor seating is available on a
+            first come, first served basis.
           </p>
         </div>
         <div>
@@ -133,6 +133,58 @@ export default function Page() {
             <ArrowLink href="/#waitlist">Join for event updates</ArrowLink>
           </div>
         </div>
+      </section>
+
+      <section className="mt-24 bg-white p-6 sm:p-10 lg:p-14">
+        <div className="grid gap-8 lg:grid-cols-[.75fr_1.25fr] lg:items-end">
+          <div>
+            <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-900 uppercase">
+              Dress code mood board
+            </p>
+            <h2 className="mt-5 font-display text-5xl leading-[.92] tracking-tighter sm:text-7xl">
+              Four colours. Your own expression.
+            </h2>
+          </div>
+          <div>
+            <p className="max-w-xl leading-7 text-asoebi-graphite">
+              Build your traditional wedding look around the AEFW palette. Go
+              monochrome or combine the colours with intention.
+            </p>
+            <ul
+              aria-label="Dress code colours"
+              className="mt-6 flex flex-wrap gap-2"
+            >
+              {[
+                ["Purple", "bg-asoebi-purple-800 text-white"],
+                ["Gold", "bg-asoebi-gold-300 text-asoebi-purple-950"],
+                [
+                  "White",
+                  "border border-asoebi-purple-200 bg-white text-asoebi-purple-950",
+                ],
+                ["Black", "bg-asoebi-charcoal text-white"],
+              ].map(([label, tone]) => (
+                <li
+                  key={label}
+                  className={`rounded-full px-4 py-2 text-xs font-bold uppercase ${tone}`}
+                >
+                  {label}
+                </li>
+              ))}
+            </ul>
+          </div>
+        </div>
+        <figure className="relative mt-10 aspect-3/2 overflow-hidden rounded-4xl bg-asoebi-mist">
+          <Image
+            src="/images/after-party/dress-code-mood-board.webp"
+            alt="Four coordinated West African wedding guest looks in purple, gold, white and black"
+            fill
+            sizes="(min-width: 1600px) 1440px, (min-width: 1024px) 90vw, 100vw"
+            className="object-cover"
+          />
+          <figcaption className="sr-only">
+            AEFW dress code inspiration for the October Owambe After Party.
+          </figcaption>
+        </figure>
       </section>
 
       <section className="mt-24 bg-asoebi-gold-300 p-8 sm:p-12 lg:p-16">

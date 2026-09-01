@@ -5,10 +5,12 @@ import { Controller } from "react-hook-form";
 import { CustomCheckbox } from "@/components/ui/custom-checkbox";
 import { CustomSelect } from "@/components/ui/custom-select";
 import { usePrizeApplicationForm } from "@/features/prize/hooks/use-prize-application-form";
+import { PhoneCountrySelect } from "@/features/prize/phone-country-select";
 import { prizeSubmissionModes } from "@/features/prize/schema";
+import { playInterfaceSound } from "@/features/sound/interface-sound";
 
 const fieldClass =
-  "min-h-13 w-full rounded-full border border-asoebi-purple-300 bg-white px-5 text-sm outline-hidden transition-colors transition-linear placeholder:text-asoebi-muted focus:border-brand aria-invalid:border-red-700";
+  "min-h-13 min-w-0 w-full rounded-full border border-asoebi-purple-300 bg-white px-4 text-sm outline-hidden transition-colors transition-linear placeholder:text-asoebi-muted focus:border-brand aria-invalid:border-red-700 sm:px-5";
 
 const labelClass = (invalid: boolean) =>
   `mb-2 block px-2 text-sm font-bold ${invalid ? "text-red-800" : "text-asoebi-purple-950"}`;
@@ -70,7 +72,7 @@ export function PrizeApplicationForm() {
         ref={resultRef}
         role="status"
         tabIndex={-1}
-        className="mt-10 rounded-4xl bg-white p-8 shadow-asoebi-panel outline-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:p-12"
+        className="mt-8 min-w-0 rounded-4xl bg-white p-5 shadow-asoebi-panel outline-hidden focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand sm:mt-10 sm:p-12"
       >
         <span
           aria-hidden="true"
@@ -78,7 +80,7 @@ export function PrizeApplicationForm() {
         >
           {result.status === "info" ? "i" : "✓"}
         </span>
-        <h3 className="mt-6 max-w-xl font-display text-5xl leading-none tracking-[-.05em] text-asoebi-purple-950">
+        <h3 className="mt-6 max-w-xl font-display text-4xl leading-none tracking-[-.05em] text-asoebi-purple-950 sm:text-5xl">
           {result.status === "info"
             ? "Your work is already with us."
             : "Your collections are in."}
@@ -101,7 +103,7 @@ export function PrizeApplicationForm() {
       ref={formRef}
       data-hydrated="false"
       onSubmit={handleFormSubmit}
-      className="mt-10 rounded-4xl bg-white p-6 shadow-asoebi-panel sm:p-9 lg:p-12"
+      className="mt-8 min-w-0 rounded-4xl bg-white p-4 shadow-asoebi-panel sm:mt-10 sm:p-9 lg:p-12"
       noValidate
       aria-busy={isSubmitting}
     >
@@ -115,8 +117,8 @@ export function PrizeApplicationForm() {
         </div>
       )}
 
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div>
+      <div className="grid min-w-0 gap-5 sm:grid-cols-2">
+        <div className="min-w-0">
           <label
             htmlFor="prize-first-name"
             className={labelClass(Boolean(errors.firstName))}
@@ -141,7 +143,7 @@ export function PrizeApplicationForm() {
           />
         </div>
 
-        <div>
+        <div className="min-w-0">
           <label
             htmlFor="prize-last-name"
             className={labelClass(Boolean(errors.lastName))}
@@ -166,7 +168,7 @@ export function PrizeApplicationForm() {
           />
         </div>
 
-        <div className="sm:col-span-2">
+        <div className="min-w-0 sm:col-span-2">
           <label
             htmlFor="prize-email"
             className={labelClass(Boolean(errors.email))}
@@ -188,7 +190,72 @@ export function PrizeApplicationForm() {
           <FieldError id="prize-email-error" message={errors.email?.message} />
         </div>
 
-        <div className="sm:col-span-2">
+        <fieldset className="min-w-0 sm:col-span-2">
+          <legend
+            className={labelClass(
+              Boolean(errors.phoneCountry || errors.phoneNumber),
+            )}
+          >
+            Phone number <span aria-hidden="true">*</span>
+          </legend>
+          <div className="grid min-w-0 grid-cols-[6.75rem_minmax(0,1fr)] gap-2 sm:grid-cols-[10rem_minmax(0,1fr)] sm:gap-3">
+            <div className="min-w-0">
+              <label htmlFor="prize-phone-country" className="sr-only">
+                Country code
+              </label>
+              <Controller
+                name="phoneCountry"
+                control={control}
+                rules={{ required: "Country is required" }}
+                render={({ field: { value, onChange } }) => (
+                  <PhoneCountrySelect
+                    id="prize-phone-country"
+                    value={value}
+                    changeAction={(country) => {
+                      onChange(country);
+                      clearResult();
+                    }}
+                    invalid={Boolean(errors.phoneCountry)}
+                    describedBy={
+                      errors.phoneCountry
+                        ? "prize-phone-country-error"
+                        : undefined
+                    }
+                  />
+                )}
+              />
+            </div>
+            <div className="min-w-0">
+              <label htmlFor="prize-phone-number" className="sr-only">
+                Local phone number
+              </label>
+              <input
+                id="prize-phone-number"
+                type="tel"
+                inputMode="tel"
+                autoComplete="tel-national"
+                placeholder="e.g. 801 234 5678"
+                required
+                {...register("phoneNumber", { onChange: clearResult })}
+                className={fieldClass}
+                aria-invalid={Boolean(errors.phoneNumber)}
+                aria-describedby={
+                  errors.phoneNumber ? "prize-phone-number-error" : undefined
+                }
+              />
+            </div>
+          </div>
+          <FieldError
+            id="prize-phone-country-error"
+            message={errors.phoneCountry?.message}
+          />
+          <FieldError
+            id="prize-phone-number-error"
+            message={errors.phoneNumber?.message}
+          />
+        </fieldset>
+
+        <div className="min-w-0 sm:col-span-2">
           <label
             htmlFor="prize-submission-mode"
             className={labelClass(Boolean(errors.submissionMode))}
@@ -222,7 +289,7 @@ export function PrizeApplicationForm() {
         </div>
 
         {linkDetail && (
-          <div className="sm:col-span-2">
+          <div className="min-w-0 sm:col-span-2">
             <label
               htmlFor="prize-submission-url"
               className={labelClass(Boolean(errors.submissionUrl))}
@@ -253,7 +320,50 @@ export function PrizeApplicationForm() {
           </div>
         )}
 
-        <div className="px-1 sm:col-span-2">
+        <div className="min-w-0 sm:col-span-2">
+          <label
+            htmlFor="prize-id-document"
+            className={labelClass(Boolean(errors.idDocument))}
+          >
+            Age verification ID <span aria-hidden="true">*</span>
+          </label>
+          <Controller
+            name="idDocument"
+            control={control}
+            render={({ field: { name, onBlur, onChange, ref } }) => (
+              <input
+                ref={ref}
+                id="prize-id-document"
+                name={name}
+                type="file"
+                required
+                accept="application/pdf,image/jpeg,image/png,image/webp,image/heic,image/heif"
+                onBlur={onBlur}
+                onChange={(event) => {
+                  onChange(event.target.files?.[0]);
+                  clearResult();
+                }}
+                className="transition-linear min-h-13 w-full min-w-0 cursor-pointer rounded-3xl border border-asoebi-purple-300 bg-white px-2 py-2 text-xs text-asoebi-graphite outline-hidden transition-colors file:mr-2 file:min-h-9 file:cursor-pointer file:rounded-full file:border-0 file:bg-asoebi-mist file:px-3 file:text-xs file:font-bold file:text-asoebi-purple-950 hover:border-asoebi-purple-500 focus:border-brand aria-invalid:border-red-700 sm:px-3 sm:text-sm sm:file:mr-4 sm:file:px-4"
+                aria-invalid={Boolean(errors.idDocument)}
+                aria-describedby="prize-id-document-note prize-id-document-error"
+              />
+            )}
+          />
+          <p
+            id="prize-id-document-note"
+            className="mt-2 px-2 text-xs leading-5 text-asoebi-muted"
+          >
+            Upload a government-issued ID showing your name and date of birth.
+            You may cover your ID number and address. The document is only
+            available to authorised Prize reviewers. PDF or image, maximum 8 MB.
+          </p>
+          <FieldError
+            id="prize-id-document-error"
+            message={errors.idDocument?.message}
+          />
+        </div>
+
+        <div className="min-w-0 px-1 sm:col-span-2">
           <Controller
             name="consent"
             control={control}
@@ -270,10 +380,11 @@ export function PrizeApplicationForm() {
                 describedBy={errors.consent ? "prize-consent-error" : undefined}
               >
                 I confirm that I own or am authorised to submit this work, that
-                it contains at least two original collections, and that Asoebi
-                Fashion Prize may review it for this competition. I also agree
-                to receive AEFW news and updates.{" "}
-                <span aria-hidden="true">*</span>
+                it contains two original collections, and that Asoebi Fashion
+                Prize may review it for this competition. I am between 16 and 26
+                years old and consent to authorised reviewers using my ID only
+                to verify my eligibility. I also agree to receive AEFW news and
+                updates. <span aria-hidden="true">*</span>
               </CustomCheckbox>
             )}
           />
@@ -291,6 +402,7 @@ export function PrizeApplicationForm() {
       <button
         type="submit"
         disabled={isSubmitting}
+        onClick={() => playInterfaceSound("press", 0.65)}
         className="transition-linear mt-6 flex min-h-13 w-full items-center justify-center gap-3 rounded-full bg-asoebi-purple-950 px-6 text-xs font-black tracking-[.12em] text-white uppercase transition-colors hover:bg-brand disabled:cursor-wait disabled:opacity-70"
       >
         {isSubmitting && (

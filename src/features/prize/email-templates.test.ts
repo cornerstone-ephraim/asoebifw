@@ -9,6 +9,7 @@ const application = {
   firstName: "Ada",
   lastName: "Okafor",
   email: "ada@example.com",
+  phone: "+2348012345678",
   submissionMode: "website" as const,
   reviewUrl: "https://example.com/ada/collections",
   submittedAt: Date.UTC(2026, 7, 28, 20, 0),
@@ -29,6 +30,7 @@ describe("Prize email templates", () => {
     expect(email.text).toContain(application.reviewUrl);
     expect(email.html).toContain(`href="${application.reviewUrl}"`);
     expect(email.html).toContain("View collections");
+    expect(email.text).toContain(application.phone);
   });
 
   it("escapes applicant content in admin notifications", () => {

@@ -16,7 +16,7 @@ export const metadata: Metadata = createMetadata({
 const programme = [
   {
     title: "Runways",
-    copy: "Fashion presentations on the Asoebi stage.",
+    copy: "Fashion presentations on the catwalk",
     tone: "bg-asoebi-purple-950 text-white",
   },
   {
@@ -91,9 +91,7 @@ export default function Page() {
               professionals.
             </p>
             <div className="mt-8">
-              <ArrowLink href="/accreditation">
-                Apply for accreditation
-              </ArrowLink>
+              <ArrowLink href="/accreditation">Apply to participate</ArrowLink>
             </div>
           </div>
         </div>
