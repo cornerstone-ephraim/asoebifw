@@ -7,14 +7,14 @@ export default defineConfig({
   resolve: {
     alias: {
       "server-only": fileURLToPath(
-        new URL("./src/testing/server-only.ts", import.meta.url),
+        new URL("./tests/support/server-only.ts", import.meta.url),
       ),
     },
     tsconfigPaths: true,
   },
   test: {
     environment: "jsdom",
-    setupFiles: ["./src/testing/setup.ts"],
+    setupFiles: ["./tests/support/setup.ts"],
     exclude: ["tests/e2e/**", "node_modules/**"],
     coverage: { reporter: ["text", "json-summary"] },
   },

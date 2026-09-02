@@ -6,6 +6,7 @@ import { useMutation } from "convex/react";
 import { api } from "../../../convex/_generated/api";
 import { AdminPagination } from "@/features/admin/admin-pagination";
 import { AdminFilterSelect } from "@/features/admin/admin-filter-select";
+import { createPrizeApplicationsCsv } from "@/features/admin/admin-csv";
 import {
   PrizeApplicationCard,
   PrizeApplicationRow,
@@ -104,6 +105,18 @@ export function PrizeApplicationsTable({
     setEmailStatus("all");
     setSortOrder("newest");
     setPage(1);
+  };
+
+  const exportCsv = () => {
+    const blob = new Blob([createPrizeApplicationsCsv(filteredApplications)], {
+      type: "text/csv;charset=utf-8",
+    });
+    const url = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = url;
+    anchor.download = `aefw-prize-applications-${new Date().toISOString().slice(0, 10)}.csv`;
+    anchor.click();
+    URL.revokeObjectURL(url);
   };
 
   const changeStatus = async (
@@ -233,15 +246,25 @@ export function PrizeApplicationsTable({
           <p aria-live="polite" className="text-sm text-asoebi-muted">
             {filteredApplications.length} of {applications.length} applications
           </p>
-          {filtersActive && (
+          <div className="flex flex-wrap items-center gap-2">
+            {filtersActive && (
+              <button
+                type="button"
+                onClick={clearFilters}
+                className="transition-linear min-h-10 rounded-full px-4 text-sm font-bold text-asoebi-purple-800 transition-colors hover:bg-asoebi-mist hover:text-brand"
+              >
+                Clear filters
+              </button>
+            )}
             <button
               type="button"
-              onClick={clearFilters}
-              className="transition-linear min-h-10 rounded-full px-4 text-sm font-bold text-asoebi-purple-800 transition-colors hover:bg-asoebi-mist hover:text-brand"
+              onClick={exportCsv}
+              disabled={!filteredApplications.length}
+              className="transition-linear min-h-10 rounded-full bg-asoebi-purple-950 px-4 text-sm font-bold text-white transition-colors hover:bg-brand disabled:cursor-not-allowed disabled:opacity-40"
             >
-              Clear filters
+              Export {filteredApplications.length} CSV
             </button>
-          )}
+          </div>
         </div>
       </div>
 

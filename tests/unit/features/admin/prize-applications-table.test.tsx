@@ -60,6 +60,7 @@ describe("PrizeApplicationsTable", () => {
       target: { value: "failed" },
     });
     expect(screen.getByText("1 of 2 applications")).toBeVisible();
+    expect(screen.getByRole("button", { name: "Export 1 CSV" })).toBeVisible();
   });
 
   it("updates review status through the protected mutation", async () => {

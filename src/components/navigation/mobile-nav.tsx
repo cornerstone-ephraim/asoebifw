@@ -1,10 +1,5 @@
-import { AnimatePresence, motion, useReducedMotion } from "motion/react";
+import { motion } from "motion/react";
 import Link from "next/link";
-
-interface NavLinkItem {
-  readonly label: string;
-  readonly href: string;
-}
 
 interface MobileNavProps {
   readonly links: readonly (readonly [string, string])[];
@@ -13,15 +8,6 @@ interface MobileNavProps {
   readonly reduced: boolean | null;
   readonly closeAction: () => void;
 }
-
-const itemVariants = {
-  closed: { y: -8, opacity: 0 },
-  open: {
-    y: 0,
-    opacity: 1,
-    transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-  },
-};
 
 export const MobileNav = ({
   links,

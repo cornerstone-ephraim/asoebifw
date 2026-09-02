@@ -20,16 +20,9 @@ const participationLinks = [
 ] as const;
 
 export function SiteHeader() {
-  const [open, setOpen] = useState(false);
   const [compact, setCompact] = useState(false);
   const reduced = useReducedMotion();
   const pathname = usePathname();
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
-
-  // Close menu on route transition
-  useEffect(() => {
-    setOpen(false);
-  }, [pathname]);
 
   // Scroll threshold detection for compact state
   useEffect(() => {
@@ -52,7 +45,30 @@ export function SiteHeader() {
     };
   }, []);
 
-  // Escape key handler
+  return (
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 text-asoebi-purple-950 sm:px-5 sm:pt-4">
+      <SiteHeaderContent
+        key={pathname}
+        pathname={pathname}
+        compact={compact}
+        reduced={reduced}
+      />
+    </header>
+  );
+}
+
+function SiteHeaderContent({
+  pathname,
+  compact,
+  reduced,
+}: {
+  pathname: string;
+  compact: boolean;
+  reduced: boolean | null;
+}) {
+  const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     if (!open) return;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -65,7 +81,7 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 text-asoebi-purple-950 sm:px-5 sm:pt-4">
+    <>
       <motion.div
         layout
         transition={{ duration: reduced ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
@@ -152,6 +168,6 @@ export function SiteHeader() {
           />
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }
