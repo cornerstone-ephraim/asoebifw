@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm, useWatch } from "react-hook-form";
 
 import { submitPrizeApplication } from "@/features/prize/action";
+import { useSubmissionResultSound } from "@/features/sound/hooks/use-submission-result-sound";
 import {
   prizeApplicationFormSchema,
   type PrizeApplicationForm,
@@ -20,6 +21,8 @@ export function usePrizeApplicationForm() {
   const formRef = useRef<HTMLFormElement>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
+  useSubmissionResultSound(result.status);
+
   const form = useForm<
     PrizeApplicationFormInput,
     unknown,
@@ -30,6 +33,8 @@ export function usePrizeApplicationForm() {
       firstName: "",
       lastName: "",
       email: "",
+      phoneCountry: "NG",
+      phoneNumber: "",
       submissionUrl: "",
       consent: false,
       website: "",
@@ -86,8 +91,11 @@ export function usePrizeApplicationForm() {
               field === "firstName" ||
               field === "lastName" ||
               field === "email" ||
+              field === "phoneCountry" ||
+              field === "phoneNumber" ||
               field === "submissionMode" ||
               field === "submissionUrl" ||
+              field === "idDocument" ||
               field === "consent"
             ) {
               form.setError(field, {

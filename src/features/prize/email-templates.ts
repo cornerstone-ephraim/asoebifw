@@ -4,6 +4,7 @@ type PrizeEmailInput = {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string;
   submissionMode: PrizeSubmissionMode;
   reviewUrl?: string | null;
   submittedAt: number;
@@ -112,6 +113,7 @@ export function buildAdminPrizeEmail({
   firstName,
   lastName,
   email,
+  phone,
   submissionMode,
   reviewUrl,
   submittedAt,
@@ -119,6 +121,7 @@ export function buildAdminPrizeEmail({
   const safeFirstName = escapeHtml(firstName);
   const safeLastName = escapeHtml(lastName);
   const safeEmail = escapeHtml(email);
+  const safePhone = escapeHtml(phone);
   const safeReviewUrl = reviewUrl ? escapeHtml(reviewUrl) : undefined;
   const mode = modeLabels[submissionMode];
   const submissionTime = formatSubmissionTime(submittedAt);
@@ -127,7 +130,7 @@ export function buildAdminPrizeEmail({
 
   return {
     subject: `New Prize application: ${firstName} ${lastName}`,
-    text: `NEW ASOEBI FASHION PRIZE APPLICATION\n\n${firstName} ${lastName} submitted two collections for review.\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nSubmission mode: ${mode}\nSubmitted: ${submissionTime}${reviewUrl ? `\nReview submission: ${reviewUrl}` : ""}\n\nReply to this email to contact ${firstName}.`,
+    text: `NEW ASOEBI FASHION PRIZE APPLICATION\n\n${firstName} ${lastName} submitted two collections for review.\n\nName: ${firstName} ${lastName}\nEmail: ${email}\nPhone: ${phone}\nSubmission mode: ${mode}\nSubmitted: ${submissionTime}${reviewUrl ? `\nReview submission: ${reviewUrl}` : ""}\n\nReply to this email to contact ${firstName}.`,
     html: `<!doctype html>
 <html lang="en">
   <body style="margin:0;background:#f1ecf7;color:#2a1157;font-family:Arial,Helvetica,sans-serif;padding:0;">
@@ -163,6 +166,12 @@ export function buildAdminPrizeEmail({
                     <td style="padding:12px 24px;">
                       <p style="color:#7a5b00;font-size:10px;font-weight:800;letter-spacing:1.5px;margin:0 0 7px;text-transform:uppercase;">Email</p>
                       <a href="mailto:${safeEmail}" style="color:#52239f;font-size:15px;font-weight:700;line-height:1.5;text-decoration:none;word-break:break-word;">${safeEmail}</a>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td style="padding:12px 24px;">
+                      <p style="color:#7a5b00;font-size:10px;font-weight:800;letter-spacing:1.5px;margin:0 0 7px;text-transform:uppercase;">Phone</p>
+                      <a href="tel:${safePhone}" style="color:#52239f;font-size:15px;font-weight:700;line-height:1.5;text-decoration:none;">${safePhone}</a>
                     </td>
                   </tr>
                   <tr>

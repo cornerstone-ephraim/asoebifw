@@ -26,16 +26,27 @@ describe("submitPrizeApplication", () => {
   beforeEach(() => {
     sendPrizeApplicationEmailsMock.mockReset();
     runConvexMutationMock.mockReset();
+    vi.stubGlobal(
+      "fetch",
+      vi.fn().mockResolvedValue(
+        new Response(JSON.stringify({ storageId: "id-storage-id" }), {
+          status: 200,
+          headers: { "Content-Type": "application/json" },
+        }),
+      ),
+    );
   });
 
   it("returns the duplicate information state when an email retry fails", async () => {
     runConvexMutationMock
+      .mockResolvedValueOnce("https://example.convex.site/upload")
       .mockResolvedValueOnce({
         status: "duplicate",
         applicationId: "application-id",
         firstName: "Ada",
         lastName: "Okafor",
         email: "ada@example.com",
+        phone: "+2348012345678",
         submissionMode: "website",
         reviewUrl: "https://example.com/collections",
         submittedAt: 1_788_000_000_000,
@@ -50,9 +61,14 @@ describe("submitPrizeApplication", () => {
       firstName: "Ada",
       lastName: "Okafor",
       email: "ada@example.com",
+      phoneCountry: "NG",
+      phoneNumber: "08012345678",
       submissionMode: "website",
       submissionUrl: "https://example.com/collections",
       consent: true,
+      idDocument: new File(["identity"], "id.pdf", {
+        type: "application/pdf",
+      }),
       website: "",
     });
 

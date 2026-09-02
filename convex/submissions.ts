@@ -62,6 +62,8 @@ export const createPrizeApplication = mutation({
     firstName: v.string(),
     lastName: v.string(),
     email: v.string(),
+    phone: v.string(),
+    phoneCountry: v.string(),
     submissionMode: v.union(
       v.literal("instagram"),
       v.literal("youtube"),
@@ -69,6 +71,7 @@ export const createPrizeApplication = mutation({
       v.literal("pdf"),
     ),
     submissionUrl: v.optional(v.string()),
+    idDocumentStorageId: v.id("_storage"),
     consent: v.literal(true),
   },
   handler: async (context, input) => {
@@ -78,6 +81,7 @@ export const createPrizeApplication = mutation({
       .first();
 
     if (existing) {
+      await context.storage.delete(input.idDocumentStorageId);
       const reviewUrl = existing.pdfStorageId
         ? await context.storage.getUrl(existing.pdfStorageId)
         : existing.submissionUrl;
@@ -87,6 +91,7 @@ export const createPrizeApplication = mutation({
         firstName: existing.firstName ?? input.firstName,
         lastName: existing.lastName ?? input.lastName,
         email: existing.email,
+        phone: existing.phone ?? input.phone,
         submissionMode: existing.submissionMode ?? input.submissionMode,
         reviewUrl,
         submittedAt: existing.submittedAt,
@@ -110,12 +115,18 @@ export const createPrizeApplication = mutation({
       firstName: input.firstName,
       lastName: input.lastName,
       email: input.email,
+      phone: input.phone,
       submissionMode: input.submissionMode,
       reviewUrl,
       submittedAt,
       shouldSendEmails: true,
     };
   },
+});
+
+export const generatePrizeIdUploadUrl = mutation({
+  args: {},
+  handler: async (context) => context.storage.generateUploadUrl(),
 });
 
 export const setPrizeEmailStatus = mutation({

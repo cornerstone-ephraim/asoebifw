@@ -1,55 +1,103 @@
 "use client";
 
-import { type FormEvent, useState } from "react";
+import { type FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 
+import { OtpInput } from "@/components/ui/otp-input";
+import {
+  adminAccounts,
+  getAdminAccount,
+  type AdminAccountId,
+} from "@/features/admin/admin-accounts";
 import { authClient } from "@/lib/auth-client";
 
-type Step = "email" | "code";
+type Step = "account" | "code";
+type Message = { text: string; tone: "error" | "success" };
 
 export function AdminSignInForm() {
   const router = useRouter();
-  const [email, setEmail] = useState("");
+  const [accountId, setAccountId] = useState<AdminAccountId | "">("");
   const [code, setCode] = useState("");
-  const [step, setStep] = useState<Step>("email");
+  const [step, setStep] = useState<Step>("account");
   const [pending, setPending] = useState(false);
-  const [message, setMessage] = useState<string | null>(null);
+  const [message, setMessage] = useState<Message | null>(null);
+  const [resendCooldown, setResendCooldown] = useState(0);
+  const account = getAdminAccount(accountId);
 
-  async function requestCode(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
+  useEffect(() => {
+    if (resendCooldown <= 0) return;
+
+    const timer = window.setInterval(() => {
+      setResendCooldown((current) => Math.max(0, current - 1));
+    }, 1_000);
+
+    return () => window.clearInterval(timer);
+  }, [resendCooldown]);
+
+  async function sendCode() {
+    if (!account) {
+      setMessage({ text: "Choose an account to continue.", tone: "error" });
+      return false;
+    }
+
     setPending(true);
     setMessage(null);
 
     const { error } = await authClient.emailOtp.sendVerificationOtp({
-      email: email.trim().toLowerCase(),
+      email: account.email,
       type: "sign-in",
     });
 
     setPending(false);
 
     if (error) {
-      setMessage("We could not send a sign-in code to this email.");
-      return;
+      setMessage({
+        text: "We could not send a sign-in code to this account.",
+        tone: "error",
+      });
+      return false;
     }
 
+    setResendCooldown(30);
+    return true;
+  }
+
+  async function requestCode(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault();
+    const sent = await sendCode();
+
+    if (!sent || !account) return;
     setStep("code");
+    setMessage({
+      text: `A six-digit code was sent to ${account.name}'s email.`,
+      tone: "success",
+    });
   }
 
   async function verifyCode(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+
+    if (!account || code.length !== 6) {
+      setMessage({ text: "Enter the complete six-digit code.", tone: "error" });
+      return;
+    }
+
     setPending(true);
     setMessage(null);
 
     const { error } = await authClient.signIn.emailOtp({
-      email: email.trim().toLowerCase(),
-      otp: code.trim(),
-      name: "AEFW administrator",
+      email: account.email,
+      otp: code,
+      name: account.name,
     });
 
     setPending(false);
 
     if (error) {
-      setMessage("That code is invalid or has expired.");
+      setMessage({
+        text: "That code is invalid or has expired.",
+        tone: "error",
+      });
       return;
     }
 
@@ -59,79 +107,114 @@ export function AdminSignInForm() {
 
   return (
     <form
-      onSubmit={step === "email" ? requestCode : verifyCode}
+      onSubmit={step === "account" ? requestCode : verifyCode}
       className="mt-10 space-y-6"
       noValidate
     >
-      <div>
-        <label htmlFor="admin-email" className="block text-sm font-bold">
-          Email address
-        </label>
-        <input
-          id="admin-email"
-          name="email"
-          type="email"
-          autoComplete="email"
-          required
-          readOnly={step === "code"}
-          value={email}
-          onChange={(event) => setEmail(event.target.value)}
-          className="transition-linear mt-2 min-h-13 w-full rounded-2xl border border-asoebi-purple-950 bg-white px-4 text-base outline-hidden transition-colors focus-visible:border-asoebi-gold-600 disabled:opacity-60"
-        />
-      </div>
+      {step === "account" && (
+        <fieldset>
+          <legend className="text-sm font-bold">Who is signing in?</legend>
+          <div className="mt-3 grid gap-3 sm:grid-cols-2">
+            {adminAccounts.map((adminAccount) => (
+              <label
+                key={adminAccount.id}
+                className="transition-linear group relative cursor-pointer rounded-2xl border border-asoebi-purple-200 bg-white p-4 transition-colors focus-within:outline-2 focus-within:outline-offset-2 focus-within:outline-asoebi-purple-950 hover:border-asoebi-purple-600 has-checked:border-asoebi-purple-950 has-checked:bg-asoebi-mist"
+              >
+                <input
+                  type="radio"
+                  name="admin-account"
+                  value={adminAccount.id}
+                  checked={accountId === adminAccount.id}
+                  onChange={() => {
+                    setAccountId(adminAccount.id);
+                    setMessage(null);
+                  }}
+                  className="sr-only"
+                />
+                <span className="block font-bold text-asoebi-purple-950">
+                  {adminAccount.name}
+                </span>
+                <span className="mt-1 block text-xs text-asoebi-muted">
+                  {adminAccount.emailHint}
+                </span>
+                <span
+                  aria-hidden="true"
+                  className="absolute top-4 right-4 size-4 rounded-full border border-asoebi-purple-400 bg-white group-has-checked:border-4 group-has-checked:border-asoebi-purple-950"
+                />
+              </label>
+            ))}
+          </div>
+        </fieldset>
+      )}
 
       {step === "code" && (
-        <div>
-          <label htmlFor="admin-code" className="block text-sm font-bold">
-            Six-digit code
-          </label>
-          <input
-            id="admin-code"
-            name="code"
-            type="text"
-            inputMode="numeric"
-            autoComplete="one-time-code"
-            pattern="[0-9]{6}"
-            maxLength={6}
-            required
-            autoFocus
-            value={code}
-            onChange={(event) => setCode(event.target.value.replace(/\D/g, ""))}
-            className="transition-linear mt-2 min-h-13 w-full rounded-2xl border border-asoebi-purple-950 bg-white px-4 text-lg tracking-[.25em] outline-hidden transition-colors focus-visible:border-asoebi-gold-600"
-          />
-        </div>
+        <OtpInput
+          id="admin-code"
+          label="Six-digit code"
+          value={code}
+          changeAction={setCode}
+          disabled={pending}
+          invalid={message?.tone === "error"}
+          describedBy={message ? "admin-sign-in-message" : undefined}
+          autoFocus
+        />
       )}
 
       {message && (
-        <p role="alert" className="text-sm font-semibold text-red-700">
-          {message}
+        <p
+          id="admin-sign-in-message"
+          role={message.tone === "error" ? "alert" : "status"}
+          className={`text-sm font-semibold ${message.tone === "error" ? "text-red-700" : "text-emerald-800"}`}
+        >
+          {message.text}
         </p>
       )}
 
       <button
         type="submit"
-        disabled={pending}
-        className="transition-linear min-h-13 w-full rounded-full bg-asoebi-gold-500 px-6 text-sm font-black tracking-[.08em] text-asoebi-purple-950 uppercase transition-colors hover:bg-asoebi-gold-400 disabled:cursor-wait disabled:opacity-65"
+        disabled={pending || (step === "account" && !accountId)}
+        className="transition-linear min-h-13 w-full rounded-full bg-asoebi-gold-500 px-6 text-sm font-black tracking-[.08em] text-asoebi-purple-950 uppercase transition-colors hover:bg-asoebi-gold-400 disabled:cursor-not-allowed disabled:opacity-65"
       >
         {pending
           ? "Please wait"
-          : step === "email"
+          : step === "account"
             ? "Send sign-in code"
             : "Enter admin area"}
       </button>
 
       {step === "code" && (
-        <button
-          type="button"
-          onClick={() => {
-            setStep("email");
-            setCode("");
-            setMessage(null);
-          }}
-          className="transition-linear mx-auto block min-h-11 text-sm font-bold text-asoebi-purple-800 underline-offset-4 transition-colors hover:text-asoebi-purple-950 hover:underline"
-        >
-          Use a different email
-        </button>
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2">
+          <button
+            type="button"
+            disabled={pending || resendCooldown > 0}
+            onClick={async () => {
+              const sent = await sendCode();
+              if (sent) {
+                setMessage({
+                  text: "A new sign-in code has been sent.",
+                  tone: "success",
+                });
+              }
+            }}
+            className="transition-linear min-h-11 text-sm font-bold text-asoebi-purple-800 underline-offset-4 transition-colors hover:text-asoebi-purple-950 hover:underline disabled:cursor-not-allowed disabled:text-asoebi-muted disabled:no-underline"
+          >
+            {resendCooldown > 0
+              ? `Resend code in ${resendCooldown}s`
+              : "Resend code"}
+          </button>
+          <button
+            type="button"
+            onClick={() => {
+              setStep("account");
+              setCode("");
+              setMessage(null);
+              setResendCooldown(0);
+            }}
+            className="transition-linear min-h-11 text-sm font-bold text-asoebi-purple-800 underline-offset-4 transition-colors hover:text-asoebi-purple-950 hover:underline"
+          >
+            Choose another account
+          </button>
+        </div>
       )}
     </form>
   );

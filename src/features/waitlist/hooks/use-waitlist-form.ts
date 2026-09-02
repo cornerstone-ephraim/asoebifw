@@ -5,6 +5,7 @@ import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 
 import { submitWaitlist } from "@/features/waitlist/action";
+import { useSubmissionResultSound } from "@/features/sound/hooks/use-submission-result-sound";
 import {
   waitlistSchema,
   type WaitlistInput as Values,
@@ -15,6 +16,8 @@ export function useWaitlistForm() {
   const [result, setResult] = useState(idleActionResult);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const resultRef = useRef<HTMLDivElement>(null);
+
+  useSubmissionResultSound(result.status);
 
   const form = useForm<Values>({
     resolver: zodResolver(waitlistSchema),

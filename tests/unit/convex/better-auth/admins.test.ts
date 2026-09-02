@@ -1,6 +1,10 @@
 import { describe, expect, it } from "vitest";
 
-import { adminEmails, isAdminEmail } from "./admins";
+import {
+  adminEmails,
+  isAdminEmail,
+} from "../../../../convex/betterAuth/admins";
+import { adminAccounts } from "@/features/admin/admin-accounts";
 
 describe("AEFW admin allowlist", () => {
   it.each(adminEmails)("permits %s", (email) => {
@@ -14,5 +18,11 @@ describe("AEFW admin allowlist", () => {
   it("rejects emails outside the allowlist", () => {
     expect(isAdminEmail("visitor@example.com")).toBe(false);
     expect(isAdminEmail(undefined)).toBe(false);
+  });
+
+  it("keeps every sign-in option aligned with the backend allowlist", () => {
+    expect([...adminAccounts.map((account) => account.email)].sort()).toEqual(
+      [...adminEmails].sort(),
+    );
   });
 });

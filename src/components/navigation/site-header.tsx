@@ -4,6 +4,7 @@ import { AnimatePresence, motion, useReducedMotion } from "motion/react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
+import { MobileNav } from "./mobile-nav";
 
 const links = [
   ["Home", "/"],
@@ -19,12 +20,11 @@ const participationLinks = [
 ] as const;
 
 export function SiteHeader() {
-  const [open, setOpen] = useState(false);
   const [compact, setCompact] = useState(false);
   const reduced = useReducedMotion();
   const pathname = usePathname();
-  const menuButtonRef = useRef<HTMLButtonElement>(null);
 
+  // Scroll threshold detection for compact state
   useEffect(() => {
     const updateHeader = () => {
       const openingSection = document.querySelector<HTMLElement>(
@@ -45,6 +45,30 @@ export function SiteHeader() {
     };
   }, []);
 
+  return (
+    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 text-asoebi-purple-950 sm:px-5 sm:pt-4">
+      <SiteHeaderContent
+        key={pathname}
+        pathname={pathname}
+        compact={compact}
+        reduced={reduced}
+      />
+    </header>
+  );
+}
+
+function SiteHeaderContent({
+  pathname,
+  compact,
+  reduced,
+}: {
+  pathname: string;
+  compact: boolean;
+  reduced: boolean | null;
+}) {
+  const [open, setOpen] = useState(false);
+  const menuButtonRef = useRef<HTMLButtonElement>(null);
+
   useEffect(() => {
     if (!open) return;
     const closeOnEscape = (event: KeyboardEvent) => {
@@ -57,16 +81,20 @@ export function SiteHeader() {
   }, [open]);
 
   return (
-    <header className="pointer-events-none fixed inset-x-0 top-0 z-50 px-3 pt-3 text-asoebi-purple-950 sm:px-5 sm:pt-4">
+    <>
       <motion.div
         layout
         transition={{ duration: reduced ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
-        className={`transition-linear pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-asoebi-float backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] duration-250 sm:px-6 ${compact ? "h-14 max-w-235 bg-white/80 text-asoebi-purple-950 shadow-asoebi-warm" : "h-16 max-w-295 bg-white/94 text-asoebi-purple-950"}`}
+        className={`transition-linear pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-asoebi-float backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] duration-250 sm:px-6 ${
+          compact
+            ? "h-14 max-w-235 bg-white/80 text-asoebi-purple-950 shadow-asoebi-warm"
+            : "h-16 max-w-295 bg-white/94 text-asoebi-purple-950"
+        }`}
       >
         <Link
           data-site-logo
           href="/"
-          className="font-display text-xl font-bold tracking-[-.04em] sm:text-2xl"
+          className="font-display text-xl leading-none font-bold tracking-[-.085em] sm:text-2xl"
         >
           AEFW<span className="text-asoebi-gold-500">.</span>
         </Link>
@@ -77,12 +105,15 @@ export function SiteHeader() {
               key={href}
               href={href}
               aria-current={pathname === href ? "page" : undefined}
-              className={`transition-linear font-display text-[15px] font-semibold tracking-[-.015em] transition-colors hover:text-brand ${pathname === href ? "text-brand" : "text-asoebi-purple-950/70"}`}
+              className={`transition-linear font-display text-[15px] font-semibold tracking-[-.015em] transition-colors hover:text-brand ${
+                pathname === href ? "text-brand" : "text-asoebi-purple-950/70"
+              }`}
             >
               {label}
             </Link>
           ))}
         </nav>
+
         <div className="flex items-center gap-2">
           <Link
             href="/prize#apply"
@@ -96,14 +127,17 @@ export function SiteHeader() {
               ↗
             </span>
           </Link>
+
           <button
             ref={menuButtonRef}
             type="button"
             aria-expanded={open}
             aria-controls="mobile-navigation"
             aria-label={open ? "Close navigation" : "Open navigation"}
-            onClick={() => setOpen(!open)}
-            className={`transition-linear grid size-11 place-items-center rounded-full text-xs font-bold transition-colors lg:hidden ${compact ? "bg-white/55" : "bg-asoebi-mist"}`}
+            onClick={() => setOpen((prev) => !prev)}
+            className={`transition-linear grid size-11 place-items-center rounded-full text-xs font-bold transition-colors lg:hidden ${
+              compact ? "bg-white/55" : "bg-asoebi-mist"
+            }`}
           >
             <span aria-hidden="true" className="flex flex-col gap-1.5">
               {open ? (
@@ -122,77 +156,18 @@ export function SiteHeader() {
           </button>
         </div>
       </motion.div>
+
       <AnimatePresence>
         {open && (
-          <motion.nav
-            id="mobile-navigation"
-            aria-label="Mobile"
-            initial={reduced ? false : "closed"}
-            animate="open"
-            exit="closed"
-            variants={{
-              closed: { opacity: 0, y: -12, scale: 0.98 },
-              open: {
-                opacity: 1,
-                y: 0,
-                scale: 1,
-                transition: {
-                  duration: reduced ? 0 : 0.45,
-                  ease: [0.22, 1, 0.36, 1],
-                  when: "beforeChildren",
-                  staggerChildren: reduced ? 0 : 0.045,
-                },
-              },
-            }}
-            className="pointer-events-auto mx-auto mt-2 max-w-295 overflow-hidden rounded-4xl border border-white/70 bg-asoebi-mist/96 p-5 shadow-asoebi-float backdrop-blur-xl lg:hidden"
-          >
-            <div className="grid sm:grid-cols-2 sm:gap-x-6">
-              {links.map(([label, href]) => (
-                <motion.div
-                  key={href}
-                  variants={{
-                    closed: { y: -8, opacity: 0 },
-                    open: {
-                      y: 0,
-                      opacity: 1,
-                      transition: { duration: 0.35, ease: [0.22, 1, 0.36, 1] },
-                    },
-                  }}
-                >
-                  <Link
-                    href={href}
-                    onClick={() => setOpen(false)}
-                    aria-current={pathname === href ? "page" : undefined}
-                    className={`block border-b py-3 font-display text-3xl tracking-[-.04em] ${pathname === href ? "border-brand text-brand" : "border-asoebi-purple-300/70"}`}
-                  >
-                    {label}
-                  </Link>
-                </motion.div>
-              ))}
-            </div>
-            <motion.div
-              variants={{ closed: { opacity: 0 }, open: { opacity: 1 } }}
-              className="mt-7 border-t border-asoebi-purple-300/70 pt-5"
-            >
-              <p className="text-[10px] font-bold tracking-[.18em] text-brand uppercase">
-                Participate
-              </p>
-              <div className="mt-3 flex flex-wrap gap-x-5 gap-y-2">
-                {participationLinks.map(([label, href]) => (
-                  <Link
-                    key={href}
-                    href={href}
-                    onClick={() => setOpen(false)}
-                    className="transition-linear py-2 text-sm font-bold text-asoebi-purple-950 transition-colors hover:text-brand"
-                  >
-                    {label}
-                  </Link>
-                ))}
-              </div>
-            </motion.div>
-          </motion.nav>
+          <MobileNav
+            links={links}
+            participationLinks={participationLinks}
+            pathname={pathname}
+            reduced={reduced}
+            closeAction={() => setOpen(false)}
+          />
         )}
       </AnimatePresence>
-    </header>
+    </>
   );
 }

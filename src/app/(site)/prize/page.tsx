@@ -19,7 +19,7 @@ const prizes = [
     place: "Second place",
     award: "Rising Star Award",
     benefits: [
-      "Internship with a leading fashion house",
+      "Internship with a Nigerian fashion house",
       "VIP access to Asoebi Fashion Week events",
       "Professional fashion portfolio development support",
     ],
@@ -36,16 +36,16 @@ const prizes = [
 ] as const;
 
 const eligibility = [
-  "Ages 18 and above",
+  "Ages 16 - 26",
   "A minimum of two original collections",
   "Emerging and student fashion brands only",
 ] as const;
 
 const submissionModes = [
   {
-    name: "Instagram",
+    name: "PDF",
     detail:
-      "A public profile, Highlight or pinned sequence presenting both collections.",
+      "A public link to one organised document containing both collections. Set access to anyone with the link so the judges can open it without requesting permission.",
   },
   {
     name: "YouTube",
@@ -53,13 +53,13 @@ const submissionModes = [
       "A public or unlisted playlist, or one video with clearly labelled chapters.",
   },
   {
-    name: "Website",
-    detail: "One portfolio page where both collections are easy to review.",
+    name: "Instagram",
+    detail:
+      "A public profile, Highlight or pinned sequence presenting both collections.",
   },
   {
-    name: "PDF",
-    detail:
-      "A public link to one organised document containing both collections. Set access to anyone with the link so the judges can open it without requesting permission.",
+    name: "Website",
+    detail: "One portfolio page where both collections are easy to review.",
   },
 ] as const;
 
@@ -240,25 +240,25 @@ export default function Page() {
 
       <section
         id="apply"
-        className="mt-24 scroll-mt-24 bg-asoebi-gold-300 p-6 sm:p-12 lg:p-16"
+        className="mt-24 scroll-mt-24 bg-asoebi-gold-300 p-3 sm:p-12 lg:p-16"
       >
         <div className="grid gap-8 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
           <div>
             <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-900 uppercase">
               Applications
             </p>
-            <h2 className="mt-5 max-w-3xl font-display text-6xl leading-[.88] tracking-[-.055em] sm:text-8xl">
+            <h2 className="mt-5 max-w-3xl font-display text-5xl leading-[.88] tracking-[-.055em] sm:text-8xl">
               Put your collections forward.
             </h2>
           </div>
           <div className="border-t border-asoebi-purple-950/30 pt-5">
             <p className="font-bold text-asoebi-purple-950">
-              Deadline: December 26, 2026
+              Deadline: December 19, 2026
             </p>
             <p className="mt-2 leading-7 text-asoebi-graphite">
-              Submit one organised package containing at least two original
-              collections. PDF links must remain publicly accessible throughout
-              the review period.
+              Submit one organised package containing two original collections.
+              PDF links must remain publicly accessible throughout the review
+              period.
             </p>
           </div>
         </div>

@@ -1,13 +1,14 @@
 "use server";
 
 import * as Sentry from "@sentry/nextjs";
+import { z } from "zod";
 
 import { convexMutation, runConvexMutation } from "@/lib/server/convex";
 import { runValidatedSubmission } from "@/lib/server/submit-action";
 import { sendPrizeApplicationEmails } from "@/features/prize/email";
+import { normalizePrizePhone } from "@/features/prize/phone";
 import {
   prizeApplicationSchema,
-  type PrizeApplication,
   type PrizeApplicationInput,
   type PrizeSubmissionMode,
 } from "@/features/prize/schema";
@@ -18,6 +19,7 @@ type PrizeSubmissionResult = {
   firstName: string;
   lastName: string;
   email: string;
+  phone: string;
   submissionMode: PrizeSubmissionMode;
   reviewUrl?: string | null;
   submittedAt: number;
@@ -25,14 +27,45 @@ type PrizeSubmissionResult = {
 };
 
 const createPrizeApplication = convexMutation<
-  Omit<PrizeApplication, "website">,
+  {
+    firstName: string;
+    lastName: string;
+    email: string;
+    phone: string;
+    phoneCountry: string;
+    submissionMode: PrizeSubmissionMode;
+    submissionUrl?: string;
+    idDocumentStorageId: string;
+    consent: true;
+  },
   PrizeSubmissionResult
 >("submissions:createPrizeApplication");
+
+const generatePrizeIdUploadUrl = convexMutation<Record<string, never>, string>(
+  "submissions:generatePrizeIdUploadUrl",
+);
 
 const setPrizeEmailStatus = convexMutation<
   { applicationId: string; emailStatus: "sent" | "failed" },
   null
 >("submissions:setPrizeEmailStatus");
+
+const uploadResponseSchema = z.object({ storageId: z.string().min(1) });
+
+async function uploadIdDocument(idDocument: File) {
+  const uploadUrl = await runConvexMutation(generatePrizeIdUploadUrl, {});
+  const response = await fetch(uploadUrl, {
+    method: "POST",
+    headers: { "Content-Type": idDocument.type },
+    body: idDocument,
+  });
+
+  if (!response.ok) {
+    throw new Error(`ID document upload failed with ${response.status}`);
+  }
+
+  return uploadResponseSchema.parse(await response.json()).storageId;
+}
 
 export async function submitPrizeApplication(input: PrizeApplicationInput) {
   return runValidatedSubmission({
@@ -43,16 +76,26 @@ export async function submitPrizeApplication(input: PrizeApplicationInput) {
       firstName,
       lastName,
       email,
+      phoneCountry,
+      phoneNumber,
       submissionMode,
       submissionUrl,
+      idDocument,
       consent,
     }) => {
+      const phone = normalizePrizePhone(phoneCountry, phoneNumber);
+      if (!phone) throw new Error("Validated phone number could not be parsed");
+
+      const idDocumentStorageId = await uploadIdDocument(idDocument);
       const result = await runConvexMutation(createPrizeApplication, {
         firstName,
         lastName,
         email,
+        phone,
+        phoneCountry,
         submissionMode,
         submissionUrl,
+        idDocumentStorageId,
         consent,
       });
 
@@ -63,6 +106,7 @@ export async function submitPrizeApplication(input: PrizeApplicationInput) {
           firstName: result.firstName,
           lastName: result.lastName,
           email: result.email,
+          phone: result.phone,
           submissionMode: result.submissionMode,
           reviewUrl: result.reviewUrl,
           submittedAt: result.submittedAt,

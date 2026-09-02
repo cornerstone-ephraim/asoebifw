@@ -18,8 +18,8 @@ export default function AdminSignInPage() {
           Welcome back.
         </h1>
         <p className="mt-5 max-w-md leading-7 text-asoebi-graphite">
-          Enter an approved administrator email and we will send a one-time
-          sign-in code.
+          Choose your administrator account. We will send a one-time sign-in
+          code to its approved email address.
         </p>
         <AdminSignInForm />
       </section>
