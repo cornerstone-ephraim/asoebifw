@@ -19,7 +19,7 @@ const hosts = [
   },
   {
     name: "Calabasa Spirits",
-    logo: "/images/partners/calabasa-logo.jpg",
+    logo: "/images/partners/calabasa-text-logo.png",
   },
   {
     name: "Purple Global",
