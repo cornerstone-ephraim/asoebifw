@@ -66,7 +66,7 @@ export default function Page() {
       eyebrow="Founders & vision"
       title="Rooted in craft. Open to the world."
       intro="Keniye Koroye and Abiola Orimolade bring together design, technology and fashion entrepreneurship to create opportunities for African talent."
-      heroImage="/images/editorial/fashion-story/the-textile-detail.webp"
+      heroImage="/images/editorial/asoebi-founders-hero.webp"
       heroAspectRatio={1935 / 813}
       heroLayout="statement"
       heroPosition="object-center"
