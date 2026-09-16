@@ -37,7 +37,7 @@ const prizes = [
 
 const eligibility = [
   "Ages 16 - 26",
-  "A minimum of two original collections",
+  "Two original Aso ebi-focused collections, with 5–10 looks each",
   "Emerging and student fashion brands only",
 ] as const;
 
@@ -63,6 +63,34 @@ const submissionModes = [
   },
 ] as const;
 
+const collectionRequirements = [
+  {
+    title: "Two distinct collections",
+    detail:
+      "Submit two cohesive collections representing your strongest, most current work, not standalone pieces. Each collection must contain 5–10 looks.",
+  },
+  {
+    title: "Cohesion within each collection",
+    detail:
+      "Unite the looks through a palette, fabric story, silhouette or concept so each collection reads as one statement. The two collections do not need to relate to each other; each stands as its own body of work.",
+  },
+  {
+    title: "Aso ebi-focused",
+    detail:
+      "Showcase Aso ebi fabric and style as a fashion category in its own right.",
+  },
+  {
+    title: "Show every look",
+    detail:
+      "Provide photos or video of each look, styled and on a model if possible. Clearly group and label the looks by collection.",
+  },
+  {
+    title: "Original work",
+    detail:
+      "Both collections must be the designer’s own body of work. Previously released and unreleased collections are welcome.",
+  },
+] as const;
+
 export const metadata: Metadata = createMetadata({
   title: "Asoebi Prize",
   description:
@@ -81,8 +109,11 @@ export default function Page() {
       eyebrow="Recognition · Creativity · Opportunity"
       title="Asoebi Prize"
       intro="Two collections. One opportunity to shape what African fashion becomes next."
-      heroImage="/images/waitlist/designer-card-illustration.webp"
-      heroImageAlt="An editorial illustration of an African fashion designer and her work"
+      heroImage="/images/editorial/asoebi-prize-hero.webp"
+      heroAspectRatio={1672 / 941}
+      heroImageAlt="A designer adjusting a sculptural Aso Oke garment before a runway presentation"
+      heroPosition="object-[75%_top]"
+      heroTone="photo"
       cta={{ href: "#apply", label: "Apply for the prize" }}
     >
       <section className="grid gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
@@ -197,27 +228,47 @@ export default function Page() {
         <div className="grid gap-8 lg:grid-cols-[.72fr_1.28fr] lg:items-end">
           <div>
             <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
-              Prepare your submission
+              Collection submission brief
             </p>
             <h2 className="mt-5 font-display text-5xl leading-[.9] tracking-[-.055em] sm:text-7xl">
-              Two collections. One clear point of view.
+              Two collections. 5–10 looks each.
             </h2>
           </div>
           <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
-            Present both collections as one coherent submission package. Every
-            look, detail and idea should be easy for the judges to follow.
+            Present your strongest, most current Aso ebi work in two distinct,
+            cohesive collections. Follow these requirements for a valid
+            submission.
           </p>
         </div>
 
-        <div className="mt-12 border-t border-asoebi-purple-950/20">
+        <dl className="mt-12 border-t border-asoebi-purple-950/20">
+          {collectionRequirements.map((requirement) => (
+            <div
+              key={requirement.title}
+              className="grid gap-3 border-b border-asoebi-purple-950/20 py-6 sm:grid-cols-2"
+            >
+              <dt className="font-display text-3xl tracking-[-.04em]">
+                {requirement.title}
+              </dt>
+              <dd className="max-w-2xl leading-7 text-asoebi-graphite">
+                {requirement.detail}
+              </dd>
+            </div>
+          ))}
+        </dl>
+
+        <h3 className="mt-12 font-display text-3xl tracking-[-.04em]">
+          How to share your collections
+        </h3>
+        <div className="mt-6 border-t border-asoebi-purple-950/20">
           {submissionModes.map((mode) => (
             <article
               key={mode.name}
               className="grid gap-3 border-b border-asoebi-purple-950/20 py-6 sm:grid-cols-[.4fr_1.6fr] sm:items-baseline"
             >
-              <h3 className="font-display text-3xl tracking-[-.04em]">
+              <h4 className="font-display text-3xl tracking-[-.04em]">
                 {mode.name}
-              </h3>
+              </h4>
               <p className="max-w-2xl leading-7 text-asoebi-graphite">
                 {mode.detail}
               </p>
@@ -256,8 +307,9 @@ export default function Page() {
               Deadline: December 19, 2026
             </p>
             <p className="mt-2 leading-7 text-asoebi-graphite">
-              Submit one organised package containing two original collections.
-              PDF links must remain publicly accessible throughout the review
+              Submit two original, cohesive Aso ebi-focused collections with
+              5–10 looks each, clearly grouped and labelled in one package. PDF
+              links must remain publicly accessible throughout the review
               period.
             </p>
           </div>

@@ -49,22 +49,23 @@ export const metadata: Metadata = createMetadata({
 export default function Page() {
   return (
     <EditorialPage
-      eyebrow="October 2, 2026 · London"
+      eyebrow="2 October 2026 · London · Noon to midnight"
       title="Asoebi After Party"
       intro="October Owambe. An intimate celebration of Nigerian culture, traditional fashion, music, drinks and good energy."
-      heroImage="/images/tickets-editorial.png"
-      heroImageAlt="An editorial Asoebi Fashion Week ticket illustration"
-      heroTone="blush"
-      cta={{ href: ticketUrl, label: "Get tickets" }}
+      heroImage="/images/editorial/asoebi-after-party-hero.webp"
+      heroAspectRatio={1672 / 941}
+      heroImageAlt="Guests dancing together in traditional Nigerian occasionwear"
+      heroPosition="object-[65%_top]"
+      heroTone="photo"
+      cta={{ href: ticketUrl, label: "Get tickets · £35" }}
     >
       <section className="grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
         <h2 className="font-display text-6xl leading-[.88] tracking-[-.06em] sm:text-8xl">
           London, dressed for the occasion.
         </h2>
         <p className="max-w-xl text-lg leading-8 text-asoebi-graphite">
-          The celebration does not end when the ceremony does. We are keeping
-          the Owambe spirit going with 100 guests, traditional style and a full
-          day of good company.
+          Celebrate October Owambe with 100 guests, traditional style and a full
+          day of good company, from noon to midnight.
         </p>
       </section>
 
@@ -77,6 +78,7 @@ export default function Page() {
               fill
               loading="eager"
               sizes="(min-width: 1024px) 42vw, 100vw"
+              quality={90}
               className="object-contain"
             />
           </div>
@@ -183,7 +185,8 @@ export default function Page() {
             src="/images/after-party/dress-code-mood-board.webp"
             alt="Four coordinated West African wedding guest looks in purple, gold, white and black"
             fill
-            sizes="(min-width: 1600px) 1440px, (min-width: 1024px) 90vw, 100vw"
+            sizes="(min-width: 1680px) 1488px, (min-width: 1024px) calc(100vw - 192px), 100vw"
+            quality={90}
             className="object-cover"
           />
           <figcaption className="sr-only">

@@ -62,7 +62,7 @@ export function FashionStoryCrossfade() {
   const story = stories[active];
 
   return (
-    <div className="relative mt-12 aspect-[2.35/1] min-h-80 w-full overflow-hidden bg-asoebi-purple-950">
+    <div className="relative mt-12 aspect-235/100 min-h-80 w-full overflow-hidden bg-asoebi-purple-950">
       <AnimatePresence initial={false}>
         <motion.div
           key={story.src}
@@ -76,7 +76,8 @@ export function FashionStoryCrossfade() {
             src={story.src}
             alt={story.alt}
             fill
-            sizes="(min-width: 1600px) 1600px, 100vw"
+            sizes="max(102vw, 762px)"
+            quality={90}
             className={`object-cover ${story.position}`}
           />
         </motion.div>

@@ -49,9 +49,10 @@ export default function Page() {
       eyebrow="Fashion and technology"
       title="Asoebi Vendor"
       intro="Buy together. Pay together. Celebrate together."
-      heroImage="/images/waitlist/vendor-card-illustration.webp"
-      heroImageAlt="An editorial illustration of an Asoebi fashion storefront"
-      heroTone="gold"
+      heroImage="/images/editorial/vendor-hero.webp"
+      heroImageAlt="A fabric seller helping customers choose coordinated Asoebi textiles"
+      heroPosition="object-[65%_top]"
+      heroTone="photo"
       cta={{ href: "/#waitlist", label: "Join the vendor waitlist" }}
     >
       <section className="grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-end">
@@ -91,7 +92,8 @@ export default function Page() {
             alt="Fabric, accessories and storefront details represented in an Asoebi editorial illustration"
             fill
             loading="eager"
-            sizes="(min-width: 1024px) 55vw, 100vw"
+            sizes="(min-width: 1024px) max(55vw, 720px), max(100vw, 720px)"
+            quality={90}
             className="object-cover object-bottom"
           />
         </div>

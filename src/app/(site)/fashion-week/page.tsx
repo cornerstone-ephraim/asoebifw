@@ -38,6 +38,7 @@ export default function Page() {
       title="Fashion Week"
       intro="A global showcase of African fashion, textiles, craftsmanship and creativity, arriving in 2027."
       heroImage="/images/editorial/asoebi-styles.png"
+      heroAspectRatio={1942 / 809}
       heroImageAlt="A contemporary Asoebi runway look"
       cta={{ href: "/accreditation", label: "Apply to participate" }}
     >
@@ -75,7 +76,8 @@ export default function Page() {
               src="/images/asoebi-hero-campaign.png"
               alt="Asoebi fashion presented in a sunlit courtyard"
               fill
-              sizes="(min-width: 1024px) 58vw, 100vw"
+              sizes="(min-width: 1024px) max(58vw, 800px), max(100vw, 800px)"
+              quality={90}
               className="object-cover"
             />
           </div>

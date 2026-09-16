@@ -63,14 +63,21 @@ export const metadata: Metadata = createMetadata({
 export default function Page() {
   return (
     <EditorialPage
-      eyebrow="Boldly African · Fashion forward"
-      title="Founders"
-      intro="AEFW is the premier platform celebrating African style, creativity and community through the global language of fashion."
-      heroImage="/images/editorial/home-hero.webp"
-      heroImageAlt="Contemporary African occasionwear presented in Asoebi Fashion Week colours"
-      cta={{ href: "/#waitlist", label: "Join the community" }}
+      eyebrow="Founders & vision"
+      title="Rooted in craft. Open to the world."
+      intro="Keniye Koroye and Abiola Orimolade bring together design, technology and fashion entrepreneurship to create opportunities for African talent."
+      heroImage="/images/editorial/fashion-story/the-textile-detail.webp"
+      heroAspectRatio={1935 / 813}
+      heroLayout="statement"
+      heroPosition="object-center"
+      heroImageAlt="An artisan refining an embroidered Asoebi garment in a fashion studio"
+      cta={{ href: "#founders", label: "Meet the founders" }}
     >
-      <section aria-labelledby="founders-heading">
+      <section
+        id="founders"
+        aria-labelledby="founders-heading"
+        className="scroll-mt-28"
+      >
         <p className="text-xs font-bold tracking-[.18em] text-brand uppercase">
           The founders
         </p>
@@ -147,7 +154,8 @@ export default function Page() {
                 src="/images/editorial/fashion-story/asoebi-founders.webp"
                 alt="Models presenting contemporary African fashion on a runway"
                 fill
-                sizes="(min-width: 1024px) 28vw, 50vw"
+                sizes="(min-width: 1680px) 880px, (min-width: 1024px) max(55vw, 700px), max(100vw, 576px)"
+                quality={90}
                 className="object-cover"
               />
             </div>

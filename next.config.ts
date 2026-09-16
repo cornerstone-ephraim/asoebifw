@@ -3,6 +3,9 @@ import { withSentryConfig } from "@sentry/nextjs";
 
 const nextConfig: NextConfig = {
   poweredByHeader: false,
+  images: {
+    qualities: [75, 90],
+  },
   experimental: {
     serverActions: {
       bodySizeLimit: "10mb",

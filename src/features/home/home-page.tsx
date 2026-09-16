@@ -22,8 +22,10 @@ export function HomePage() {
           src="/images/editorial/home-hero.webp"
           alt="Three models wearing contemporary purple, lilac and ivory Asoebi looks"
           fill
-          priority
-          sizes="100vw"
+          preload
+          // Preserve the native source on short screens where hero copy sets the height.
+          sizes="max(100vw, 160svh, 1280px)"
+          quality={90}
           className="object-cover object-top"
         />
         <div className="absolute inset-0 bg-linear-to-r from-asoebi-purple-950/88 via-asoebi-purple-950/35 to-transparent" />
@@ -193,7 +195,8 @@ export function HomePage() {
               src="/images/waitlist/vendor-card-illustration.webp"
               alt="An editorial illustration of an Asoebi fashion marketplace"
               fill
-              sizes="(min-width: 1024px) 58vw, 100vw"
+              sizes="(min-width: 1024px) max(58vw, 864px), max(100vw, 864px)"
+              quality={90}
               className="object-cover object-bottom"
             />
           </div>
@@ -236,7 +239,8 @@ export function HomePage() {
           src="/images/tickets-editorial.png"
           alt="Editorial ticket artwork for the Asoebi After Party"
           fill
-          sizes="100vw"
+          sizes="(min-width: 1024px) max(100vw, 112.5svh, calc(82.5svh + 432px)), max(100vw, 112.5svh, calc(82.5svh + 288px))"
+          quality={90}
           className="object-cover opacity-55"
         />
         <div className="absolute inset-0 bg-linear-to-r from-asoebi-purple-950 via-asoebi-purple-950/75 to-transparent" />
