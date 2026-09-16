@@ -58,7 +58,8 @@ export default function NotFound() {
                 alt="Three people in coordinated purple and gold Asoebi looks walking together"
                 fill
                 priority
-                sizes="(min-width: 1024px) 42vw, 80vw"
+                sizes="(min-width: 1024px) min(75vw, 1000px), min(154vw, 1000px)"
+                quality={90}
                 className="object-cover object-center"
               />
               <div className="absolute inset-0 bg-linear-to-t from-asoebi-purple-950/60 via-transparent to-asoebi-gold-300/10" />

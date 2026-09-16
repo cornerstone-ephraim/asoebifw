@@ -29,7 +29,8 @@ export function WaitlistSection() {
             src="/images/waitlist-collage.png"
             alt="A collage celebrating the people, cloth and creativity of Asoebi Fashion Week"
             fill
-            sizes="(min-width: 1024px) 44vw, 100vw"
+            sizes="(min-width: 1024px) max(48vw, 640px), 100vw"
+            quality={90}
             className="object-cover object-center opacity-75"
           />
           <div className="absolute inset-0 bg-linear-to-t from-asoebi-purple-950/70 via-transparent to-transparent" />
