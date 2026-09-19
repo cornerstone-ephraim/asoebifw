@@ -131,7 +131,7 @@ export function HomePage() {
                 Fashion Education Award
               </p>
               <p className="mt-2 text-asoebi-graphite">
-                Third place · Funded international course
+                Third place · Funded international short fashion course
               </p>
             </div>
             <div className="py-10 lg:pl-12">
