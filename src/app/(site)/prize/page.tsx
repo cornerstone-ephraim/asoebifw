@@ -28,7 +28,7 @@ const prizes = [
     place: "Third place",
     award: "Fashion Education Award",
     benefits: [
-      "Fully funded international fashion course",
+      "Fully funded international short fashion course",
       "Certificate from a recognized fashion institution",
       "Access to AEFW 2027 masterclasses and workshops",
     ],
