@@ -7,6 +7,7 @@ const paths = [
   "/vendor",
   "/after-party",
   "/accreditation",
+  "/sponsorship",
 ];
 export default function sitemap(): MetadataRoute.Sitemap {
   return paths.map((path) => ({

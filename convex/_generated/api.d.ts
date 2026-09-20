@@ -12,6 +12,7 @@ import type * as admin from "../admin.js";
 import type * as auth from "../auth.js";
 import type * as http from "../http.js";
 import type * as lib_requireAdmin from "../lib/requireAdmin.js";
+import type * as sponsorship from "../sponsorship.js";
 import type * as submissions from "../submissions.js";
 
 import type {
@@ -25,6 +26,7 @@ declare const fullApi: ApiFromModules<{
   auth: typeof auth;
   http: typeof http;
   "lib/requireAdmin": typeof lib_requireAdmin;
+  sponsorship: typeof sponsorship;
   submissions: typeof submissions;
 }>;
 
