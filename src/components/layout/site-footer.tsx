@@ -18,10 +18,7 @@ const actionLinks = [
   ["Join the Waitlist", "/#waitlist"],
   ["Apply for the Prize", "/prize#apply"],
   ["Apply to Participate", "/accreditation"],
-  [
-    "Become a Sponsor",
-    "mailto:asoebifashionweek@gmail.com?subject=AEFW%20Sponsorship%20Enquiry",
-  ],
+  ["Become a Sponsor", "/sponsorship"],
 ] as const;
 
 const socials = [

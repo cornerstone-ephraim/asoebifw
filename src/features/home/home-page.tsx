@@ -219,7 +219,7 @@ export function HomePage() {
               and experiences that carry African fashion onto the world stage.
             </p>
             <a
-              href="mailto:asoebifashionweek@gmail.com?subject=AEFW%20Sponsorship%20Enquiry"
+              href="/sponsorship"
               className="group transition-linear mt-7 inline-flex min-h-12 items-center justify-center gap-3 rounded-full bg-asoebi-purple-950 px-6 text-xs font-black tracking-[.13em] text-white uppercase transition-colors hover:bg-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-asoebi-purple-950"
             >
               Become a sponsor

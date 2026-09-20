@@ -9,6 +9,7 @@ const adminLinks = [
   ["Overview", "/admin"],
   ["Prize applications", "/admin/prize"],
   ["Waitlist", "/admin/waitlist"],
+  ["Sponsorship enquiries", "/admin/sponsorship"],
 ] as const;
 
 export function AdminHeader({ email }: { email?: string }) {

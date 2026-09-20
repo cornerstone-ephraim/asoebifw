@@ -2,6 +2,30 @@ import { defineSchema, defineTable } from "convex/server";
 import { v } from "convex/values";
 
 export default defineSchema({
+  sponsorshipEnquiries: defineTable({
+    name: v.string(),
+    organisation: v.string(),
+    email: v.string(),
+    phone: v.string(),
+    interest: v.string(),
+    supportType: v.string(),
+    budget: v.string(),
+    message: v.string(),
+    status: v.union(
+      v.literal("New"),
+      v.literal("Contacted"),
+      v.literal("In discussion"),
+      v.literal("Closed"),
+    ),
+    emailStatus: v.union(
+      v.literal("pending"),
+      v.literal("sent"),
+      v.literal("failed"),
+    ),
+    submittedAt: v.number(),
+    reviewedAt: v.optional(v.number()),
+    reviewedBy: v.optional(v.string()),
+  }).index("by_email", ["email"]),
   waitlistEntries: defineTable({
     firstName: v.optional(v.string()),
     lastName: v.optional(v.string()),
