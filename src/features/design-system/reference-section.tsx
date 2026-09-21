@@ -1,11 +1,12 @@
 import type { ReactNode } from "react";
+import styles from "./documentation.module.css";
+import { designSystemGroups } from "./design-system-sections";
 
 export function ReferenceSection({
   id,
   title,
   intro,
   children,
-  tone = "paper",
 }: {
   id: string;
   title: string;
@@ -13,28 +14,33 @@ export function ReferenceSection({
   children: ReactNode;
   tone?: "paper" | "mist" | "ivory";
 }) {
-  const tones = {
-    paper: "bg-asoebi-paper",
-    mist: "bg-asoebi-mist",
-    ivory: "bg-asoebi-ivory",
-  };
+  const group = designSystemGroups.find((group) =>
+    group.sections.some((section) => section.slug === id),
+  );
+  const label =
+    group?.sections.find((section) => section.slug === id)?.label ?? title;
   return (
     <section
       id={id}
       aria-labelledby={`${id}-title`}
-      className={`scroll-mt-24 px-5 py-16 lg:px-10 lg:py-24 ${tones[tone]}`}
+      className="scroll-mt-24 px-5 py-10 sm:px-8 lg:px-12 lg:py-14"
     >
-      <div className="mx-auto max-w-375">
-        <header className="mb-10 grid gap-5 border-t border-asoebi-purple-200 pt-6 lg:grid-cols-2 lg:items-end">
-          <h2
+      <div className="mx-auto max-w-4xl">
+        <header className="mb-12">
+          <p className="mb-4 text-xs font-semibold tracking-widest text-brand uppercase">
+            {group?.title ?? "Reference"}
+          </p>
+          <h1
             id={`${id}-title`}
-            className="font-display text-4xl leading-none tracking-tight sm:text-5xl lg:text-6xl"
+            className="font-display text-4xl leading-tight tracking-tight sm:text-5xl"
           >
-            {title}
-          </h2>
-          <p className="max-w-xl leading-7 text-asoebi-graphite">{intro}</p>
+            {label}
+          </h1>
+          <p className="mt-6 max-w-3xl text-lg leading-8 text-asoebi-graphite">
+            {intro}
+          </p>
         </header>
-        {children}
+        <div className={styles.examples}>{children}</div>
       </div>
     </section>
   );
@@ -49,10 +55,14 @@ export function Specimen({
   children: ReactNode;
 }) {
   return (
-    <article className="min-w-0 rounded-3xl border border-asoebi-purple-200 bg-white p-5 sm:p-7">
-      <h3 className="font-display text-2xl tracking-tight">{title}</h3>
+    <article className="min-w-0 rounded-xl border border-asoebi-purple-100 bg-white p-5 sm:p-6">
+      <h2 className="font-display text-xl font-semibold tracking-tight">
+        {title}
+      </h2>
       <p className="mt-3 text-sm leading-6 text-asoebi-graphite">{detail}</p>
-      <div className="mt-7">{children}</div>
+      <div className="mt-6 border-t border-asoebi-purple-100 pt-6">
+        {children}
+      </div>
     </article>
   );
 }

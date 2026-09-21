@@ -1,43 +1,53 @@
-import type { Metadata } from "next";
-import { DesignSystemShell } from "@/features/design-system/design-system-shell";
-import { DesignSystemNav } from "@/features/design-system/design-system-nav";
+import Link from "next/link";
 import { DesignSystemHero } from "@/features/design-system/design-system-hero";
 import {
-  FoundationsReference,
-  LayoutReference,
-  GuidanceReference,
-} from "@/features/design-system/foundations-reference";
-import { TypographyReference } from "@/features/design-system/typography-reference";
-import { ColourReference } from "@/features/design-system/colour-reference";
-import { CardsReference } from "@/features/design-system/cards-reference";
-import { ActionsReference } from "@/features/design-system/actions-reference";
-import { InputsReference } from "@/features/design-system/inputs-reference";
-import { MotionExamples } from "@/features/design-system/motion-examples";
-import { ResponsiveReference } from "@/features/design-system/responsive-reference";
-import { ImageryReference } from "@/features/design-system/imagery-reference";
+  designSystemGroups,
+  sectionHref,
+} from "@/features/design-system/design-system-sections";
 
-export const metadata: Metadata = {
-  title: "Design System",
-  description:
-    "A practical reference for Asoebi Fashion Week typography, colour, components, motion and responsive design.",
-  robots: { index: false, follow: false, nocache: true },
-};
 export default function DesignSystemPage() {
   return (
-    <DesignSystemShell>
+    <>
       <DesignSystemHero />
-      <DesignSystemNav />
-      <FoundationsReference />
-      <TypographyReference />
-      <ColourReference />
-      <LayoutReference />
-      <CardsReference />
-      <ActionsReference />
-      <InputsReference />
-      <MotionExamples />
-      <ResponsiveReference />
-      <ImageryReference />
-      <GuidanceReference />
-    </DesignSystemShell>
+      <section
+        aria-labelledby="browse-title"
+        className="px-5 py-12 sm:px-8 lg:px-12"
+      >
+        <h2
+          id="browse-title"
+          className="font-display text-2xl font-semibold tracking-tight"
+        >
+          Find what you need.
+        </h2>
+        <p className="mt-3 max-w-2xl leading-7 text-asoebi-graphite">
+          Each chapter brings together the decisions, examples and
+          implementation guidance for one part of the system.
+        </p>
+        <div className="mt-8 grid gap-8 sm:grid-cols-2">
+          {designSystemGroups.map((group) => (
+            <div key={group.title}>
+              <h3 className="border-b border-asoebi-purple-200 pb-3 font-display text-xl">
+                {group.title}
+              </h3>
+              <ul className="mt-2">
+                {group.sections
+                  .filter((section) => section.slug)
+                  .map((section) => (
+                    <li key={section.slug}>
+                      <Link
+                        href={sectionHref(section.slug)}
+                        className="flex min-h-12 items-center justify-between gap-4 py-3 text-sm hover:text-brand hover:underline"
+                      >
+                        {section.label}
+                        <span aria-hidden="true">→</span>
+                      </Link>
+                    </li>
+                  ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </section>
+    </>
   );
 }

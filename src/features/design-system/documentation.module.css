@@ -1,0 +1,51 @@
+.workspace {
+  container-type: inline-size;
+}
+.layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr);
+  max-width: 90rem;
+  margin-inline: auto;
+}
+.outline {
+  display: none;
+}
+.content {
+  min-width: 0;
+  width: 100%;
+  max-width: 64rem;
+  margin-inline: auto;
+}
+@container (min-width: 72rem) {
+  .layout {
+    grid-template-columns: minmax(0, 1fr) 14rem;
+    gap: 2rem;
+  }
+  .outline {
+    display: block;
+    padding-top: 3.5rem;
+  }
+}
+
+.examples {
+  container-type: inline-size;
+}
+.examples > :global(.grid) {
+  grid-template-columns: minmax(0, 1fr);
+}
+@container (min-width: 42rem) {
+  .examples > :global(.grid) {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Keep documentation rules subtle despite the site's unlayered border reset. */
+.root :global(.border-asoebi-purple-100) {
+  border-color: var(--color-asoebi-purple-100);
+}
+.root :global(.border-brand) {
+  border-color: var(--color-brand);
+}
+.root :global(.border-transparent) {
+  border-color: transparent;
+}
