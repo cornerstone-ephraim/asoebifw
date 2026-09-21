@@ -1,0 +1,99 @@
+.arrival {
+  animation: reference-arrival var(--motion-duration-component)
+    cubic-bezier(0.23, 1, 0.32, 1) both;
+}
+.stagger {
+  animation: reference-arrival var(--motion-duration-editorial)
+    var(--ease-arrive) both;
+}
+.travel {
+  animation: reference-travel var(--motion-duration-section) var(--ease-travel)
+    both;
+}
+@keyframes reference-arrival {
+  from {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes reference-travel {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(80px);
+  }
+}
+:global([data-quiet="true"]) .arrival,
+:global([data-quiet="true"]) .stagger {
+  animation: none;
+}
+:global([data-quiet="true"]) .travel {
+  animation: none;
+  transform: translateX(80px);
+}
+@media (prefers-reduced-motion: reduce) {
+  .arrival,
+  .stagger {
+    animation: none;
+  }
+  .travel {
+    animation: none;
+    transform: translateX(80px);
+  }
+}
+.preview {
+  container-type: inline-size;
+}
+.previewContent {
+  padding: 20px;
+  background: var(--color-asoebi-ivory);
+  color: var(--color-asoebi-purple-950);
+}
+.previewGrid {
+  display: grid;
+  gap: 24px;
+}
+.previewTitle {
+  font-family: var(--font-display);
+  font-size: clamp(56px, 7cqw, 128px);
+  line-height: 0.9;
+  letter-spacing: -0.06em;
+}
+.previewFields {
+  display: grid;
+  gap: 12px;
+  margin-top: 24px;
+}
+.previewField {
+  min-height: 52px;
+  border: 1px solid var(--color-asoebi-purple-300);
+  border-radius: 16px;
+  padding: 12px;
+  background: white;
+}
+@container (min-width: 640px) {
+  .previewFields {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@container (min-width: 1024px) {
+  .previewContent {
+    padding: 40px;
+  }
+  .previewGrid {
+    grid-template-columns: 1.2fr 0.8fr;
+    align-items: end;
+    gap: 48px;
+  }
+}
+
+:global([data-playing="false"]) .arrival,
+:global([data-playing="false"]) .stagger,
+:global([data-playing="false"]) .travel {
+  animation-play-state: paused;
+}
