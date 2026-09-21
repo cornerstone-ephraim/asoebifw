@@ -74,7 +74,7 @@ export function ColorScaleGrid({ families }: { families: ColorFamily[] }) {
               <button
                 type="button"
                 onClick={() => void handleCopy(activeShade)}
-                className={`cursor-pointer rounded-full px-3 py-1 text-[9px] font-bold tracking-[.1em] uppercase transition-all duration-200 ease-[var(--ease-asoebi-arrive)] ${
+                className={`cursor-pointer rounded-full px-3 py-1 text-[9px] font-bold tracking-[.1em] uppercase transition-all duration-200 ease-asoebi-arrive ${
                   copiedHex === activeShade.hex
                     ? "bg-asoebi-gold-300 text-asoebi-purple-950 shadow-[0_0_12px_rgba(253,224,71,0.35)]"
                     : "bg-white/10 text-asoebi-mist hover:bg-white/15 hover:text-white"
@@ -150,7 +150,7 @@ export function ColorScaleGrid({ families }: { families: ColorFamily[] }) {
                           void handleCopy(shade);
                         }}
                         style={{ backgroundColor: shade.oklch }}
-                        className={`group transition-linear relative size-11 cursor-pointer justify-self-center rounded-full duration-200 ease-[var(--ease-asoebi-arrive)] hover:scale-110 focus-visible:scale-110 focus-visible:outline-none ${
+                        className={`group transition-linear relative size-11 cursor-pointer justify-self-center rounded-full duration-200 ease-asoebi-arrive hover:scale-110 focus-visible:scale-110 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-asoebi-gold-300 ${
                           isSelected
                             ? "scale-105 ring-2 ring-asoebi-gold-300 ring-offset-2 ring-offset-asoebi-charcoal"
                             : "ring-1 ring-white/10 hover:ring-white/30"
