@@ -18,7 +18,7 @@ const actionLinks = [
   ["Join the Waitlist", "/#waitlist"],
   ["Apply for the Prize", "/prize#apply"],
   ["Apply to Participate", "/accreditation"],
-  ["Become a Sponsor", "/sponsorship"],
+  ["Apply to Sponsor", "/sponsorship"],
 ] as const;
 
 const socials = [

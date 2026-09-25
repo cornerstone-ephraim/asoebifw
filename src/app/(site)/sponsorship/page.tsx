@@ -3,7 +3,7 @@ import { SponsorshipForm } from "@/features/sponsorship/sponsorship-form";
 import { createMetadata } from "@/lib/seo";
 
 export const metadata = createMetadata({
-  title: "Become a Sponsor",
+  title: "Apply to Sponsor",
   description:
     "Start a sponsorship conversation with Asoebi Fashion Week. Support fashion, creative talent and the culture of Asoebi.",
   path: "/sponsorship",
@@ -16,7 +16,7 @@ export default function SponsorshipPage() {
       title="Be part of what comes next."
       intro="Help create a bigger stage for Asoebi fashion, creative talent and the culture that brings us together."
       heroLayout="statement"
-      cta={{ href: "#enquiry", label: "Become a sponsor" }}
+      cta={{ href: "#enquiry", label: "Apply to sponsor" }}
     >
       <section
         id="enquiry"
