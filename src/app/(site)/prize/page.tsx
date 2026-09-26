@@ -36,7 +36,7 @@ const prizes = [
 ] as const;
 
 const eligibility = [
-  "Ages 16 - 26",
+  "Ages 19 - 29",
   "Two original Aso ebi-focused collections, with 5–10 looks each",
   "Emerging and student fashion brands only",
 ] as const;

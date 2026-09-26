@@ -382,7 +382,7 @@ export function PrizeApplicationForm() {
                 I confirm that I own or am authorised to submit this work, that
                 it contains two original, cohesive Aso ebi-focused collections
                 with 5–10 looks each, and that Asoebi Fashion Prize may review
-                it for this competition. I am between 16 and 26 years old and
+                it for this competition. I am between 19 and 29 years old and
                 consent to authorised reviewers using my ID only to verify my
                 eligibility. I also agree to receive AEFW news and updates.{" "}
                 <span aria-hidden="true">*</span>
