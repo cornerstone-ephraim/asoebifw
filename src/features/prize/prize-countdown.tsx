@@ -16,10 +16,12 @@ function remaining(target: number) {
 
 export function PrizeCountdown({
   compact = false,
+  understated = false,
   targetDate = prizeDate,
-  accessibleLabel = "Countdown to the Asoebi Prize on December 26, 2026",
+  accessibleLabel = "Countdown to the Asoebi Fashion Prize on December 26, 2026",
 }: {
   compact?: boolean;
+  understated?: boolean;
   targetDate?: string;
   accessibleLabel?: string;
 }) {
@@ -37,9 +39,11 @@ export function PrizeCountdown({
     <div
       aria-label={accessibleLabel}
       className={
-        compact
-          ? "grid grid-cols-4 overflow-hidden rounded-2xl bg-white/88 shadow-asoebi-countdown backdrop-blur-md"
-          : "grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-asoebi-purple-300 lg:grid-cols-4"
+        understated
+          ? "grid grid-cols-4 text-white"
+          : compact
+            ? "grid grid-cols-4 overflow-hidden rounded-2xl bg-white/88 shadow-asoebi-countdown backdrop-blur-md"
+            : "grid grid-cols-2 gap-px overflow-hidden rounded-3xl bg-asoebi-purple-300 lg:grid-cols-4"
       }
     >
       {Object.entries(
@@ -48,25 +52,31 @@ export function PrizeCountdown({
         <div
           key={label}
           className={
-            compact
-              ? `px-2 py-3 text-center sm:px-4 sm:py-4 ${index > 0 ? "border-l border-asoebi-purple-200/70" : ""}`
-              : "bg-white p-6 sm:p-8"
+            understated
+              ? `px-2 py-1 text-center ${index > 0 ? "border-l border-white/25" : ""}`
+              : compact
+                ? `px-2 py-3 text-center sm:px-4 sm:py-4 ${index > 0 ? "border-l border-asoebi-purple-200/70" : ""}`
+                : "bg-white p-6 sm:p-8"
           }
         >
           <strong
             className={
-              compact
-                ? "block font-display text-2xl leading-none tracking-[-.045em] text-asoebi-purple-900 sm:text-4xl"
-                : "block font-display text-5xl tracking-[-.055em] text-asoebi-purple-900 sm:text-7xl"
+              understated
+                ? "block font-display text-2xl leading-none tracking-[-.045em] tabular-nums"
+                : compact
+                  ? "block font-display text-2xl leading-none tracking-[-.045em] text-asoebi-purple-900 sm:text-4xl"
+                  : "block font-display text-5xl tracking-[-.055em] text-asoebi-purple-900 sm:text-7xl"
             }
           >
             {value === null ? "--" : String(value).padStart(2, "0")}
           </strong>
           <span
             className={
-              compact
-                ? "mt-1.5 block text-[7px] font-bold tracking-[.12em] text-asoebi-muted uppercase sm:text-[9px]"
-                : "mt-3 block text-[10px] font-bold tracking-[.18em] text-asoebi-muted uppercase"
+              understated
+                ? "mt-2 block text-[9px] font-bold tracking-[.12em] text-white/65 uppercase"
+                : compact
+                  ? "mt-1.5 block text-[7px] font-bold tracking-[.12em] text-asoebi-muted uppercase sm:text-[9px]"
+                  : "mt-3 block text-[10px] font-bold tracking-[.18em] text-asoebi-muted uppercase"
             }
           >
             {label}

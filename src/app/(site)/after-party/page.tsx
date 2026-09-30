@@ -49,14 +49,14 @@ export const metadata: Metadata = createMetadata({
 export default function Page() {
   return (
     <EditorialPage
-      eyebrow="2 October 2026 · London · Noon to midnight"
+      eyebrow="2nd October 2026 · London · Noon to midnight"
       title="Asoebi After Party"
       intro="October Owambe. An intimate celebration of Nigerian culture, traditional fashion, music, drinks and good energy."
       heroImage="/images/editorial/asoebi-after-party-hero.webp"
       heroAspectRatio={1672 / 941}
       heroImageAlt="Guests dancing together in traditional Nigerian occasionwear"
       heroPosition="object-[65%_top]"
-      heroTone="photo"
+      heroLayout="statement"
       cta={{ href: ticketUrl, label: "Get tickets · £35" }}
     >
       <section className="grid gap-10 lg:grid-cols-[1.1fr_.9fr] lg:items-end">
@@ -138,6 +138,12 @@ export default function Page() {
           </ul>
           <div className="mt-10">
             <ArrowLink href={ticketUrl}>Get tickets</ArrowLink>
+            <div className="mt-8">
+              <p className="mb-3 text-sm text-asoebi-graphite">
+                Want to partner with this event?
+              </p>
+              <ArrowLink href="/sponsorship">Apply to sponsor</ArrowLink>
+            </div>
           </div>
         </div>
       </section>

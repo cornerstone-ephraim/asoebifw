@@ -46,13 +46,13 @@ export const metadata: Metadata = createMetadata({
 export default function Page() {
   return (
     <EditorialPage
-      eyebrow="Fashion and technology"
-      title="Asoebi Vendor"
-      intro="Buy together. Pay together. Celebrate together."
+      eyebrow="Asoebi Vendor"
+      title="Buy together. Celebrate together."
+      intro="A marketplace connecting fabric sellers, designers and accessories vendors. Buy together. Pay together. Celebrate together."
       heroImage="/images/editorial/vendor-hero.webp"
       heroImageAlt="A fabric seller helping customers choose coordinated Asoebi textiles"
       heroPosition="object-[65%_top]"
-      heroTone="photo"
+      heroLayout="statement"
       cta={{ href: "/#waitlist", label: "Join the vendor waitlist" }}
     >
       <section className="grid gap-10 lg:grid-cols-[.85fr_1.15fr] lg:items-end">

@@ -80,7 +80,7 @@ export function PrizeApplicationForm() {
         >
           {result.status === "info" ? "i" : "✓"}
         </span>
-        <h3 className="mt-6 max-w-xl font-display text-4xl leading-none tracking-[-.05em] text-asoebi-purple-950 sm:text-5xl">
+        <h3 className="mt-6 max-w-xl font-display text-4xl leading-none tracking-tighter text-asoebi-purple-950 sm:text-5xl">
           {result.status === "info"
             ? "Your work is already with us."
             : "Your collections are in."}

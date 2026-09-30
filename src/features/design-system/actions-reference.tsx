@@ -137,7 +137,7 @@ export function LinksReference() {
               href="/prize"
               className="text-brand underline underline-offset-4 hover:text-brand-deep"
             >
-              Asoebi Prize brief
+              Asoebi Fashion Prize brief
             </Link>{" "}
             before applying.
           </p>

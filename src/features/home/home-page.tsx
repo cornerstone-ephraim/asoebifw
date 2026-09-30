@@ -16,7 +16,7 @@ const vendorCategories = [
 export function HomePage() {
   return (
     <HomeMotion>
-      <section className="relative flex min-h-svh items-end overflow-hidden bg-asoebi-purple-950 px-5 pt-36 pb-12 text-white sm:pb-16 lg:px-10 lg:pb-20">
+      <section className="relative flex min-h-svh items-center justify-center overflow-hidden bg-asoebi-purple-950 px-5 pt-60 pb-10 text-white sm:pb-8 lg:px-10">
         <Image
           data-hero-atmosphere
           src="/images/editorial/home-hero.webp"
@@ -26,14 +26,13 @@ export function HomePage() {
           // Preserve the native source on short screens where hero copy sets the height.
           sizes="max(100vw, 160svh, 1280px)"
           quality={90}
-          className="object-cover object-top"
+          className="object-cover object-[60%_top] sm:object-center"
         />
-        <div className="absolute inset-0 bg-linear-to-r from-asoebi-purple-950/88 via-asoebi-purple-950/35 to-transparent" />
-        <div className="absolute inset-x-0 bottom-0 h-72 bg-linear-to-t from-asoebi-purple-950/90 to-transparent" />
-        <div className="relative mx-auto w-full max-w-400">
+        <div className="absolute inset-0 bg-linear-to-t from-asoebi-purple-950/95 via-asoebi-purple-950/45 to-asoebi-purple-950/10" />
+        <div className="relative mx-auto my-auto w-full max-w-400">
           <HeroMotion>
-            <div className="mt-5 grid gap-8 lg:grid-cols-[1.25fr_.75fr] lg:items-end">
-              <h1 className="max-w-[10ch] font-display text-[clamp(4.5rem,10vw,10rem)] leading-[.76] tracking-[-.07em]">
+            <div className="mx-auto flex max-w-5xl flex-col items-center gap-5 text-center sm:max-lg:gap-7">
+              <h1 className="max-w-[10ch] font-display text-[clamp(4.5rem,10vw,10rem)] leading-[.85] tracking-[-.07em]">
                 <span data-hero-title-line className="block">
                   The global home
                 </span>
@@ -43,31 +42,31 @@ export function HomePage() {
               </h1>
               <div
                 data-hero-support
-                className="max-w-xl border-t border-white/40 pt-5"
+                className="flex w-full max-w-xl flex-col items-center"
               >
-                <p className="text-base leading-7 text-white/80 sm:text-lg">
-                  A year-round platform for African fashion, commerce,
-                  recognition and celebration.
+                <p className="max-w-lg text-base leading-7 text-white/85 sm:text-lg">
+                  African fashion, shared with the world. Discover the people,
+                  craft and celebrations shaping what comes next.
                 </p>
-                <div className="mt-6 flex flex-wrap gap-3">
+                <div className="mt-5 flex flex-wrap justify-center gap-3">
                   <Link
                     href="/prize#apply"
-                    className="flex items-center justify-center rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.13em] text-asoebi-purple-950 uppercase transition-colors ease-linear hover:bg-white"
+                    className="flex items-center justify-center rounded-full bg-asoebi-gold-300 px-6 py-4 text-xs font-black tracking-[.13em] text-asoebi-purple-950 uppercase transition-all ease-linear hover:bg-white"
                   >
                     Apply for the prize
                   </Link>
                   <Link
                     href="/#waitlist"
-                    className="flex items-center justify-center rounded-full border border-white/55 px-6 py-4 text-xs font-black tracking-[.13em] uppercase transition-colors ease-linear hover:bg-white hover:text-asoebi-purple-950"
+                    className="flex items-center justify-center rounded-full border border-white/55 px-6 py-4 text-xs font-black tracking-[.13em] uppercase transition-all ease-linear hover:bg-white hover:text-asoebi-purple-950"
                   >
                     Join the waitlist
                   </Link>
                 </div>
-                <div className="mt-7">
+                <div className="mt-8 w-full max-w-80">
                   <div className="mb-2 text-[10px] font-bold tracking-[.14em] uppercase">
-                    <span>Asoebi Prize · December 26, 2026</span>
+                    <span>Asoebi Fashion Prize · December 26, 2026</span>
                   </div>
-                  <PrizeCountdown compact />
+                  <PrizeCountdown compact understated />
                 </div>
               </div>
             </div>
@@ -101,7 +100,7 @@ export function HomePage() {
           <div className="grid gap-10 lg:grid-cols-[1.15fr_.85fr] lg:items-end">
             <div>
               <p className="text-xs font-bold tracking-[.18em] text-asoebi-gold-900 uppercase">
-                Asoebi Prize
+                Asoebi Fashion Prize
               </p>
               <h2 className="mt-5 font-display text-6xl leading-[.86] tracking-[-.06em] sm:text-8xl">
                 Discovering the future of African fashion.

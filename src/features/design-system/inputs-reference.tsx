@@ -145,7 +145,7 @@ export function InputsReference() {
             changeAction={setRole}
             options={[
               { label: "Fashion Week", value: "fashion" },
-              { label: "Asoebi Prize", value: "prize" },
+              { label: "Asoebi Fashion Prize", value: "prize" },
               { label: "Not sure yet", value: "unsure" },
             ]}
           />

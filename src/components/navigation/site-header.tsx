@@ -9,6 +9,7 @@ import { MobileNav } from "./mobile-nav";
 const links = [
   ["Home", "/"],
   ["Founders", "/founders"],
+  ["Asoebi Fashion Week", "/fashion-week"],
   ["Asoebi Prize", "/prize"],
   ["Asoebi Vendor", "/vendor"],
   ["Asoebi After Party", "/after-party"],
@@ -17,7 +18,7 @@ const links = [
 const participationLinks = [
   ["Join the Waitlist", "/#waitlist"],
   ["Apply to Participate", "/accreditation"],
-  ["Apply to Sponsor", "/sponsorship"],
+  ["Apply to sponsor", "/sponsorship"],
 ] as const;
 
 export function SiteHeader() {
@@ -88,8 +89,8 @@ function SiteHeaderContent({
         transition={{ duration: reduced ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
         className={`transition-linear pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-asoebi-float backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] duration-250 sm:px-6 ${
           compact
-            ? "h-14 max-w-235 bg-white/80 text-asoebi-purple-950 shadow-asoebi-warm"
-            : "h-16 max-w-295 bg-white/94 text-asoebi-purple-950"
+            ? "h-14 max-w-300 bg-white/80 text-asoebi-purple-950 shadow-asoebi-warm"
+            : "h-16 max-w-320 bg-white/94 text-asoebi-purple-950"
         }`}
       >
         <Link
@@ -100,7 +101,7 @@ function SiteHeaderContent({
           AEFW<span className="text-asoebi-gold-500">.</span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-5 lg:flex">
+        <nav aria-label="Primary" className="hidden items-center gap-3 xl:flex">
           {links.map(([label, href]) => (
             <Link
               key={href}
@@ -113,6 +114,13 @@ function SiteHeaderContent({
               {label}
             </Link>
           ))}
+          <Link
+            href="/sponsorship"
+            aria-current={pathname === "/sponsorship" ? "page" : undefined}
+            className="transition-linear font-display text-sm font-semibold whitespace-nowrap text-brand transition-colors hover:text-asoebi-purple-950"
+          >
+            Apply to sponsor
+          </Link>
         </nav>
 
         <div className="flex items-center gap-2">
@@ -136,7 +144,7 @@ function SiteHeaderContent({
             aria-controls="mobile-navigation"
             aria-label={open ? "Close navigation" : "Open navigation"}
             onClick={() => setOpen((prev) => !prev)}
-            className={`transition-linear grid size-11 place-items-center rounded-full text-xs font-bold transition-colors lg:hidden ${
+            className={`transition-linear grid size-11 place-items-center rounded-full text-xs font-bold transition-colors xl:hidden ${
               compact ? "bg-white/55" : "bg-asoebi-mist"
             }`}
           >

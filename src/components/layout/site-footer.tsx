@@ -9,7 +9,8 @@ import {
 const exploreLinks = [
   ["Home", "/"],
   ["Founders", "/founders"],
-  ["Asoebi Prize", "/prize"],
+  ["Asoebi Fashion Week", "/fashion-week"],
+  ["Asoebi Fashion Prize", "/prize"],
   ["Asoebi Vendor", "/vendor"],
   ["Asoebi After Party", "/after-party"],
 ] as const;
@@ -18,7 +19,7 @@ const actionLinks = [
   ["Join the Waitlist", "/#waitlist"],
   ["Apply for the Prize", "/prize#apply"],
   ["Apply to Participate", "/accreditation"],
-  ["Apply to Sponsor", "/sponsorship"],
+  ["Apply to sponsor", "/sponsorship"],
 ] as const;
 
 const socials = [

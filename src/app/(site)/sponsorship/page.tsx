@@ -27,9 +27,9 @@ export default function SponsorshipPage() {
             A partnership that starts with you.
           </h2>
           <p className="mt-6 leading-7 text-asoebi-graphite">
-            Whether you’re interested in Fashion Week, the Asoebi Prize, the
-            After Party or the wider AEFW platform, we’d love to hear what you
-            have in mind.
+            Whether you’re interested in Fashion Week, the Asoebi Fashion Prize,
+            the After Party or the wider AEFW platform, we’d love to hear what
+            you have in mind.
           </p>
           <p className="mt-5 leading-7 text-asoebi-graphite">
             Tell us about your organisation and how you’d like to contribute,

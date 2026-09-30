@@ -2,7 +2,7 @@ import { z } from "zod";
 
 export const interests = [
   "Fashion Week",
-  "Asoebi Prize",
+  "Asoebi Fashion Prize",
   "After Party",
   "Wider AEFW platform",
   "Not sure yet",

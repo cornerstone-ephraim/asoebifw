@@ -3,7 +3,7 @@ import { ReferenceSection } from "./reference-section";
 
 const images = [
   [
-    "Asoebi Prize",
+    "Asoebi Fashion Prize",
     "/images/editorial/asoebi-prize-hero.webp",
     "A designer adjusting an elaborate Asoebi garment",
     "Craft in progress",

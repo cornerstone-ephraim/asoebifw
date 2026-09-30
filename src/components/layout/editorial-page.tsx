@@ -17,8 +17,9 @@ export function EditorialPage({
   heroLayout = "overlay",
   heroPosition = "object-top",
   heroAspectRatio = 3 / 2,
+  compactStatement = false,
 }: {
-  eyebrow: string;
+  eyebrow?: string;
   title: string;
   intro: string;
   children?: React.ReactNode;
@@ -27,9 +28,10 @@ export function EditorialPage({
   heroImage?: string;
   heroImageAlt?: string;
   heroTone?: "purple" | "gold" | "blush" | "mist" | "photo";
-  heroLayout?: "overlay" | "statement";
+  heroLayout?: "overlay" | "statement" | "split";
   heroPosition?: string;
   heroAspectRatio?: number;
+  compactStatement?: boolean;
 }) {
   const overlayClass = {
     photo: "from-asoebi-purple-950/65 via-asoebi-purple-950/20",
@@ -41,14 +43,58 @@ export function EditorialPage({
 
   return (
     <main id="main-content" className="min-h-screen bg-asoebi-paper">
-      {heroLayout === "statement" ? (
-        <header className="bg-asoebi-ivory px-5 pt-32 pb-8 text-asoebi-purple-950 lg:px-10 lg:pt-40 lg:pb-12">
+      {heroLayout === "split" ? (
+        <header className="bg-asoebi-ivory text-asoebi-purple-950 lg:grid lg:min-h-svh lg:grid-cols-[2fr_3fr]">
+          <div className="flex flex-col justify-center px-5 pt-32 pb-10 sm:px-8 lg:px-10 lg:pt-36 lg:pb-16 xl:px-14">
+            <p className="max-w-xs text-xs font-bold tracking-[.2em] text-brand uppercase">
+              {eyebrow}
+            </p>
+            <h1 className="mt-6 max-w-[8ch] font-display text-[clamp(4rem,7.5vw,8rem)] leading-[.88] tracking-[-.06em]">
+              {title}
+            </h1>
+            <p className="mt-7 max-w-sm text-base leading-7 text-asoebi-graphite sm:text-lg sm:leading-8">
+              {intro}
+            </p>
+            {cta && (
+              <div className="mt-8">
+                <ArrowLink href={cta.href}>{cta.label}</ArrowLink>
+              </div>
+            )}
+          </div>
+          {heroImage && (
+            <div className="relative aspect-4/3 overflow-hidden lg:aspect-auto">
+              <Image
+                src={heroImage}
+                alt={heroImageAlt ?? ""}
+                fill
+                preload
+                sizes={`(min-width: 1024px) max(60vw, ${heroAspectRatio * 100}svh), ${Math.max(1, heroAspectRatio / (4 / 3)) * 100}vw`}
+                quality={90}
+                className={`object-cover ${heroPosition}`}
+              />
+            </div>
+          )}
+        </header>
+      ) : heroLayout === "statement" ? (
+        <header
+          className={
+            compactStatement
+              ? "bg-asoebi-ivory px-5 pt-28 pb-6 text-asoebi-purple-950 lg:px-10 lg:pt-32 lg:pb-8"
+              : "bg-asoebi-ivory px-5 pt-32 pb-8 text-asoebi-purple-950 lg:px-10 lg:pt-40 lg:pb-12"
+          }
+        >
           <div className="mx-auto max-w-400">
             <p className="text-xs font-bold tracking-[.2em] text-brand uppercase">
               {eyebrow}
             </p>
             <div className="mt-6 grid gap-8 lg:grid-cols-[1.2fr_.8fr] lg:items-end lg:gap-16">
-              <h1 className="max-w-[14ch] font-display text-[clamp(3.5rem,7vw,8rem)] leading-[.9] tracking-[-.06em]">
+              <h1
+                className={
+                  compactStatement
+                    ? "max-w-[14ch] font-display text-[clamp(2.75rem,6vw,6rem)] leading-[.9] tracking-[-.06em]"
+                    : "max-w-[14ch] font-display text-[clamp(3.5rem,7vw,8rem)] leading-[.9] tracking-[-.06em]"
+                }
+              >
                 {title}
               </h1>
               <div className="max-w-lg border-t border-asoebi-purple-950/25 pt-5">
@@ -63,7 +109,13 @@ export function EditorialPage({
               </div>
             </div>
             {heroImage && (
-              <div className="relative mt-10 aspect-3/2 overflow-hidden lg:mt-14 lg:aspect-12/5">
+              <div
+                className={
+                  compactStatement
+                    ? "relative mt-8 aspect-video max-h-80 w-full overflow-hidden lg:aspect-3/1"
+                    : "relative mt-10 aspect-3/2 overflow-hidden lg:mt-14 lg:aspect-12/5"
+                }
+              >
                 <Image
                   src={heroImage}
                   alt={heroImageAlt ?? ""}

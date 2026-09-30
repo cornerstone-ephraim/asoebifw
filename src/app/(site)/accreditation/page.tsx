@@ -18,13 +18,14 @@ export const metadata: Metadata = createMetadata({
 export default function Page() {
   return (
     <EditorialPage
-      eyebrow="Press · Buyers · Industry"
+      eyebrow="For fashion professionals"
       title="Accreditation"
       intro="Accreditation is not currently open. Details will be announced when the official Fashion Week programme is ready."
       heroImage="/images/editorial/asoebi-accreditation.webp"
       heroAspectRatio={1672 / 941}
       heroImageAlt="Fashion professionals collecting an accreditation pass at a runway venue"
-      heroTone="mist"
+      heroLayout="statement"
+      heroPosition="object-top lg:object-[center_15%]"
     >
       <div className="border-y border-asoebi-purple-950/25 py-12 lg:py-16">
         <div>
