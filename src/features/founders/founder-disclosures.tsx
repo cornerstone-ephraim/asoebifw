@@ -10,6 +10,7 @@ const founders = [
       "Keniye Koroye is a multidisciplinary design engineer and product strategist working at the intersection of fashion, culture and technology. He approaches fashion as a living system shaped by people, craft, commerce and community.",
       "Educated at SCAD and Domus Academy, Keniye combines creative direction, user insight and market strategy to build culturally relevant experiences. Awarded the UK Global Talent Visa by Tech Nation in 2021, he brings an international perspective to platforms that position African designers, makers and stories for a global audience.",
     ],
+    imageStyle: "object-[center_90%] object-cover",
   },
   {
     name: "Abiola Orimolade",
@@ -19,6 +20,7 @@ const founders = [
       "He founded BlackNBold Fashion House at Obafemi Awolowo University, produced the Ife Runway Fashion Show, and later established Nigerian Student Fashion and Design Week (NSFDW). Through his platforms, he has created international showcase opportunities for Nigerian creatives at New York Fashion Week and Dallas Fashion Week.",
       "Abiola is also the publisher of BlackNBold Magazine, named BEFFTA UK Magazine of the Year in 2016. With a background in Information Technology and an MBA from Sul Ross State University, USA, he combines fashion, business, and talent development to build pathways for African creatives on the global stage.",
     ],
+    imageStyle: "object-top object-cover",
   },
 ] as const;
 
@@ -30,13 +32,13 @@ export function FounderDisclosures() {
           key={founder.name}
           className="border-t border-asoebi-purple-950/25 pt-6"
         >
-          <div className="relative mb-6 aspect-4/5 max-w-40 overflow-hidden bg-asoebi-mist sm:max-w-72">
+          <div className="relative mb-6 aspect-square max-w-40 overflow-hidden bg-asoebi-mist sm:max-w-72">
             <Image
               src={founder.portrait}
               alt={`Portrait placeholder for ${founder.name}`}
               fill
               sizes="(min-width: 640px) 288px, 160px"
-              className="object-cover object-top"
+              className={founder.imageStyle}
             />
           </div>
           <h2 className="font-display text-4xl leading-none tracking-[-.055em] sm:text-5xl">
