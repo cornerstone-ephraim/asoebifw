@@ -203,7 +203,11 @@ function SiteHeaderContent({
           <Link
             href="/sponsorship"
             aria-current={pathname === "/sponsorship" ? "page" : undefined}
-            className="transition-linear font-display text-sm font-semibold whitespace-nowrap text-brand transition-colors hover:text-asoebi-purple-950"
+            className={`transition-linear font-display text-[15px] font-semibold tracking-[-.015em] transition-colors hover:text-brand ${
+              pathname === "/sponsorship"
+                ? "text-brand"
+                : "text-asoebi-purple-950/70"
+            }`}
           >
             Apply to sponsor
           </Link>
