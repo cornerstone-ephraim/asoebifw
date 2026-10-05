@@ -5,6 +5,7 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useEffect, useRef, useState } from "react";
 import { MobileNav } from "./mobile-nav";
+import { LuChevronDown } from "react-icons/lu";
 
 const links = [
   ["Home", "/"],
@@ -69,6 +70,9 @@ function SiteHeaderContent({
   reduced: boolean | null;
 }) {
   const [open, setOpen] = useState(false);
+  const [exploreOpen, setExploreOpen] = useState(false);
+  const exploreRef = useRef<HTMLDivElement>(null);
+  const exploreButtonRef = useRef<HTMLButtonElement>(null);
   const menuButtonRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
@@ -82,6 +86,29 @@ function SiteHeaderContent({
     return () => document.removeEventListener("keydown", closeOnEscape);
   }, [open]);
 
+  useEffect(() => {
+    const dismiss = (event: PointerEvent) => {
+      if (
+        event.target instanceof Node &&
+        !exploreRef.current?.contains(event.target)
+      ) {
+        setExploreOpen(false);
+      }
+    };
+    const escape = (event: KeyboardEvent) => {
+      if (event.key === "Escape" && exploreOpen) {
+        setExploreOpen(false);
+        exploreButtonRef.current?.focus();
+      }
+    };
+    document.addEventListener("pointerdown", dismiss);
+    document.addEventListener("keydown", escape);
+    return () => {
+      document.removeEventListener("pointerdown", dismiss);
+      document.removeEventListener("keydown", escape);
+    };
+  }, [exploreOpen]);
+
   return (
     <>
       <motion.div
@@ -89,8 +116,8 @@ function SiteHeaderContent({
         transition={{ duration: reduced ? 0 : 0.25, ease: [0.22, 1, 0.36, 1] }}
         className={`transition-linear pointer-events-auto relative mx-auto flex items-center justify-between rounded-full px-4 shadow-asoebi-float backdrop-blur-xl transition-[max-width,height,background-color,color,padding,box-shadow] duration-250 sm:px-6 ${
           compact
-            ? "h-14 max-w-300 bg-white/80 text-asoebi-purple-950 shadow-asoebi-warm"
-            : "h-16 max-w-320 bg-white/94 text-asoebi-purple-950"
+            ? "h-14 max-w-190 bg-white/80 text-asoebi-purple-950 shadow-asoebi-warm"
+            : "h-16 max-w-200 bg-white/94 text-asoebi-purple-950"
         }`}
       >
         <Link
@@ -101,8 +128,8 @@ function SiteHeaderContent({
           AEFW<span className="text-asoebi-gold-500">.</span>
         </Link>
 
-        <nav aria-label="Primary" className="hidden items-center gap-3 xl:flex">
-          {links.map(([label, href]) => (
+        <nav aria-label="Primary" className="hidden items-center gap-8 lg:flex">
+          {links.slice(0, 2).map(([label, href]) => (
             <Link
               key={href}
               href={href}
@@ -114,6 +141,65 @@ function SiteHeaderContent({
               {label}
             </Link>
           ))}
+          <div
+            ref={exploreRef}
+            className="group relative"
+            onBlur={(event) => {
+              if (
+                !event.currentTarget.contains(
+                  event.relatedTarget as Node | null,
+                )
+              )
+                setExploreOpen(false);
+            }}
+          >
+            <button
+              ref={exploreButtonRef}
+              type="button"
+              aria-expanded={exploreOpen}
+              aria-controls="explore-navigation"
+              onClick={() => setExploreOpen((value) => !value)}
+              className={`flex min-h-11 cursor-pointer items-center gap-2 font-display text-[15px] font-semibold hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand ${links.slice(2).some(([, href]) => pathname === href) ? "text-brand" : "text-asoebi-purple-950/70"}`}
+            >
+              Explore{" "}
+              <LuChevronDown
+                aria-hidden="true"
+                className={`ease-arrive text-xs transition-transform duration-200 motion-reduce:transition-none ${exploreOpen ? "rotate-180" : ""}`}
+              />
+            </button>
+            <motion.div
+              id="explore-navigation"
+              inert={!exploreOpen}
+              aria-hidden={!exploreOpen}
+              initial={false}
+              animate={{
+                opacity: exploreOpen ? 1 : 0,
+                transform: reduced
+                  ? "none"
+                  : exploreOpen
+                    ? "translateY(0) scale(1)"
+                    : "translateY(-4px) scale(0.97)",
+              }}
+              transition={{
+                duration: reduced ? 0 : 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              style={{ pointerEvents: exploreOpen ? "auto" : "none" }}
+              className="absolute top-full left-1/2 mt-3 w-64 origin-top -translate-x-1/2 rounded-2xl border border-asoebi-purple-950/10 bg-asoebi-ivory p-2 shadow-asoebi-float"
+            >
+              {links.slice(2).map(([label, href]) => (
+                <Link
+                  key={href}
+                  href={href}
+                  aria-current={pathname === href ? "page" : undefined}
+                  onClick={() => setExploreOpen(false)}
+                  className="block rounded-xl px-4 py-3 text-sm font-semibold hover:bg-asoebi-mist focus-visible:bg-asoebi-mist focus-visible:outline-2 focus-visible:outline-brand aria-[current=page]:text-brand"
+                >
+                  {label}
+                </Link>
+              ))}
+            </motion.div>
+          </div>
           <Link
             href="/sponsorship"
             aria-current={pathname === "/sponsorship" ? "page" : undefined}
@@ -144,7 +230,7 @@ function SiteHeaderContent({
             aria-controls="mobile-navigation"
             aria-label={open ? "Close navigation" : "Open navigation"}
             onClick={() => setOpen((prev) => !prev)}
-            className={`transition-linear grid size-11 place-items-center rounded-full text-xs font-bold transition-colors xl:hidden ${
+            className={`transition-linear grid size-11 place-items-center rounded-full text-xs font-bold transition-colors lg:hidden ${
               compact ? "bg-white/55" : "bg-asoebi-mist"
             }`}
           >

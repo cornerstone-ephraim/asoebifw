@@ -1,3 +1,7 @@
+"use client";
+
+import { motion, useReducedMotion } from "motion/react";
+import { useState } from "react";
 import Image from "next/image";
 
 import { FiChevronDown } from "react-icons/fi";
@@ -25,6 +29,8 @@ const founders = [
 ] as const;
 
 export function FounderDisclosures() {
+  const [expanded, setExpanded] = useState<string[]>([]);
+  const reduced = useReducedMotion();
   return (
     <div className="mt-10 grid gap-8 lg:grid-cols-2 lg:gap-16">
       {founders.map((founder) => (
@@ -47,23 +53,51 @@ export function FounderDisclosures() {
           <p className="mt-5 max-w-xl text-base leading-7 text-asoebi-graphite">
             {founder.bio[0]}
           </p>
-          <details className="group mt-4">
-            <summary className="transition-linear inline-flex min-h-11 cursor-pointer list-none items-center gap-3 text-sm font-bold transition-colors hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand [&::-webkit-details-marker]:hidden">
+          <div className="mt-4">
+            <button
+              type="button"
+              aria-expanded={expanded.includes(founder.name)}
+              aria-controls={`biography-${founder.name.replaceAll(" ", "-")}`}
+              onClick={() =>
+                setExpanded((current) =>
+                  current.includes(founder.name)
+                    ? current.filter((name) => name !== founder.name)
+                    : [...current, founder.name],
+                )
+              }
+              className="transition-linear inline-flex min-h-11 cursor-pointer items-center gap-3 text-sm font-bold transition-colors hover:text-brand focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-brand"
+            >
               <span>
                 Read biography
                 <span className="sr-only"> of {founder.name}</span>
               </span>
               <FiChevronDown
                 aria-hidden="true"
-                className="transition-linear size-4 transition-transform duration-300 group-open:rotate-180 motion-reduce:transition-none"
+                className={`ease-arrive size-4 transition-transform duration-200 motion-reduce:transition-none ${expanded.includes(founder.name) ? "rotate-180" : ""}`}
               />
-            </summary>
-            <div className="max-w-xl space-y-5 pt-3 text-base leading-7 text-asoebi-graphite">
-              {founder.bio.slice(1).map((paragraph) => (
-                <p key={paragraph}>{paragraph}</p>
-              ))}
-            </div>
-          </details>
+            </button>
+            <motion.div
+              id={`biography-${founder.name.replaceAll(" ", "-")}`}
+              inert={!expanded.includes(founder.name)}
+              aria-hidden={!expanded.includes(founder.name)}
+              initial={false}
+              animate={{
+                height: expanded.includes(founder.name) ? "auto" : 0,
+                opacity: expanded.includes(founder.name) ? 1 : 0,
+              }}
+              transition={{
+                duration: reduced ? 0 : 0.2,
+                ease: [0.22, 1, 0.36, 1],
+              }}
+              className="overflow-hidden"
+            >
+              <div className="max-w-xl space-y-5 pt-3 text-base leading-7 text-asoebi-graphite">
+                {founder.bio.slice(1).map((paragraph) => (
+                  <p key={paragraph}>{paragraph}</p>
+                ))}
+              </div>
+            </motion.div>
+          </div>
         </article>
       ))}
     </div>
